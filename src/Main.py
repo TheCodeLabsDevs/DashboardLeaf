@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-import sys
-import os
-
 import logging
-import time
+import os
 import sys
+import time
 
 from PIL import Image, ImageDraw, ImageFont
-from libs.lib.waveshare_epd import epd4in2bc
 
 from Image import DebugImage, EPDImage, AbstractImage
+from libs.lib.waveshare_epd import epd4in2bc
 
 logging.basicConfig(level=logging.DEBUG)
 
