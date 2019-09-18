@@ -43,6 +43,8 @@ try:
         drawRed = drawBlack
 
     image.text((10, 0), 'Jenkins Build Status', font=font24, fill=AbstractImage.BLACK)
+    image.line((5, 30, 395, 30), fill=AbstractImage.BLACK)
+
     image.line((20, 50, 70, 100), fill=AbstractImage.BLACK)
     image.line((70, 50, 20, 100), fill=AbstractImage.BLACK)
     image.rectangle((20, 50, 70, 100), outline=0, fill=AbstractImage.BLACK)
