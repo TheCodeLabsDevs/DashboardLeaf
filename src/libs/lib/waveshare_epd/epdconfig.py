@@ -94,8 +94,8 @@ class JetsonNano:
         import ctypes
         find_dirs = [
             os.path.dirname(os.path.realpath(__file__)),
-            '/usr/local/lib',
-            '/usr/lib',
+            '/usr/local/libs',
+            '/usr/libs',
         ]
         self.SPI = None
         for find_dir in find_dirs:
