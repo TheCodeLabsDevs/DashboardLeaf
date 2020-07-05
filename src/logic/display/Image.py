@@ -2,7 +2,6 @@ from PIL import Image, ImageDraw
 
 
 class AbstractImage:
-
     BLACK = 0
     RED = 1
 
@@ -23,7 +22,6 @@ class AbstractImage:
 
 
 class EPDImage(AbstractImage):
-
     def __init__(self, width, height):
         self.__blackImage = Image.new('1', (width, height), 255)
         self.__redImage = Image.new('1', (width, height), 255)
@@ -57,7 +55,6 @@ class EPDImage(AbstractImage):
 
 
 class DebugImage(AbstractImage):
-
     def __init__(self, width, height):
         self.__image = Image.new('RGB', (width, height), (255, 255, 255))
         self.__draw = ImageDraw.Draw(self.__image)
@@ -85,4 +82,3 @@ class DebugImage(AbstractImage):
 
     def get_red_image(self):
         return self.__image
-

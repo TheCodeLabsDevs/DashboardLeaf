@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding:utf-8 -*-
 import logging
 import os
 import sys
@@ -7,7 +5,7 @@ import time
 
 from PIL import Image, ImageDraw, ImageFont
 
-from logic.Image import DebugImage, EPDImage, AbstractImage
+from logic.display.Image import DebugImage, EPDImage, AbstractImage
 from libs.lib.waveshare_epd import epd4in2bc
 
 logging.basicConfig(level=logging.DEBUG)
