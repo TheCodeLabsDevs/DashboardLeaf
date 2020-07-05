@@ -1,24 +1,32 @@
+import abc
+from abc import ABC
+
 from PIL import Image, ImageDraw
 
 
-class AbstractImage:
+class AbstractImage(ABC):
     BLACK = 0
     RED = 1
 
+    @abc.abstractmethod
     def text(self, position, text, font, fill):
-        raise NotImplementedError
+        pass
 
+    @abc.abstractmethod
     def line(self, frame, fill):
-        raise NotImplementedError
+        pass
 
+    @abc.abstractmethod
     def rectangle(self, frame, outline, fill):
-        raise NotImplementedError
+        pass
 
+    @abc.abstractmethod
     def get_black_image(self):
-        raise NotImplementedError
+        pass
 
+    @abc.abstractmethod
     def get_red_image(self):
-        raise NotImplementedError
+        pass
 
 
 class EPDImage(AbstractImage):
