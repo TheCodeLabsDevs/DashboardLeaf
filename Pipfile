@@ -16,7 +16,10 @@ flask = "==1.1.2"
 gevent = "==20.6.1"
 TheCodeLabs-BaseUtils = "*"
 TheCodeLabs-FlaskUtils = "*"
-python-jenkins = "==1.5.0"
 Pillow = "==7.2.0"
+
+# services
+python-jenkins = "==1.5.0"
+plotly = "==4.8.2"
 
 [dev-packages]
