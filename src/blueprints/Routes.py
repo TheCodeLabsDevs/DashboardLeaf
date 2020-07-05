@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
 
-def construct_blueprint():
+def construct_blueprint(settings):
     routes = Blueprint('routes', __name__)
 
     @routes.route('/', methods=['GET'])

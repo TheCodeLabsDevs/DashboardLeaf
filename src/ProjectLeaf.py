@@ -16,7 +16,7 @@ class CarrotCastleWebsite(FlaskBaseApp):
         super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
 
     def _register_blueprints(self, app):
-        app.register_blueprint(Routes.construct_blueprint())
+        app.register_blueprint(Routes.construct_blueprint(self._settings))
         return app
 
 
