@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "https://pypi.thecodelabs.de"
+verify_ssl = true
+name = "TheCodeLabs"
+
+[requires]
+python_version = "3"
+
+[packages]
+flask = "==1.1.2"
+gevent = "==20.6.1"
+TheCodeLabs-BaseUtils = "*"
+TheCodeLabs-FlaskUtils = "*"
+python-jenkins = "==1.5.0"
+
+[dev-packages]

@@ -7,7 +7,7 @@ import time
 
 from PIL import Image, ImageDraw, ImageFont
 
-from Image import DebugImage, EPDImage, AbstractImage
+from logic.Image import DebugImage, EPDImage, AbstractImage
 from libs.lib.waveshare_epd import epd4in2bc
 
 logging.basicConfig(level=logging.DEBUG)
