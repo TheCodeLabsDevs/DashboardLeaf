@@ -11,7 +11,7 @@ from logic.services.JenkinsSingleJobService import JenkinsSingleJobService
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 
 
-class ProjectLeaf(FlaskBaseApp):
+class DashboardLeaf(FlaskBaseApp):
     SERVICES = {
         'JenkinsSingleJob': JenkinsSingleJobService
     }
@@ -26,5 +26,5 @@ class ProjectLeaf(FlaskBaseApp):
 
 
 if __name__ == '__main__':
-    website = ProjectLeaf(Constants.APP_NAME)
+    website = DashboardLeaf(Constants.APP_NAME)
     website.start_server()
