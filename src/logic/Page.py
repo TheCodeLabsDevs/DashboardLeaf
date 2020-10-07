@@ -1,20 +1,28 @@
 import json
 import os
-from dataclasses import dataclass
-from typing import List
+from typing import List, Dict
 
 from TheCodeLabs_BaseUtils import CachedService
 
 
-@dataclass
-class VisualPage:
-    code: str
-
-
-@dataclass
 class Page:
-    visualPage: VisualPage
-    services: List[CachedService]
+    # user can choose from dropdown, list, whatever in website
+    def register_services(self) -> List[CachedService]:
+        pass
+
+    def is_showing(self) -> bool:
+        pass
+
+    def update(self):
+        data = self.fetch({})
+        self.render(data)
+
+    # user must implement this methods in website textarea
+    def fetch(self, services: Dict) -> Dict:
+        pass
+
+    def render(self, params: Dict):
+        pass
 
 
 class PageManager:
