@@ -7,10 +7,14 @@ from page.PageRegistry import PageRegistry
 
 
 class PageManager:
-    def __init__(self, saveFolder: str, pageRegistry: PageRegistry):
-        self._saveFolder = saveFolder
+    """
+    Handles the page settings (order, additional settings per pages) and provides access to the corresponding page
+    instances.
+    """
+    def __init__(self, settingsFolder: str, pageRegistry: PageRegistry):
+        self._settingsFolder = settingsFolder
         self._pageRegistry = pageRegistry
-        self._pageSettingsPath = os.path.join(self._saveFolder, 'pageSettings.json')
+        self._pageSettingsPath = os.path.join(self._settingsFolder, 'pageSettings.json')
         self._pageSettings = self.__load_settings()
         self._pageInstances = self.__create_page_instances()
 
@@ -42,9 +46,11 @@ class PageManager:
 
     def add_page(self, index: int, pageName: str, uniqueName: str, settings: Dict):
         self._pageSettings.insert(index, {'pageName': pageName, 'uniqueName': uniqueName, 'settings': settings})
+        self.save_and_load()
 
     def remove_page(self, index: int):
         del self._pageSettings[index]
+        self.save_and_load()
 
     def get_all_available_page_names(self):
         return list(self._pageInstances.keys())

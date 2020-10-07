@@ -12,7 +12,7 @@ def construct_blueprint(settings, pageManager: PageManager):
         return render_template('index.html', pageNames=pageNames)
 
     @routes.route('/page/<pageName>', methods=['GET'])
-    def page(pageName: str):
+    def show_page(pageName: str):
         pageInstance = pageManager.get_page_instance_by_name(pageName)
         return render_template('page.html', pageContent=pageInstance.update())
 

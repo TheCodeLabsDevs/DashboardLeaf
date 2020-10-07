@@ -5,6 +5,10 @@ from TheCodeLabs_BaseUtils import CachedService
 
 
 class Page(ABC):
+    """
+    Abstract page class. Custom implementations must inherit from this class in order to work.
+    Page implementations are dynamically scanned via the PageRegistry.
+    """
     def __init__(self, name: str, settings: Dict):
         self._name = name
         self._settings = settings

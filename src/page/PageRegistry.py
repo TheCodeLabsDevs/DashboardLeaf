@@ -9,6 +9,9 @@ LOGGER = logging.getLogger(Constants.APP_NAME)
 
 
 class PageRegistry:
+    """
+    Scans for available page implementations and provides access to them via class name
+    """
     def __init__(self, package: str):
         self._package = package
         self._availablePages = {}

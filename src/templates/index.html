@@ -12,7 +12,7 @@
                 <h2>Available Pages</h2>
                 <ul>
                     {% for name in pageNames %}
-                        <li><a href="{{ url_for("routes.page", pageName=name) }}">{{ name }}</a></li>
+                        <li><a href="{{ url_for("routes.show_page", pageName=name) }}">{{ name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
