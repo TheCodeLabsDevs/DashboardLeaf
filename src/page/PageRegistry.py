@@ -29,8 +29,8 @@ class PageRegistry:
                 for (_, c) in clsMembers:
                     if issubclass(c, Page) and c is not Page:
                         availablePages[c.__name__] = c
-        LOGGER.debug(f'found {len(availablePages)} pages {list(availablePages.keys())}')
+        LOGGER.debug(f'Found {len(availablePages)} pages {list(availablePages.keys())}')
         return availablePages
 
-    def get_page(self, pageName: str) -> Page or None:
-        return self._availablePages.get(pageName, None)
+    def get_page_by_name(self, name: str) -> Page:
+        return self._availablePages[name]

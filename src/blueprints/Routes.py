@@ -8,10 +8,7 @@ def construct_blueprint(settings, pageManager: PageManager):
 
     @routes.route('/', methods=['GET'])
     def index():
-        pages = pageManager.get_all_pages()
-        for page in pages:
-            print(page)
-
-        return render_template('index.html')
+        pageNames = pageManager.get_all_available_page_names()
+        return render_template('index.html', pageNames=pageNames)
 
     return routes

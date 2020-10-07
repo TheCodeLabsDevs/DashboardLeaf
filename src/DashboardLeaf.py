@@ -19,8 +19,8 @@ class DashboardLeaf(FlaskBaseApp):
 
     def __init__(self, appName: str):
         super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
-        self._pageManager = PageManager(Constants.ROOT_DIR)
         self._pageRegistry = PageRegistry('page.pages')
+        self._pageManager = PageManager(Constants.ROOT_DIR, self._pageRegistry)
 
     def _register_blueprints(self, app):
         app.register_blueprint(Routes.construct_blueprint(self._settings, self._pageManager))

@@ -1,5 +1,3 @@
-import json
-import os
 from abc import ABC, abstractmethod
 from typing import List, Dict
 
@@ -7,8 +5,8 @@ from TheCodeLabs_BaseUtils import CachedService
 
 
 class Page(ABC):
-    def __init__(self, ID: str, settings: Dict):
-        self._ID = ID
+    def __init__(self, name: str, settings: Dict):
+        self._name = name
         self._settings = settings
 
     # user can choose from dropdown, list, whatever in website
@@ -32,4 +30,3 @@ class Page(ABC):
     def update(self):
         data = self.fetch({})
         self.render(data)
-
