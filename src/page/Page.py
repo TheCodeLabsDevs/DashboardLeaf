@@ -24,7 +24,7 @@ class Page(ABC):
         pass
 
     @abstractmethod
-    def render(self, params: Dict):
+    def render(self):
         pass
 
     def update(self):

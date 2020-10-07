@@ -32,5 +32,5 @@ class PageRegistry:
         LOGGER.debug(f'Found {len(availablePages)} pages {list(availablePages.keys())}')
         return availablePages
 
-    def get_page_by_name(self, name: str) -> Page:
-        return self._availablePages[name]
+    def get_page_by_type(self, pageType: str) -> Page:
+        return self._availablePages[pageType]

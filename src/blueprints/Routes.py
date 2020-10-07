@@ -11,4 +11,9 @@ def construct_blueprint(settings, pageManager: PageManager):
         pageNames = pageManager.get_all_available_page_names()
         return render_template('index.html', pageNames=pageNames)
 
+    @routes.route('/page/<pageName>', methods=['GET'])
+    def page(pageName: str):
+        pageInstance = pageManager.get_page_instance_by_name(pageName)
+        return render_template('page.html', pageContent=pageInstance.render())
+
     return routes

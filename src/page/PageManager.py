@@ -28,9 +28,11 @@ class PageManager:
     def __create_page_instances(self) -> Dict[str, Page]:
         pageInstances = {}
         for pageSetting in self._pageSettings:
-            pageName = pageSetting['name']
-            pageInstance = self._pageRegistry.get_page_by_name(pageName)
-            pageInstances[pageName] = pageInstance
+            pageType = pageSetting['pageType']
+            uniqueName = pageSetting['uniqueName']
+            settings = pageSetting['settings']
+            pageInstance = self._pageRegistry.get_page_by_type(pageType)
+            pageInstances[uniqueName] = pageInstance(uniqueName, settings)
         return pageInstances
 
     def save_and_load(self):
@@ -38,11 +40,14 @@ class PageManager:
         self._pageSettings = self.__load_settings()
         self._pageInstances = self.__create_page_instances()
 
-    def add_page(self, index: int, name: str, settings: Dict):
-        self._pageSettings.insert(index, {'name': name, 'settings': settings})
+    def add_page(self, index: int, pageName: str, uniqueName: str, settings: Dict):
+        self._pageSettings.insert(index, {'pageName': pageName, 'uniqueName': uniqueName, 'settings': settings})
 
     def remove_page(self, index: int):
         del self._pageSettings[index]
 
     def get_all_available_page_names(self):
         return list(self._pageInstances.keys())
+
+    def get_page_instance_by_name(self, name: str):
+        return self._pageInstances[name]

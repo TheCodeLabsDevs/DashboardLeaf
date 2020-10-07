@@ -8,14 +8,7 @@
 
     <body>
         <div class="main">
-            <div class="content">
-                <h2>Available Pages</h2>
-                <ul>
-                    {% for name in pageNames %}
-                        <li><a href="{{ url_for("routes.page", pageName=name) }}">{{ name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
+            {{ pageContent | safe }}
         </div>
     </body>
     <script type="text/javascript" src={{ url_for('static', filename='js/main.js') }}></script>
