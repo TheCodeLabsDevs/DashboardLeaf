@@ -9,24 +9,20 @@ class Page(ABC):
         self._name = name
         self._settings = settings
 
-    # user can choose from dropdown, list, whatever in website
+    # user can choose from dropdown, list, whatever in editor
     @abstractmethod
     def register_services(self) -> List[CachedService]:
         pass
 
-    @abstractmethod
-    def is_showing(self) -> bool:
-        pass
-
-    # user must implement this methods in website textarea
+    # user must implement this methods in website textarea in editor
     @abstractmethod
     def fetch(self, services: Dict) -> Dict:
         pass
 
     @abstractmethod
-    def render(self):
+    def render(self, data: Dict) -> str:
         pass
 
-    def update(self):
+    def update(self) -> str:
         data = self.fetch({})
-        self.render(data)
+        return self.render(data)
