@@ -42,7 +42,7 @@ class DashboardLeaf(FlaskBaseApp):
             self._tileScheduler.EmitFromCache()
 
         self._tileScheduler = TileScheduler(socketio)
-        self._pageManager = PageManager(Constants.ROOT_DIR, self._tileRegistry, self._tileScheduler)
+        self._pageManager = PageManager(Constants.ROOT_DIR, self._tileRegistry, self._tileScheduler, app)
         self._tileScheduler.Run()
         return app
 

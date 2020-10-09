@@ -3,6 +3,8 @@ import logging
 import os
 from typing import List, Dict
 
+from flask import Flask
+
 from logic import Constants
 from page.PageInstance import PageInstance, TileLayoutSettings
 from tile import TileScheduler
@@ -13,14 +15,16 @@ LOGGER = logging.getLogger(Constants.APP_NAME)
 
 class PageManager:
     """
-    Handles the page settings (order, additional settings per pages) and provides access to the corresponding page
-    instances.
+    Handles the pages and provides access to the corresponding page instances.
+    Creates and registers tiles according to settings.
     """
 
-    def __init__(self, settingsFolder: str, tileRegistry: TileRegistry, tileScheduler: TileScheduler):
+    def __init__(self, settingsFolder: str, tileRegistry: TileRegistry, tileScheduler: TileScheduler, flaskApp: Flask):
         self._settingsFolder = settingsFolder
         self._tileRegistry = tileRegistry
         self._tileScheduler = tileScheduler
+        self._flaskApp = flaskApp
+
         self._pageSettingsPath = os.path.join(self._settingsFolder, 'pageSettings.json')
         self._pageSettings = self.__load_settings()
         self._pageInstances = self.__create_page_instances()
@@ -63,8 +67,7 @@ class PageManager:
                                                              settings=tileSettings['settings'],
                                                              intervalInSeconds=tileSettings['intervalInSeconds'])
         self._tileScheduler.RegisterTile(tile)
-        # TODO
-        # app.register_blueprint(tile.construct_blueprint(tileService=self._tileScheduler))
+        self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
 
     def save_and_load(self):
         self.__save_settings()
