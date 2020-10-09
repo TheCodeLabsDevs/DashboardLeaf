@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>DashboardLeaf</title>
-        {% import 'macros.html' as macros %}
-        {{ macros.header() }}
+        <script src="../static/js/libs/socket.io.min.js"></script>
+        <script src="../static/js/libs/gridstack.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="../static/css/libs/gridstack.min.css" />
+        <link type="text/css" rel="stylesheet" href="../static/css/main.css" />
     </head>
-
     <body>
-        <div class="main">
-            {{ pageContent | safe }}
+        <div class="grid-stack">
+            {% for tileName, tileLayoutSettings in page.tileLayouts.items() %}
+                <div class="grid-stack-item"
+                     id="tile-{{ tileName }}"
+                     data-gs-x="{{ tileLayoutSettings.x }}" data-gs-y="{{ tileLayoutSettings.y }}"
+                     data-gs-width="{{ tileLayoutSettings.width }}" data-gs-height="{{ tileLayoutSettings.height }}">
+                    <div class="grid-stack-item-content">
+                        <div class="container">
+                            <!-- content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
+
+        <script src="../static/js/main.js"></script>
     </body>
-    <script type="text/javascript" src={{ url_for('static', filename='js/main.js') }}></script>
 </html>

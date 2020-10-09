@@ -1,13 +1,13 @@
-$(function () {
-    var options = {
-        cellHeight: '10vh',
-        verticalMargin: '2vh',
-        width: 3,
-        disableDrag: true,
-        disableResize: true
-    };
-    $('.grid-stack').gridstack(options);
-});
+let options = {
+    cellHeight: '10vh',
+    margin: '2vh',
+    column : 12,
+    disableDrag: true,
+    disableResize: true,
+};
+
+let grid = GridStack.init(options);
+
 
 let url = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 let socket = io.connect(url + '/update');
