@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from page.PageManager import PageManager
+from logic.page import PageManager
 
 
 def construct_blueprint(settings, pageManager: PageManager):

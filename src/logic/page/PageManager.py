@@ -6,9 +6,9 @@ from typing import List, Dict
 from flask import Flask
 
 from logic import Constants
-from page.PageInstance import PageInstance, TileLayoutSettings
-from tile import TileScheduler
-from tile.TileRegistry import TileRegistry
+from logic.page.PageInstance import PageInstance, TileLayoutSettings
+from logic.tile import TileScheduler
+from logic.tile.TileRegistry import TileRegistry
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 

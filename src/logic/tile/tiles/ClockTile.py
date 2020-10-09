@@ -4,7 +4,7 @@ from typing import Dict
 
 from flask import Blueprint
 
-from tile.Tile import Tile
+from logic.tile.Tile import Tile
 
 
 class ClockTile(Tile):

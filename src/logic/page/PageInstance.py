@@ -10,7 +10,7 @@ class TileLayoutSettings:
     height: int
 
 
-@dataclass()
+@dataclass
 class PageInstance:
     uniqueName: str
     tileLayouts: Dict[str, TileLayoutSettings]

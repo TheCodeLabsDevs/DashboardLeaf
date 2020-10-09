@@ -4,7 +4,7 @@ import pkgutil
 from typing import List, Type
 
 from logic import Constants
-from tile.Tile import Tile
+from logic.tile.Tile import Tile
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 
