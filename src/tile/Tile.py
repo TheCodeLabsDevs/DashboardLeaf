@@ -1,5 +1,8 @@
+import os
 from abc import ABC, abstractmethod
 from typing import Dict, Tuple
+
+from jinja2 import Template
 
 
 class Tile(ABC):
@@ -18,6 +21,14 @@ class Tile(ABC):
 
     def get_intervalInSeconds(self) -> int:
         return self._intervalInSeconds
+
+    @staticmethod
+    def render_template(currentDirectory: str, className: str, *args, **kwargs) -> str:
+        templatePath = os.path.join(currentDirectory, '{}.html'.format(className))
+        with open(templatePath, encoding='utf-8') as f:
+            templateHtml = f.read()
+
+        return Template(templateHtml).render(*args, **kwargs)
 
     @abstractmethod
     def fetch(self, services: Dict) -> Dict:
