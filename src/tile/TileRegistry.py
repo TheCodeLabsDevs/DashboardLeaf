@@ -1,7 +1,7 @@
 import inspect
 import logging
 import pkgutil
-from typing import List
+from typing import List, Type
 
 from logic import Constants
 from tile.Tile import Tile
@@ -37,7 +37,7 @@ class TileRegistry:
         LOGGER.debug(f'Found {len(availableTiles)} tiles {list(availableTiles.keys())}')
         return availableTiles
 
-    def get_tile_by_type(self, tileType: str) -> Tile:
+    def get_tile_by_type(self, tileType: str) -> Type[Tile]:
         return self._availableTiles[tileType]
 
     def get_all_available_tile_types(self) -> List[str]:

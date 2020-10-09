@@ -72,7 +72,7 @@ class PageManager:
     def save_and_load(self):
         self.__save_settings()
         self._pageSettings = self.__load_settings()
-        # self._pageInstances = self.__create_page_instances()
+        self._pageInstances = self.__create_page_instances()
 
     def add_page(self, index: int, pageName: str, uniqueName: str, settings: Dict):
         self._pageSettings.insert(index, {'pageName': pageName, 'uniqueName': uniqueName, 'settings': settings})
