@@ -43,5 +43,5 @@ class Tile(ABC):
         return self._uniqueName, self.render(data)
 
     @abstractmethod
-    def ConstructBlueprint(self, *args, **kwargs):
+    def construct_blueprint(self, *args, **kwargs):
         pass

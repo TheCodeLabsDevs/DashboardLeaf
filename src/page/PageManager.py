@@ -64,7 +64,7 @@ class PageManager:
                                                              intervalInSeconds=tileSettings['intervalInSeconds'])
         self._tileScheduler.RegisterTile(tile)
         # TODO
-        # app.register_blueprint(tile.ConstructBlueprint(tileService=self._tileScheduler))
+        # app.register_blueprint(tile.construct_blueprint(tileService=self._tileScheduler))
 
     def save_and_load(self):
         self.__save_settings()
