@@ -1,4 +1,3 @@
-import json
 import logging
 import os
 
@@ -12,7 +11,7 @@ from logic import Constants
 from logic.services.JenkinsSingleJobService import JenkinsSingleJobService
 from page.PageManager import PageManager
 from tile.TileRegistry import TileRegistry
-from tile.TileService import TileService
+from tile.TileScheduler import TileScheduler
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 
@@ -24,56 +23,34 @@ class DashboardLeaf(FlaskBaseApp):
 
     def __init__(self, appName: str):
         super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
-        self._pageManager = PageManager(Constants.ROOT_DIR)
         self._tileRegistry = TileRegistry('tile.tiles')
-        self._socketio = None
         self._tileService = None
+        self._pageManager = None
 
     def _create_flask_app(self):
         app = Flask(self._rootDir)
-        self._socketio = SocketIO(app)
+        socketio = SocketIO(app)
+
+        # TODO
         logging.getLogger('flask_socketio').setLevel(logging.ERROR)
 
-        @self._socketio.on('refresh', namespace='/update')
+        @socketio.on('refresh', namespace='/update')
         def Refresh(tileName):
-            raise NotImplementedError
-            # tileService.ForceRefresh(tileName)
+            self._tileScheduler.ForceRefresh(tileName)
 
-        @self._socketio.on('connect', namespace='/update')
+        @socketio.on('connect', namespace='/update')
         def Connect():
-            raise NotImplementedError
-            # LOGGER.debug('Client connected')
-            # tileService.EmitFromCache()
+            LOGGER.debug('Client connected')
+            self._tileScheduler.EmitFromCache()
 
-        self._tileService = self.__register_tiles(app)
-
+        self._tileScheduler = TileScheduler(socketio)
+        self._pageManager = PageManager(Constants.ROOT_DIR, self._tileRegistry, self._tileScheduler)
+        self._tileScheduler.Run()
         return app
 
     def _register_blueprints(self, app):
         app.register_blueprint(Routes.construct_blueprint(self._settings, self._pageManager))
         return app
-
-    def __register_tiles(self, app) -> TileService:
-        tileService = TileService(self._socketio)
-
-        with open(os.path.join(Constants.ROOT_DIR, 'pageSettings.json'), 'r') as f:
-            config = json.load(f)
-
-        # TODO
-        for tileConfig in config[0]['tiles']:
-            tileType = tileConfig['tileType']
-            if tileType not in self._tileRegistry.get_all_available_tile_types():
-                LOGGER.error(f'Skipping unknown tile with type "{tileType}"')
-                continue
-
-            tile = self._tileRegistry.get_tile_by_type(tileType)(uniqueName=tileConfig['uniqueName'],
-                                                                 settings=tileConfig['settings'],
-                                                                 intervalInSeconds=tileConfig['intervalInSeconds'])
-            tileService.RegisterTile(tile)
-            app.register_blueprint(tile.ConstructBlueprint(tileService=tileService))
-
-        tileService.Run()
-        return tileService
 
 
 if __name__ == '__main__':

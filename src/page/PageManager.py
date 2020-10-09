@@ -1,6 +1,14 @@
 import json
+import logging
 import os
 from typing import List, Dict
+
+from logic import Constants
+from page.PageInstance import PageInstance, TileLayoutSettings
+from tile import TileScheduler
+from tile.TileRegistry import TileRegistry
+
+LOGGER = logging.getLogger(Constants.APP_NAME)
 
 
 class PageManager:
@@ -8,11 +16,14 @@ class PageManager:
     Handles the page settings (order, additional settings per pages) and provides access to the corresponding page
     instances.
     """
-    def __init__(self, settingsFolder: str):
+
+    def __init__(self, settingsFolder: str, tileRegistry: TileRegistry, tileScheduler: TileScheduler):
         self._settingsFolder = settingsFolder
+        self._tileRegistry = tileRegistry
+        self._tileScheduler = tileScheduler
         self._pageSettingsPath = os.path.join(self._settingsFolder, 'pageSettings.json')
         self._pageSettings = self.__load_settings()
-        # self._pageInstances = self.__create_page_instances()
+        self._pageInstances = self.__create_page_instances()
 
     def __load_settings(self) -> List[Dict]:
         if not os.path.exists(self._pageSettingsPath):
@@ -25,15 +36,35 @@ class PageManager:
         with open(self._pageSettingsPath, 'w', encoding='UTF-8') as f:
             json.dump(self._pageSettings, f)
 
-    # def __create_page_instances(self) -> Dict:
-    #     pageInstances = {}
-    #     for pageSetting in self._pageSettings:
-    #         pageType = pageSetting['pageType']
-    #         uniqueName = pageSetting['uniqueName']
-    #         settings = pageSetting['settings']
-    #         pageInstance = self._pageRegistry.get_tile_by_type(pageType)
-    #         pageInstances[uniqueName] = pageInstance(uniqueName, settings)
-    #     return pageInstances
+    def __create_page_instances(self) -> Dict:
+        pageInstances = {}
+        for pageSetting in self._pageSettings:
+
+            tileLayouts = {}
+            for tileSettings in pageSetting['tiles']:
+                tileLayouts[tileSettings['uniqueName']] = TileLayoutSettings(x=tileSettings['x'],
+                                                                             y=tileSettings['y'],
+                                                                             width=tileSettings['width'],
+                                                                             height=tileSettings['height'])
+                self.__register_tile(tileSettings)
+
+            uniqueName = pageSetting['uniqueName']
+            pageInstance = PageInstance(uniqueName, tileLayouts)
+            pageInstances[uniqueName] = pageInstance
+        return pageInstances
+
+    def __register_tile(self, tileSettings: Dict):
+        tileType = tileSettings['tileType']
+        if tileType not in self._tileRegistry.get_all_available_tile_types():
+            LOGGER.error(f'Skipping unknown tile with type "{tileType}"')
+            return
+
+        tile = self._tileRegistry.get_tile_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
+                                                             settings=tileSettings['settings'],
+                                                             intervalInSeconds=tileSettings['intervalInSeconds'])
+        self._tileScheduler.RegisterTile(tile)
+        # TODO
+        # app.register_blueprint(tile.ConstructBlueprint(tileService=self._tileScheduler))
 
     def save_and_load(self):
         self.__save_settings()
@@ -51,5 +82,5 @@ class PageManager:
     def get_all_available_page_names(self):
         return [page['uniqueName'] for page in self._pageSettings]
 
-    # def get_page_instance_by_name(self, name: str):
-    #     return self._pageInstances[name]
+    def get_page_instance_by_name(self, name: str):
+        return self._pageInstances[name]

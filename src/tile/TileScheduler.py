@@ -13,7 +13,7 @@ from tile.Tile import Tile
 LOGGER = logging.getLogger(Constants.APP_NAME)
 
 
-class TileService:
+class TileScheduler:
     def __init__(self, socketio):
         self.__socketio = socketio
         self.__jobs = {}
