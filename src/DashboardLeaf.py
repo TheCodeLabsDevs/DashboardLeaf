@@ -14,6 +14,7 @@ from tile.TileRegistry import TileRegistry
 from tile.TileScheduler import TileScheduler
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
+FLASK_LOGGER = DefaultLogger().create_logger_if_not_exists('flaskLogger', logLevel=logging.WARNING)
 
 
 class DashboardLeaf(FlaskBaseApp):
@@ -22,7 +23,7 @@ class DashboardLeaf(FlaskBaseApp):
     }
 
     def __init__(self, appName: str):
-        super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
+        super().__init__(appName, os.path.dirname(__file__), FLASK_LOGGER, serveRobotsTxt=True)
         self._tileRegistry = TileRegistry('tile.tiles')
         self._tileService = None
         self._pageManager = None
@@ -30,9 +31,6 @@ class DashboardLeaf(FlaskBaseApp):
     def _create_flask_app(self):
         app = Flask(self._rootDir)
         socketio = SocketIO(app)
-
-        # TODO
-        logging.getLogger('flask_socketio').setLevel(logging.ERROR)
 
         @socketio.on('refresh', namespace='/update')
         def Refresh(tileName):
