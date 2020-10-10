@@ -19,9 +19,8 @@ class PageManager:
     Creates and registers tiles according to settings.
     """
 
-    def __init__(self, settingsFolder: str, tileRegistry: TileRegistry, tileScheduler: TileScheduler, flaskApp: Flask):
+    def __init__(self, settingsFolder: str, tileScheduler: TileScheduler, flaskApp: Flask):
         self._settingsFolder = settingsFolder
-        self._tileRegistry = tileRegistry
         self._tileScheduler = tileScheduler
         self._flaskApp = flaskApp
 
@@ -59,14 +58,14 @@ class PageManager:
 
     def __register_tile(self, uniquePageName: str, tileSettings: Dict):
         tileType = tileSettings['tileType']
-        if tileType not in self._tileRegistry.get_all_available_implementation_types():
+        if tileType not in TileRegistry.get_instance().get_all_available_implementation_types():
             LOGGER.error(f'Skipping unknown tile with type "{tileType}"')
             return
 
-        tile = self._tileRegistry.get_implementation_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
-                                                                       settings=tileSettings['settings'],
-                                                                       intervalInSeconds=tileSettings[
-                                                                           'intervalInSeconds'])
+        tile = TileRegistry.get_instance().get_implementation_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
+                                                                                settings=tileSettings['settings'],
+                                                                                intervalInSeconds=tileSettings[
+                                                                                    'intervalInSeconds'])
         self._tileScheduler.register_tile(uniquePageName, tile)
         self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
 
