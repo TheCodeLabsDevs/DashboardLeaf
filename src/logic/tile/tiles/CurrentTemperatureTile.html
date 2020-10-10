@@ -1,11 +1,12 @@
 <style>
     .currentTemperatureTile {
-        font-size: 5vh;
+        background-color: #2F2F2F;
+        font-size: 4vmin;
         font-weight: bold;
     }
 </style>
 
 <div class="currentTemperatureTile">
-    Aktuell: {{ data['temperature'] }}&deg;C
-    Gefühlt: {{ data['feelsLike'] }}&deg;C
+    <div>Aktuell: {{ data['temperature'] }}&deg;C</div>
+    <div>Gefühlt: {{ data['feelsLike'] }}&deg;C</div>
 </div>

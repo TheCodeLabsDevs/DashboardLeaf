@@ -6,7 +6,7 @@ from typing import Dict
 
 from flask import Blueprint
 
-from logic import Constants
+from logic import Constants, Helpers
 from logic.service.ServiceManager import ServiceManager
 from logic.tile.Tile import Tile
 
@@ -19,6 +19,7 @@ class SensorLineChartTile(Tile):
         "url": "http://127.0.0.1:10003",
         "sensorID": 1,
         "numberOfHoursToShow": 4,
+        "decimals": 1,
         "lineColor": "rgba(254, 151, 0, 1)",
         "fillColor": "rgba(254, 151, 0, 0.2)"
     }
@@ -65,7 +66,8 @@ class SensorLineChartTile(Tile):
             if parsedTime < timeLimit:
                 break
             x.append(timestamp)
-            y.append(measurement['value'])
+            value = float(measurement['value'])
+            y.append(Helpers.round_to_decimals(value, self._settings['decimals']))
 
         LOGGER.debug(f'Filtered {len(data["sensorValue"])} to {len(x)} for sensor {self._settings["sensorID"]}')
 

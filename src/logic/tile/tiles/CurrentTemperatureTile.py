@@ -3,6 +3,7 @@ from typing import Dict
 
 from flask import Blueprint
 
+from logic import Helpers
 from logic.service.ServiceManager import ServiceManager
 from logic.tile.Tile import Tile
 
@@ -18,8 +19,8 @@ class CurrentTemperatureTile(Tile):
         fetchIntervalInSeconds = 60 * 10  # query api less often
         weatherData = weatherService.get_data(cacheKey, fetchIntervalInSeconds, self._settings)
         return {
-            'temperature': round(weatherData['current']['temp'], 1),
-            'feelsLike': round(weatherData['current']['feels_like'], 1)
+            'temperature': Helpers.round_to_decimals(weatherData['current']['temp'], 1),
+            'feelsLike': Helpers.round_to_decimals(weatherData['current']['feels_like'], 1)
         }
 
     def render(self, data: Dict) -> str:
