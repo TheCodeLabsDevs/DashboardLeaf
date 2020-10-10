@@ -1,0 +1,52 @@
+<style>
+    .sensorLineChartTile {
+        background-color: #1C1C1C;
+        font-size: 5vh;
+        font-weight: bold;
+    }
+
+    .sensorLineChartTile .title,
+    .sensorLineChartTile .value {
+        text-align: left;
+    }
+</style>
+
+<div class="sensorLineChartTile">
+    <div class="title">{{ title }}</div>
+    <div class="value">{{ data['sensorValue']['value'] }}{{ unit }}</div>
+    <i class="wi {{ icon }}"></i>
+    <div id="chart"></div>
+
+    <script>
+        Plotly.newPlot(document.getElementById('chart'), [{
+                x: [1, 2, 3, 4],
+                y: [0, 2, 3, 5],
+                fill: 'tozeroy',
+                type: 'scatter',
+                line: {
+                    shape: 'spline',
+                    color: 'rgba(254, 151, 0, 1)',
+                    width: 3
+                },
+                fillcolor: 'rgba(254, 151, 0, 0.2)'
+            }], {
+                xaxis: {
+                    showgrid: false,
+                    zeroline: false,
+                    visible: false,
+                },
+                yaxis: {
+                    showgrid: false,
+                    zeroline: false,
+                    visible: false,
+                },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                margin: {t: 0}
+            },
+            {
+                displaylogo: false,
+                responsive: true
+            });
+    </script>
+</div>
