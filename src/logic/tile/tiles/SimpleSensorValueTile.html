@@ -1,0 +1,17 @@
+<style>
+    .simpleSensorValueTile {
+        font-size: 5vh;
+        font-weight: bold;
+    }
+
+    .simpleSensorValueTile .timestamp {
+        font-size: 1.5vh;
+    }
+</style>
+
+<div class="simpleSensorValueTile">
+    {{ data['sensorValue']['value'] }}{{ unit }}
+    <div class="timestamp">
+        {{ data['sensorValue']['timestamp'] }} (Sensor {{ data['sensorInfo']['id'] }})
+    </div>
+</div>
