@@ -9,6 +9,7 @@ from flask_socketio import SocketIO
 from blueprints import Routes
 from logic import Constants
 from logic.page.PageManager import PageManager
+from logic.service.ServiceRegistry import ServiceRegistry
 from logic.service.services.JenkinsSingleJobService import JenkinsSingleJobService
 from logic.tile.TileScheduler import TileScheduler
 
@@ -25,6 +26,7 @@ class DashboardLeaf(FlaskBaseApp):
         super().__init__(appName, os.path.dirname(__file__), FLASK_LOGGER, serveRobotsTxt=True)
         self._tileService = None
         self._pageManager = None
+        ServiceRegistry.get_instance()
 
     def _create_flask_app(self):
         app = Flask(self._rootDir)
