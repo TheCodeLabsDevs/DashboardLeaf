@@ -22,6 +22,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        padding-bottom: 5%;
     }
 
     .sensorLineChartTile .title {
@@ -51,7 +52,7 @@
         <div class="header">
             <div class="header-left">
                 <div class="title">{{ title }}</div>
-                <div class="value">{{ data['sensorValue']['value'] }}{{ unit }}</div>
+                <div class="value">{{ latest }}{{ unit }}</div>
             </div>
             <i class="wi {{ icon }}"></i>
         </div>
@@ -60,8 +61,8 @@
 
     <script>
         Plotly.newPlot(document.getElementById('chart'), [{
-                x: [1, 2, 3, 4],
-                y: [0, 2, 3, 5],
+                x: {{ x }},
+                y: {{ y }},
                 fill: 'tozeroy',
                 type: 'scatter',
                 marker: {
