@@ -31,7 +31,7 @@ class Tile(ABC):
         return Template(templateHtml).render(*args, **kwargs)
 
     @abstractmethod
-    def fetch(self, services: Dict) -> Dict:
+    def fetch(self, pageName: str) -> Dict:
         pass
 
     @abstractmethod
@@ -41,7 +41,7 @@ class Tile(ABC):
     def update(self, pageName: str) -> Tuple[str, str]:
         from logic.tile.TileScheduler import TileScheduler
 
-        data = self.fetch({})
+        data = self.fetch(pageName)
         return TileScheduler.get_full_name(pageName, self._uniqueName), self.render(data)
 
     @abstractmethod

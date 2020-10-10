@@ -62,10 +62,11 @@ class PageManager:
             LOGGER.error(f'Skipping unknown tile with type "{tileType}"')
             return
 
-        tile = TileRegistry.get_instance().get_implementation_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
-                                                                                settings=tileSettings['settings'],
-                                                                                intervalInSeconds=tileSettings[
-                                                                                    'intervalInSeconds'])
+        tileRegistry = TileRegistry.get_instance()
+        tile = tileRegistry.get_implementation_by_type_name(tileType)(uniqueName=tileSettings['uniqueName'],
+                                                                      settings=tileSettings['settings'],
+                                                                      intervalInSeconds=tileSettings[
+                                                                          'intervalInSeconds'])
         self._tileScheduler.register_tile(uniquePageName, tile)
         self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
 

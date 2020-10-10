@@ -13,7 +13,7 @@ class ClockTile(Tile):
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
         super().__init__(uniqueName, settings, intervalInSeconds)
 
-    def fetch(self, services: Dict) -> Dict:
+    def fetch(self, pageName: str) -> Dict:
         return {'time': datetime.strftime(datetime.now(), self.DATE_FORMAT)}
 
     def render(self, data: Dict) -> str:

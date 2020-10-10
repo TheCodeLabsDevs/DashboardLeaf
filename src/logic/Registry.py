@@ -44,8 +44,8 @@ class Registry(ABC):
                      f'{list(availableImplementations.keys())}')
         return availableImplementations
 
-    def get_implementation_by_type(self, implementationType: str) -> Type:
-        return self._availableImplementations[implementationType]
+    def get_implementation_by_type_name(self, implementationTypeName: str) -> Type:
+        return self._availableImplementations[implementationTypeName]
 
     def get_all_available_implementation_types(self) -> List[str]:
         return list(self._availableImplementations.keys())

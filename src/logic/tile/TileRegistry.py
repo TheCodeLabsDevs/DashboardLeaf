@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from typing import Type
 
@@ -16,7 +18,7 @@ class TileRegistry(Registry):
     __instance = None
 
     @staticmethod
-    def get_instance() -> 'TileRegistry':
+    def get_instance() -> TileRegistry:
         if TileRegistry.__instance is None:
             TileRegistry()
         return TileRegistry.__instance
