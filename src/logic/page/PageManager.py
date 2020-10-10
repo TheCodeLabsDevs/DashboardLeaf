@@ -59,13 +59,14 @@ class PageManager:
 
     def __register_tile(self, uniquePageName: str, tileSettings: Dict):
         tileType = tileSettings['tileType']
-        if tileType not in self._tileRegistry.get_all_available_tile_types():
+        if tileType not in self._tileRegistry.get_all_available_implementation_types():
             LOGGER.error(f'Skipping unknown tile with type "{tileType}"')
             return
 
-        tile = self._tileRegistry.get_tile_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
-                                                             settings=tileSettings['settings'],
-                                                             intervalInSeconds=tileSettings['intervalInSeconds'])
+        tile = self._tileRegistry.get_implementation_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
+                                                                       settings=tileSettings['settings'],
+                                                                       intervalInSeconds=tileSettings[
+                                                                           'intervalInSeconds'])
         self._tileScheduler.register_tile(uniquePageName, tile)
         self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
 
