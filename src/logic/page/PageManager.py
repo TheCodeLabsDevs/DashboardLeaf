@@ -66,7 +66,7 @@ class PageManager:
         tile = self._tileRegistry.get_tile_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
                                                              settings=tileSettings['settings'],
                                                              intervalInSeconds=tileSettings['intervalInSeconds'])
-        self._tileScheduler.RegisterTile(uniquePageName, tile)
+        self._tileScheduler.register_tile(uniquePageName, tile)
         self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
 
     def save_and_load(self):

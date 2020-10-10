@@ -34,16 +34,16 @@ class DashboardLeaf(FlaskBaseApp):
 
         @socketio.on('refresh', namespace='/update')
         def Refresh(tileName):
-            self._tileScheduler.ForceRefresh(tileName)
+            self._tileScheduler.force_refresh(tileName)
 
         @socketio.on('connect', namespace='/update')
         def Connect():
             LOGGER.debug('Client connected')
-            self._tileScheduler.EmitFromCache()
+            self._tileScheduler.emit_from_cache()
 
         self._tileScheduler = TileScheduler(socketio)
         self._pageManager = PageManager(Constants.ROOT_DIR, self._tileRegistry, self._tileScheduler, app)
-        self._tileScheduler.Run()
+        self._tileScheduler.run()
         return app
 
     def _register_blueprints(self, app):
