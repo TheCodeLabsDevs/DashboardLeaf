@@ -29,7 +29,7 @@ class ServiceRegistry(Registry):
             super().__init__()
             ServiceRegistry.__instance = self
         else:
-            raise Exception("This class is a singleton!")
+            raise Exception('This class is a singleton!')
 
     def _get_package(self) -> str:
         return 'logic.service.services'
