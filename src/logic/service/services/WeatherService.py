@@ -20,7 +20,4 @@ class WeatherService(MultiCacheKeyService):
         if response.status_code != 200:
             raise Exception(f'Invalid status code: {response.status_code}')
 
-        # TODO less invasive modification
-        locale.setlocale(locale.LC_ALL, 'de_DE')
-
         return response.json()

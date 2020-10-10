@@ -15,7 +15,7 @@ class CurrentTemperatureTile(Tile):
         weatherService = ServiceManager.get_instance().get_service_by_type_name('WeatherService')
         cacheKey = f'{pageName}_{self._uniqueName}'
 
-        fetchIntervalInSeconds = 10
+        fetchIntervalInSeconds = 60 * 10  # query api less often
         weatherData = weatherService.get_data(cacheKey, fetchIntervalInSeconds, self._settings)
         return {
             'temperature': round(weatherData['current']['temp'], 1),
