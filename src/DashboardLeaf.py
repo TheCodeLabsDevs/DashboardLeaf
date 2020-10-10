@@ -14,7 +14,6 @@ from logic.service.services.JenkinsSingleJobService import JenkinsSingleJobServi
 from logic.tile.TileScheduler import TileScheduler
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
-FLASK_LOGGER = DefaultLogger().create_logger_if_not_exists('flaskLogger', logLevel=logging.WARNING)
 
 
 class DashboardLeaf(FlaskBaseApp):
@@ -23,7 +22,7 @@ class DashboardLeaf(FlaskBaseApp):
     }
 
     def __init__(self, appName: str):
-        super().__init__(appName, os.path.dirname(__file__), FLASK_LOGGER, serveRobotsTxt=True)
+        super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
         self._tileService = None
         self._pageManager = None
         ServiceRegistry.get_instance()
