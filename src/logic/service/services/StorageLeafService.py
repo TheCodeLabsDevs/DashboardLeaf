@@ -14,20 +14,23 @@ class StorageLeafService(MultiCacheKeyService):
     EXAMPLE_SETTINGS = {
         "url": "http://127.0.0.1:10003",
         "sensorID": 1,
-        "fetchType": "latest" or "all"
+        "fetchType": "latest" or "all",
+        "fetchLimit": 100
     }
 
     URL_BY_FETCH_TYPE = {
         'latest': 'measurements/latest',
-        'all': 'measurements'
+        'all': 'measurements/'
     }
 
     def _fetch_data(self, settings: Dict) -> Dict:
         urlSensorInfo = Helpers.join_url_parts(settings['url'], 'sensor', str(settings['sensorID']))
 
         fetchType = settings['fetchType']
-        urlPart = self.URL_BY_FETCH_TYPE.get(fetchType, self.URL_BY_FETCH_TYPE['all'])
-        urlSensorValue = Helpers.join_url_parts(urlSensorInfo, urlPart)
+        if fetchType == 'all':
+            urlSensorValue = Helpers.join_url_parts(urlSensorInfo, 'measurements', str(settings['fetchLimit']))
+        else:
+            urlSensorValue = Helpers.join_url_parts(urlSensorInfo, 'measurements/latest')
 
         sensorInfoResponse = requests.get(urlSensorInfo)
         if sensorInfoResponse.status_code != 200:

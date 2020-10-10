@@ -1,3 +1,4 @@
+import logging
 import os
 import uuid
 from datetime import datetime, timedelta
@@ -5,8 +6,11 @@ from typing import Dict
 
 from flask import Blueprint
 
+from logic import Constants
 from logic.service.ServiceManager import ServiceManager
 from logic.tile.Tile import Tile
+
+LOGGER = logging.getLogger(Constants.APP_NAME)
 
 
 class SensorLineChartTile(Tile):
@@ -41,7 +45,8 @@ class SensorLineChartTile(Tile):
         serviceSettings = {
             'url': self._settings['url'],
             'sensorID': self._settings['sensorID'],
-            'fetchType': 'all'
+            'fetchType': 'all',
+            'fetchLimit': 1000,
         }
         return storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
@@ -61,6 +66,8 @@ class SensorLineChartTile(Tile):
                 break
             x.append(timestamp)
             y.append(measurement['value'])
+
+        LOGGER.debug(f'Filtered {len(data["sensorValue"])} to {len(x)} for sensor {self._settings["sensorID"]}')
 
         x.reverse()
         y.reverse()
