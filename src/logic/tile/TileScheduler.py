@@ -19,7 +19,11 @@ class TileScheduler:
         self.__jobs = {}
         self.__tiles = {}
         self.__cache = {}
-        self.__scheduler = GeventScheduler()
+        executors = {
+            'default': {'type': 'threadpool', 'max_workers': 20}
+        }
+
+        self.__scheduler = GeventScheduler(executors=executors)
 
     @staticmethod
     def get_full_name(pageName: str, tileName: str) -> str:
