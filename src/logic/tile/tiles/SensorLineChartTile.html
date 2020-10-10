@@ -13,7 +13,7 @@
         height: 100%;
     }
 
-    .sensorLineChartTile #chart {
+    .sensorLineChartTile .chart {
         flex: 1;
     }
 
@@ -56,25 +56,25 @@
             </div>
             <i class="wi {{ icon }}"></i>
         </div>
-        <div id="chart"></div>
+        <div class="chart" id="{{ chartId }}"></div>
     </div>
 
     <script>
-        Plotly.newPlot(document.getElementById('chart'), [{
+        Plotly.newPlot(document.getElementById('{{ chartId }}'), [{
                 x: {{ x }},
                 y: {{ y }},
                 fill: 'tozeroy',
                 type: 'scatter',
                 marker: {
-                    color: 'rgba(254, 151, 0, 1)',
+                    color: '{{ lineColor }}',
                     size: 10,
                 },
                 line: {
                     shape: 'spline',
-                    color: 'rgba(254, 151, 0, 1)',
+                    color: '{{ lineColor }}',
                     width: 3
                 },
-                fillcolor: 'rgba(254, 151, 0, 0.2)'
+                fillcolor: '{{ fillColor }}'
             }], {
                 xaxis: {
                     showgrid: false,

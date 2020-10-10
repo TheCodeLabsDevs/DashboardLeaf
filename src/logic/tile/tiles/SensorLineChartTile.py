@@ -1,4 +1,5 @@
 import os
+import uuid
 from datetime import datetime, timedelta
 from typing import Dict
 
@@ -13,7 +14,9 @@ class SensorLineChartTile(Tile):
         "title": "My Room",
         "url": "http://127.0.0.1:10003",
         "sensorID": 1,
-        "numberOfHoursToShow": 4
+        "numberOfHoursToShow": 4,
+        "lineColor": "rgba(254, 151, 0, 1)",
+        "fillColor": "rgba(254, 151, 0, 0.2)"
     }
 
     UNIT_BY_SENSOR_TYPE = {
@@ -58,13 +61,17 @@ class SensorLineChartTile(Tile):
                 break
             x.append(timestamp)
             y.append(measurement['value'])
+
         x.reverse()
         y.reverse()
-        print(f'Filtered {len(data["sensorValue"])} to {len(x)}')
-        latest = y[0] if y else '-.-'
+        latest = y[0] if y else ''
 
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
-                                    x=x, y=y, latest=latest, unit=unit, icon=icon, title=self._settings['title'])
+                                    x=x, y=y, latest=latest, unit=unit,
+                                    icon=icon, title=self._settings['title'],
+                                    lineColor=self._settings['lineColor'],
+                                    fillColor=self._settings['fillColor'],
+                                    chartId=str(uuid.uuid4()))
 
     def construct_blueprint(self, *args, **kwargs):
         return Blueprint('simpleSensorValue_{}'.format(self.get_uniqueName()), __name__)
