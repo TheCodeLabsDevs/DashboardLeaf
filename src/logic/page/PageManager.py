@@ -43,6 +43,7 @@ class PageManager:
     def __create_page_instances(self) -> Dict:
         pageInstances = {}
         for pageSetting in self._pageSettings:
+            uniquePageName = pageSetting['uniqueName']
 
             tileLayouts = {}
             for tileSettings in pageSetting['tiles']:
@@ -50,14 +51,13 @@ class PageManager:
                                                                              y=tileSettings['y'],
                                                                              width=tileSettings['width'],
                                                                              height=tileSettings['height'])
-                self.__register_tile(tileSettings)
+                self.__register_tile(uniquePageName, tileSettings)
 
-            uniqueName = pageSetting['uniqueName']
-            pageInstance = PageInstance(uniqueName, tileLayouts)
-            pageInstances[uniqueName] = pageInstance
+            pageInstance = PageInstance(uniquePageName, tileLayouts)
+            pageInstances[uniquePageName] = pageInstance
         return pageInstances
 
-    def __register_tile(self, tileSettings: Dict):
+    def __register_tile(self, uniquePageName: str, tileSettings: Dict):
         tileType = tileSettings['tileType']
         if tileType not in self._tileRegistry.get_all_available_tile_types():
             LOGGER.error(f'Skipping unknown tile with type "{tileType}"')
@@ -66,7 +66,7 @@ class PageManager:
         tile = self._tileRegistry.get_tile_by_type(tileType)(uniqueName=tileSettings['uniqueName'],
                                                              settings=tileSettings['settings'],
                                                              intervalInSeconds=tileSettings['intervalInSeconds'])
-        self._tileScheduler.RegisterTile(tile)
+        self._tileScheduler.RegisterTile(uniquePageName, tile)
         self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
 
     def save_and_load(self):

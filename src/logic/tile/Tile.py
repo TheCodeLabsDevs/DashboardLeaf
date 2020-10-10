@@ -38,9 +38,11 @@ class Tile(ABC):
     def render(self, data: Dict) -> str:
         pass
 
-    def update(self) -> Tuple[str, str]:
+    def update(self, pageName: str) -> Tuple[str, str]:
+        from logic.tile.TileScheduler import TileScheduler
+
         data = self.fetch({})
-        return self._uniqueName, self.render(data)
+        return TileScheduler.get_full_name(pageName, self._uniqueName), self.render(data)
 
     @abstractmethod
     def construct_blueprint(self, *args, **kwargs):

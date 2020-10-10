@@ -14,7 +14,8 @@ let socket = io.connect(url + '/update');
 socket.on('tileUpdate', function(msg)
 {
     let data = JSON.parse(msg);
-    let node = document.querySelector('#tile-' + data["uniqueName"] + ' .container');
+    console.log(data);
+    let node = document.querySelector('#tile-' + data["fullName"] + ' .container');
 
     if(node === null)
     {

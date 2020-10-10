@@ -21,34 +21,39 @@ class TileScheduler:
         self.__cache = {}
         self.__scheduler = GeventScheduler()
 
-    def RegisterTile(self, tile: Tile):
-        name = tile.get_uniqueName()
-        if name in self.__jobs:
-            LOGGER.warning(f'Tile "{name}" already registered')
+    @staticmethod
+    def get_full_name(pageName: str, tileName: str) -> str:
+        return f'{pageName}_{tileName}'
+
+    def RegisterTile(self, pageName: str, tile: Tile):
+        fullName = self.get_full_name(pageName, tile.get_uniqueName())
+        if fullName in self.__jobs:
+            LOGGER.warning(f'Tile "{fullName}" already registered')
 
         job = self.__scheduler.add_job(tile.update, 'interval',
+                                       [pageName],
                                        seconds=tile.get_intervalInSeconds(),
                                        next_run_time=datetime.now())
 
-        self.__jobs[name] = job
-        self.__cache[name] = None
-        self.__tiles[name] = tile
-        LOGGER.debug(f'Registered "{name}" (scheduled every {tile.get_intervalInSeconds()} seconds)')
+        self.__jobs[fullName] = job
+        self.__cache[fullName] = None
+        self.__tiles[fullName] = tile
+        LOGGER.debug(f'Registered "{fullName}" (scheduled every {tile.get_intervalInSeconds()} seconds)')
 
-    def UnregisterTile(self, tile: Tile):
-        name = tile.get_uniqueName()
-        if name not in self.__jobs:
-            LOGGER.warning(f'Tile "{name}" is not registered')
+    def UnregisterTile(self, pageName: str, tile: Tile):
+        fullName = self.get_full_name(pageName, tile.get_uniqueName())
+        if fullName not in self.__jobs:
+            LOGGER.warning(f'Tile "{fullName}" is not registered')
 
-        self.__jobs[name].remove()
-        del self.__jobs[name]
-        del self.__cache[name]
-        del self.__tiles[name]
-        LOGGER.debug(f'Unregistered "{name}"')
+        self.__jobs[fullName].remove()
+        del self.__jobs[fullName]
+        del self.__cache[fullName]
+        del self.__tiles[fullName]
+        LOGGER.debug(f'Unregistered "{fullName}"')
 
     def EmitFromCache(self):
-        for name, value in self.__cache.items():
-            self.__EmitUpdate(name, value)
+        for fullName, value in self.__cache.items():
+            self.__EmitUpdate(fullName, value)
 
     def Run(self):
         def JobListener(event):
@@ -62,8 +67,8 @@ class TileScheduler:
         self.__scheduler.add_listener(JobListener, EVENT_JOB_EXECUTED | EVENT_JOB_ERROR)
         self.__scheduler.start()
 
-    def __EmitUpdate(self, uniqueName: str, content: str):
-        data = {'uniqueName': uniqueName, 'content': content}
+    def __EmitUpdate(self, fullName: str, content: str):
+        data = {'fullName': fullName, 'content': content}
         self.__socketio.emit('tileUpdate', json.dumps(data), namespace='/update')
 
     def GetTiles(self) -> Dict[str, Tile]:
@@ -72,14 +77,14 @@ class TileScheduler:
     def GetJobs(self) -> Dict[str, Job]:
         return self.__jobs
 
-    def ForceRefresh(self, tileName):
-        job = self.__GetJobByName(tileName)
+    def ForceRefresh(self, fullName: str):
+        job = self.__GetJobByName(fullName)
         if job is not None:
-            LOGGER.debug(f'Manual refresh for tile "{tileName}"')
+            LOGGER.debug(f'Manual refresh for tile "{fullName}"')
             job.modify(next_run_time=datetime.now())
 
-    def __GetJobByName(self, tileName) -> Job or None:
-        if tileName not in self.__jobs:
-            LOGGER.warning(f'Ignoring request to refresh non-existing tile "{tileName}"')
+    def __GetJobByName(self, fullName: str) -> Job or None:
+        if fullName not in self.__jobs:
+            LOGGER.warning(f'Ignoring request to refresh non-existing tile "{fullName}"')
             return None
-        return self.__jobs[tileName]
+        return self.__jobs[fullName]
