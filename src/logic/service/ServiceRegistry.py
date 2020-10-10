@@ -17,7 +17,7 @@ class ServiceRegistry(Registry):
     __instance = None
 
     @staticmethod
-    def get_instance():
+    def get_instance() -> 'ServiceRegistry':
         if ServiceRegistry.__instance is None:
             ServiceRegistry()
         return ServiceRegistry.__instance

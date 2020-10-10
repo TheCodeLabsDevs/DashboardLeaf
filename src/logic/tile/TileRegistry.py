@@ -16,7 +16,7 @@ class TileRegistry(Registry):
     __instance = None
 
     @staticmethod
-    def get_instance():
+    def get_instance() -> 'TileRegistry':
         if TileRegistry.__instance is None:
             TileRegistry()
         return TileRegistry.__instance
