@@ -14,7 +14,7 @@ class CurrentTemperatureTile(Tile):
 
     def fetch(self, pageName: str) -> Dict:
         weatherService = ServiceManager.get_instance().get_service_by_type_name('WeatherService')
-        cacheKey = f'{pageName}_{self._uniqueName}'
+        cacheKey = Helpers.determine_weather_cache_key(self._settings['lat'], self._settings['lon'])
 
         fetchIntervalInSeconds = 60 * 10  # query api less often
         weatherData = weatherService.get_data(cacheKey, fetchIntervalInSeconds, self._settings)
