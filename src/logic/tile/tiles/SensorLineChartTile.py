@@ -2,7 +2,7 @@ import logging
 import os
 import uuid
 from datetime import datetime, timedelta
-from typing import Dict
+from typing import Dict, Tuple, List
 
 from flask import Blueprint
 
@@ -49,18 +49,24 @@ class SensorLineChartTile(Tile):
             'fetchType': 'all',
             'fetchLimit': 1000,
         }
-        return storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
+        sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
-    def render(self, data: Dict) -> str:
-        sensorType = data['sensorInfo']['type']
-        unit = self.UNIT_BY_SENSOR_TYPE.get(sensorType, '')
-        icon = self.ICON_BY_SENSOR_TYPE.get(sensorType, '')
+        x, y = self.__filter_measurements(sensorData['sensorValue'])
+        latest = y[0] if y else ''
 
-        timeLimit = datetime.now() - timedelta(hours=self._settings['numberOfHoursToShow'])
+        return {
+            'latest': latest,
+            'x': x,
+            'y': y,
+            'sensorInfo': sensorData['sensorInfo']
+        }
 
+    def __filter_measurements(self, measurements: List[Dict]) -> Tuple[List[str], List[str]]:
         x = []
         y = []
-        for measurement in data['sensorValue']:
+        timeLimit = datetime.now() - timedelta(hours=self._settings['numberOfHoursToShow'])
+
+        for measurement in measurements:
             timestamp = measurement['timestamp']
             parsedTime = datetime.strptime(timestamp, self.DATE_FORMAT)
             if parsedTime < timeLimit:
@@ -69,15 +75,24 @@ class SensorLineChartTile(Tile):
             value = float(measurement['value'])
             y.append(Helpers.round_to_decimals(value, self._settings['decimals']))
 
-        LOGGER.debug(f'Filtered {len(data["sensorValue"])} to {len(x)} for sensor {self._settings["sensorID"]}')
+        LOGGER.debug(f'Filtered {len(measurements)} to {len(x)} for sensor {self._settings["sensorID"]}')
 
         x.reverse()
         y.reverse()
-        latest = y[0] if y else ''
+        return x, y
+
+    def render(self, data: Dict) -> str:
+        sensorType = data['sensorInfo']['type']
+        unit = self.UNIT_BY_SENSOR_TYPE.get(sensorType, '')
+        icon = self.ICON_BY_SENSOR_TYPE.get(sensorType, '')
 
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
-                                    x=x, y=y, latest=latest, unit=unit,
-                                    icon=icon, title=self._settings['title'],
+                                    x=data['x'],
+                                    y=data['y'],
+                                    latest=data['latest'],
+                                    unit=unit,
+                                    icon=icon,
+                                    title=self._settings['title'],
                                     lineColor=self._settings['lineColor'],
                                     fillColor=self._settings['fillColor'],
                                     chartId=str(uuid.uuid4()))
