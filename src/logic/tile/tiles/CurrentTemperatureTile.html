@@ -67,11 +67,11 @@
             <div class="temperatures">
                 <div class="temperature-entry">
                     <div class="label">Aktuell</div>
-                    {{ data['temperature'] }}&deg;C
+                    <div style="color: {{ data['temperatureColor'] }}">{{ data['temperature'] }}&deg;C</div>
                 </div>
                 <div class="temperature-entry">
                     <div class="label">Gefühlt</div>
-                    {{ data['feelsLike'] }}&deg;C
+                    <div style="color: {{ data['feelsLikeColor'] }}">{{ data['feelsLike'] }}&deg;C</div>
                 </div>
             </div>
             <div class="wind">

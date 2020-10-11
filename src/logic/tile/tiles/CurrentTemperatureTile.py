@@ -19,13 +19,29 @@ class CurrentTemperatureTile(Tile):
         fetchIntervalInSeconds = 60 * 10  # query api less often
         weatherData = weatherService.get_data(cacheKey, fetchIntervalInSeconds, self._settings)
         currentWeather = weatherData['current']
+        currentTemperature = currentWeather['temp']
+        feelsLike = currentWeather['feels_like']
+
         return {
-            'temperature': Helpers.round_to_decimals(currentWeather['temp'], 1),
-            'feelsLike': Helpers.round_to_decimals(currentWeather['feels_like'], 1),
+            'temperature': Helpers.round_to_decimals(currentTemperature, 1),
+            'temperatureColor': self.__determine_color_for_temperature(currentTemperature),
+            'feelsLike': Helpers.round_to_decimals(feelsLike, 1),
+            'feelsLikeColor': self.__determine_color_for_temperature(feelsLike),
             'icon': currentWeather['weather'][0]['id'],
             'windDegrees': currentWeather['wind_deg'],
-            'windSpeed': f'{currentWeather["wind_speed"] * 3.6} km/h'
+            'windSpeed': f'{currentWeather["wind_speed"] * 3.6} km/h',
         }
+
+    @staticmethod
+    def __determine_color_for_temperature(temperature: float):
+        if temperature < 0:
+            return 'rgba(75, 123, 236, 1)'
+        elif temperature < 10:
+            return 'rgba(149, 224, 108, 1)'
+        elif temperature < 20:
+            return 'rgba(254, 151, 0, 1)',
+        else:
+            return 'rgba(230, 76, 60, 1)'
 
     def render(self, data: Dict) -> str:
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__, data=data)
