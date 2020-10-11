@@ -37,9 +37,9 @@ class CurrentTemperatureTile(Tile):
     @staticmethod
     def __determine_color_for_temperature(temperature: float):
         if temperature < 0:
-            return 'rgba(75, 123, 236, 1)'
+            return 'rgba(70, 138, 221, 1)'
         elif temperature < 10:
-            return 'rgba(149, 224, 108, 1)'
+            return 'rgba(117, 190, 84, 1)'
         elif temperature < 20:
             return 'rgba(254, 151, 0, 1)',
         else:
