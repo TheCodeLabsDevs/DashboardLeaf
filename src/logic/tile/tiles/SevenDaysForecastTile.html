@@ -1,0 +1,92 @@
+<style>
+    .sevenDaysForecast {
+        background-color: #2F2F2F;
+    }
+
+    .sevenDaysForecast .chart {
+        width: 90%;
+        height: 80%;
+        margin: auto;
+    }
+</style>
+
+<div class="sevenDaysForecast">
+    <div class="chart" id="{{ chartId }}"></div>
+
+    <script>
+        Plotly.newPlot(document.getElementById('{{ chartId }}'), [{
+                x: {{ formattedDates }},
+                y: {{ maxValues }},
+                text: {{ maxValues }},
+                mode: 'lines+text',
+                textfont: {
+                    family: 'sans-serif',
+                    size: 18,
+                    color: 'rgba(230, 76, 60, 1)',
+                },
+                type: 'scatter',
+                marker: {
+                    color: 'rgba(230, 76, 60, 0.2)',
+                    size: 10,
+                },
+                line: {
+                    shape: 'spline',
+                    color: 'rgba(230, 76, 60, 0.2)',
+                    width: 3
+                }
+            },
+                {
+                    x: {{ formattedDates }},
+                    y: {{ minValues }},
+                    text: {{ minValues }},
+                    mode: 'lines+text',
+                    textfont: {
+                        family: 'sans-serif',
+                        size: 18,
+                        color: 'rgba(75, 123, 236, 1)'
+                    },
+                    type: 'scatter',
+                    marker: {
+                        color: 'rgba(75, 123, 236, 0.2)',
+                        size: 10,
+                    },
+                    line: {
+                        shape: 'spline',
+                        color: 'rgba(75, 123, 236, 0.2)',
+                        width: 3
+                    }
+                }],
+            {
+                xaxis: {
+                    showgrid: false,
+                    visible: true,
+                    tickformat: '%a',
+                    tickvals: {{ formattedDates }},
+                    tickfont: {
+                        family: 'sans-serif',
+                        size: 18,
+                        color: 'white'
+                    }
+                },
+                yaxis: {
+                    showgrid: false,
+                    zeroline: false,
+                    visible: false,
+                },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                showlegend: false,
+                margin: {
+                    "b": 20,
+                    "l": 5,
+                    "r": 5,
+                    "t": 5
+                }
+            },
+            {
+                displaylogo: false,
+                responsive: true,
+                locale: 'de'
+            });
+    </script>
+</div>
