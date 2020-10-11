@@ -1,12 +1,83 @@
 <style>
     .currentTemperatureTile {
         background-color: #2F2F2F;
-        font-size: 4vmin;
+        font-size: 3.5vmin;
         font-weight: bold;
+        flex-direction: row;
+    }
+
+    .currentTemperatureTile .icon {
+        font-size: 10vmin;
+    }
+
+    .currentTemperatureTile .content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 85%;
+        height: 85%;
+    }
+
+    .currentTemperatureTile .entries {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+    }
+
+    .currentTemperatureTile .temperatures {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .currentTemperatureTile .temperature-entry {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-left: 3vmin;
+        justify-content: space-between;
+    }
+
+    .currentTemperatureTile .label {
+        font-size: 2vmin;
+    }
+
+    .currentTemperatureTile .wind {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 2vmin;
+        padding-top: 1vmin;
+    }
+
+    .currentTemperatureTile .windSpeed {
+        padding-left: 1vmin;
     }
 </style>
 
 <div class="currentTemperatureTile">
-    <div>Aktuell: {{ data['temperature'] }}&deg;C</div>
-    <div>Gefühlt: {{ data['feelsLike'] }}&deg;C</div>
+    <div class="content">
+        <i class="wi wi-owm-{{ data['icon'] }} icon"></i>
+        <div class="entries">
+            <div class="temperatures">
+                <div class="temperature-entry">
+                    <div class="label">Aktuell</div>
+                    {{ data['temperature'] }}&deg;C
+                </div>
+                <div class="temperature-entry">
+                    <div class="label">Gefühlt</div>
+                    {{ data['feelsLike'] }}&deg;C
+                </div>
+            </div>
+            <div class="wind">
+                <i class="wi wi-wind from-{{ data['windDegrees'] }}-deg"></i>
+                <div class="windSpeed">{{ data['windSpeed'] }}</div>
+            </div>
+        </div>
+    </div>
 </div>

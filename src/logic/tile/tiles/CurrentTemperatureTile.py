@@ -18,9 +18,13 @@ class CurrentTemperatureTile(Tile):
 
         fetchIntervalInSeconds = 60 * 10  # query api less often
         weatherData = weatherService.get_data(cacheKey, fetchIntervalInSeconds, self._settings)
+        currentWeather = weatherData['current']
         return {
-            'temperature': Helpers.round_to_decimals(weatherData['current']['temp'], 1),
-            'feelsLike': Helpers.round_to_decimals(weatherData['current']['feels_like'], 1)
+            'temperature': Helpers.round_to_decimals(currentWeather['temp'], 1),
+            'feelsLike': Helpers.round_to_decimals(currentWeather['feels_like'], 1),
+            'icon': currentWeather['weather'][0]['id'],
+            'windDegrees': currentWeather['wind_deg'],
+            'windSpeed': f'{currentWeather["wind_speed"] * 3.6} km/h'
         }
 
     def render(self, data: Dict) -> str:
