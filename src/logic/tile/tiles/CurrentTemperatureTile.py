@@ -21,6 +21,7 @@ class CurrentTemperatureTile(Tile):
         currentWeather = weatherData['current']
         currentTemperature = currentWeather['temp']
         feelsLike = currentWeather['feels_like']
+        windSpeed = currentWeather["wind_speed"] * 3.6
 
         return {
             'temperature': Helpers.round_to_decimals(currentTemperature, 1),
@@ -29,7 +30,8 @@ class CurrentTemperatureTile(Tile):
             'feelsLikeColor': self.__determine_color_for_temperature(feelsLike),
             'icon': currentWeather['weather'][0]['id'],
             'windDegrees': currentWeather['wind_deg'],
-            'windSpeed': f'{currentWeather["wind_speed"] * 3.6} km/h',
+            'windSpeed': f'{windSpeed} km/h',
+            'windSpeedColor': self.__determine_color_for_wind(windSpeed)
         }
 
     @staticmethod
@@ -40,6 +42,15 @@ class CurrentTemperatureTile(Tile):
             return 'rgba(149, 224, 108, 1)'
         elif temperature < 20:
             return 'rgba(254, 151, 0, 1)',
+        else:
+            return 'rgba(230, 76, 60, 1)'
+
+    @staticmethod
+    def __determine_color_for_wind(windSpeed: float):
+        if windSpeed < 20:
+            return 'rgba(255, 255, 255, 1)'
+        elif windSpeed < 60:
+            return 'rgba(254, 151, 0, 1)'
         else:
             return 'rgba(230, 76, 60, 1)'
 
