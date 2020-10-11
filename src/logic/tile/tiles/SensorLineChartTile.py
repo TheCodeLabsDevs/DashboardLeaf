@@ -82,5 +82,5 @@ class SensorLineChartTile(Tile):
                                     fillColor=self._settings['fillColor'],
                                     chartId=str(uuid.uuid4()))
 
-    def construct_blueprint(self, *args, **kwargs):
-        return Blueprint('simpleSensorValue_{}'.format(self.get_uniqueName()), __name__)
+    def construct_blueprint(self, pageName: str, *args, **kwargs):
+        return Blueprint(f'{pageName}_{__class__.__name__}_{self.get_uniqueName()}', __name__)

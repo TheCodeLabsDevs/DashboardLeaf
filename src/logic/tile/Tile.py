@@ -45,5 +45,5 @@ class Tile(ABC):
         return TileScheduler.get_full_name(pageName, self._uniqueName), self.render(data)
 
     @abstractmethod
-    def construct_blueprint(self, *args, **kwargs):
+    def construct_blueprint(self, pageName: str, *args, **kwargs):
         pass

@@ -28,6 +28,6 @@ class SimpleSensorValueTile(Tile):
 
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__, data=data, unit=unit)
 
-    def construct_blueprint(self, *args, **kwargs):
-        return Blueprint('simpleSensorValue_{}'.format(self.get_uniqueName()), __name__)
+    def construct_blueprint(self, pageName: str, *args, **kwargs):
+        return Blueprint(f'{pageName}_{__class__.__name__}_{self.get_uniqueName()}', __name__)
 

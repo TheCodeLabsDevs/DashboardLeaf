@@ -68,7 +68,7 @@ class PageManager:
                                                                       intervalInSeconds=tileSettings[
                                                                           'intervalInSeconds'])
         self._tileScheduler.register_tile(uniquePageName, tile)
-        self._flaskApp.register_blueprint(tile.construct_blueprint(tileScheduler=self._tileScheduler))
+        self._flaskApp.register_blueprint(tile.construct_blueprint(pageName=uniquePageName))
 
     def save_and_load(self):
         self.__save_settings()

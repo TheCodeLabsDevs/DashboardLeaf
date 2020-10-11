@@ -19,5 +19,5 @@ class ClockTile(Tile):
     def render(self, data: Dict) -> str:
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__, time=data['time'])
 
-    def construct_blueprint(self, *args, **kwargs):
-        return Blueprint('clock_{}'.format(self.get_uniqueName()), __name__)
+    def construct_blueprint(self, pageName: str, *args, **kwargs):
+        return Blueprint(f'{pageName}_{__class__.__name__}_{self.get_uniqueName()}', __name__)
