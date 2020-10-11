@@ -52,7 +52,7 @@ class SensorLineChartTile(Tile):
         sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
         x, y = self.__filter_measurements(sensorData['sensorValue'])
-        latest = y[0] if y else ''
+        latest = y[-1] if y else ''
 
         return {
             'latest': latest,
