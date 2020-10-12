@@ -33,6 +33,7 @@ class TileScheduler:
         fullName = self.get_full_name(pageName, tile.get_uniqueName())
         if fullName in self.__jobs:
             LOGGER.warning(f'Tile "{fullName}" already registered')
+            return
 
         job = self.__scheduler.add_job(tile.update, 'interval',
                                        [pageName],
