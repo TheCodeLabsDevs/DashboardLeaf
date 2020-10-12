@@ -8,7 +8,7 @@ from logic.service.ServiceManager import ServiceManager
 from logic.tile.Tile import Tile
 
 
-class CurrentTemperatureTile(Tile):
+class CurrentWeatherTile(Tile):
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
         super().__init__(uniqueName, settings, intervalInSeconds)
 
@@ -30,20 +30,20 @@ class CurrentTemperatureTile(Tile):
             'feelsLikeColor': self.__determine_color_for_temperature(feelsLike),
             'icon': currentWeather['weather'][0]['id'],
             'windDegrees': currentWeather['wind_deg'],
-            'windSpeed': f'{windSpeed} km/h',
+            'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 1)} km/h',
             'windSpeedColor': self.__determine_color_for_wind(windSpeed)
         }
 
     @staticmethod
     def __determine_color_for_temperature(temperature: float):
         if temperature < 0:
-            return 'rgba(70, 138, 221, 1)'
-        elif temperature < 10:
-            return 'rgba(117, 190, 84, 1)'
+            return 'rgba(70, 138, 221, 1)'  # blue
         elif temperature < 20:
-            return 'rgba(254, 151, 0, 1)',
+            return 'rgba(117, 190, 84, 1)'  # green
+        elif temperature < 25:
+            return 'rgba(254, 151, 0, 1)',  # orange
         else:
-            return 'rgba(230, 76, 60, 1)'
+            return 'rgba(230, 76, 60, 1)'  # red
 
     @staticmethod
     def __determine_color_for_wind(windSpeed: float):
