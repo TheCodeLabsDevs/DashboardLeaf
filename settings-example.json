@@ -6,15 +6,5 @@
         "useSSL": false,
         "keyfile": "",
         "certfile": ""
-    },
-    "pages": [
-        {
-            "type": "JenkinsSingleJob",
-            "hostname": "",
-            "user": "",
-            "password": "",
-            "jobName": "",
-            "fetchIntervalInSeconds": 60
-        }
-    ]
+    }
 }
