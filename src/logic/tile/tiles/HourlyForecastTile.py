@@ -45,10 +45,10 @@ class HourlyForecastTile(Tile):
 
             hourData.append({
                 'hour': timestamp.strftime('%H'),
-                'temperature': Helpers.round_to_decimals(temperature, 1),
+                'temperature': Helpers.round_to_decimals(temperature, 0),
                 'temperatureColor': Helpers.determine_color_for_temperature(temperature),
                 'icon': icon,
-                'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 1)} km/h',
+                'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 0)} km/h',
                 'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
                 'rainProbability': f'{Helpers.round_to_decimals(rainProbability, 0)} %'
             })
