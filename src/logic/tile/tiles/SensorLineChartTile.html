@@ -65,10 +65,7 @@
                 y: {{ y }},
                 fill: 'tozeroy',
                 type: 'scatter',
-                marker: {
-                    color: '{{ lineColor }}',
-                    size: 10,
-                },
+                mode: 'lines',
                 line: {
                     shape: 'spline',
                     color: '{{ lineColor }}',
@@ -94,9 +91,11 @@
                     l: 0,
                     r: 0,
                     t: 0
-                }
+                },
+                hovermode: 'closest'
             },
             {
+                displayModeBar: false,
                 displaylogo: false,
                 responsive: true,
                 locale: 'de'
