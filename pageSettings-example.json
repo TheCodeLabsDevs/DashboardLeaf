@@ -1,0 +1,76 @@
+[
+    {
+        "uniqueName": "My First Page",
+        "tiles": [
+            {
+                "tileType": "SensorLineChartTile",
+                "uniqueName": "SensorLineChart_Temperature_Wohnzimmer",
+                "intervalInSeconds": 60,
+                "settings": {
+                    "title": "Wohnzimmer",
+                    "url": "http://192.168.178.39:10003",
+                    "sensorID": 1,
+                    "sensorIDsForMinMax": [
+                        1,
+                        3,
+                        5
+                    ],
+                    "numberOfHoursToShow": 4,
+                    "decimals": 1,
+                    "lineColor": "rgba(254, 151, 0, 1)",
+                    "fillColor": "rgba(254, 151, 0, 0.2)"
+                },
+                "x": 0,
+                "y": 0,
+                "width": 3,
+                "height": 3
+            },
+            {
+                "tileType": "SensorLineChartTile",
+                "uniqueName": "SensorLineChart_Humidity_Wohnzimmer",
+                "intervalInSeconds": 60,
+                "settings": {
+                    "title": "Wohnzimmer",
+                    "url": "http://192.168.178.39:10003",
+                    "sensorID": 2,
+                    "numberOfHoursToShow": 4,
+                    "decimals": 0,
+                    "lineColor": "rgba(70, 138, 221, 1))",
+                    "fillColor": "rgba(70, 138, 221, 0.2)"
+                },
+                "x": 0,
+                "y": 3,
+                "width": 3,
+                "height": 3
+            },
+            {
+                "tileType": "CurrentWeatherTile",
+                "uniqueName": "CurrentWeather",
+                "intervalInSeconds": 60,
+                "settings": {
+                    "lat": "51.012825",
+                    "lon": "13.666365",
+                    "apiKey": ""
+                },
+                "x": 3,
+                "y": 3,
+                "width": 3,
+                "height": 2
+            },
+            {
+                "tileType": "SevenDaysForecastTile",
+                "uniqueName": "SevenDaysForecast",
+                "intervalInSeconds": 60,
+                "settings": {
+                    "lat": "51.012825",
+                    "lon": "13.666365",
+                    "apiKey": ""
+                },
+                "x": 3,
+                "y": 0,
+                "width": 3,
+                "height": 3
+            }
+        ]
+    }
+]
