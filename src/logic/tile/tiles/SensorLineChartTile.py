@@ -14,6 +14,11 @@ from logic.tile.Tile import Tile
 LOGGER = logging.getLogger(Constants.APP_NAME)
 
 
+class SensorType:
+    TEMPERATURE = 'temperature'
+    HUMIDITY = 'humidity'
+
+
 class SensorLineChartTile(Tile):
     EXAMPLE_SETTINGS = {
         "title": "My Room",
@@ -27,13 +32,13 @@ class SensorLineChartTile(Tile):
     }
 
     UNIT_BY_SENSOR_TYPE = {
-        'temperature': '&degC',
-        'humidity': '%'
+        SensorType.TEMPERATURE: '&degC',
+        SensorType.HUMIDITY: '%'
     }
 
     ICON_BY_SENSOR_TYPE = {
-        'temperature': 'wi-thermometer',
-        'humidity': 'wi-humidity'
+        SensorType.TEMPERATURE: 'wi-thermometer',
+        SensorType.HUMIDITY: 'wi-humidity'
     }
 
     DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -80,7 +85,7 @@ class SensorLineChartTile(Tile):
     def __get_min_and_max(self, pageName: str, sensorType: Dict,
                           startDateTime: str, endDateTime: str,
                           storageLeafService: MultiCacheKeyService):
-        if sensorType == 'humidity':
+        if sensorType == SensorType.HUMIDITY:
             return 0, 100
 
         minMaxSettings = {
