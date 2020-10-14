@@ -18,10 +18,11 @@ class SevenDaysForecastTile(Tile):
 
     def fetch(self, pageName: str) -> Dict:
         weatherService = ServiceManager.get_instance().get_service_by_type_name('WeatherService')
-        cacheKey = Helpers.determine_weather_cache_key(self._settings['lat'], self._settings['lon'])
 
         fetchIntervalInSeconds = 60 * 10  # query api less often
-        weatherData = weatherService.get_data(cacheKey, fetchIntervalInSeconds, self._settings)
+
+        # cache key will be determined in service
+        weatherData = weatherService.get_data('', fetchIntervalInSeconds, self._settings)
 
         forecast = weatherData['daily']
 

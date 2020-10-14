@@ -17,6 +17,11 @@ class WeatherService(MultiCacheKeyService):
         "apiKey": "myApiKey"
     }
 
+    def get_data(self, cacheKey: str, fetchIntervalInSeconds: int, settings: Dict) -> Dict:
+        if not cacheKey:
+            cacheKey = f'weather_{settings["lat"]}_{settings["lon"]}'
+        return super().get_data(cacheKey, fetchIntervalInSeconds, settings)
+
     def _fetch_data(self, settings: Dict) -> Dict:
         response = requests.get(self.URL, params={
             'lat': settings['lat'],
