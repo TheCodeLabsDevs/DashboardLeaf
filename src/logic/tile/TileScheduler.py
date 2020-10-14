@@ -27,7 +27,7 @@ class TileScheduler:
 
     @staticmethod
     def get_full_name(pageName: str, tileName: str) -> str:
-        return f'{pageName}_{tileName}'
+        return f'{pageName.replace(" ", "_")}_{tileName}'
 
     def register_tile(self, pageName: str, tile: Tile):
         fullName = self.get_full_name(pageName, tile.get_uniqueName())
