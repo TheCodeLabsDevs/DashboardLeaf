@@ -8,6 +8,12 @@ from logic.tile.Tile import Tile
 
 
 class SimpleSensorValueTile(Tile):
+    EXAMPLE_SETTINGS = {
+        "url": "http://192.168.178.39:10003",
+        "sensorID": 1,
+        "fetchType": "latest"
+    }
+
     UNITS_BY_SENSOR_TYPE = {
         'temperature': '&degC',
         'humidity': '%'

@@ -11,6 +11,12 @@ from logic.tile.Tile import Tile
 
 
 class SevenDaysForecastTile(Tile):
+    EXAMPLE_SETTINGS = {
+        "lat": "51.012825",
+        "lon": "13.666365",
+        "apiKey": "myApiKey"
+    }
+
     DATE_FORMAT = '%Y-%m-%d'
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):

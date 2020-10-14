@@ -9,6 +9,12 @@ from logic.tile.Tile import Tile
 
 
 class CurrentWeatherTile(Tile):
+    EXAMPLE_SETTINGS = {
+        "lat": "51.012825",
+        "lon": "13.666365",
+        "apiKey": "myApiKey"
+    }
+
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
         super().__init__(uniqueName, settings, intervalInSeconds)
 
@@ -22,38 +28,18 @@ class CurrentWeatherTile(Tile):
         currentWeather = weatherData['current']
         currentTemperature = currentWeather['temp']
         feelsLike = currentWeather['feels_like']
-        windSpeed = currentWeather["wind_speed"] * 3.6
+        windSpeed = currentWeather['wind_speed'] * 3.6
 
         return {
             'temperature': Helpers.round_to_decimals(currentTemperature, 1),
-            'temperatureColor': self.__determine_color_for_temperature(currentTemperature),
+            'temperatureColor': Helpers.determine_color_for_temperature(currentTemperature),
             'feelsLike': Helpers.round_to_decimals(feelsLike, 1),
-            'feelsLikeColor': self.__determine_color_for_temperature(feelsLike),
+            'feelsLikeColor': Helpers.determine_color_for_temperature(feelsLike),
             'icon': currentWeather['weather'][0]['id'],
             'windDegrees': currentWeather['wind_deg'],
             'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 1)} km/h',
-            'windSpeedColor': self.__determine_color_for_wind(windSpeed)
+            'windSpeedColor': Helpers.determine_color_for_wind(windSpeed)
         }
-
-    @staticmethod
-    def __determine_color_for_temperature(temperature: float):
-        if temperature < 0:
-            return 'rgba(70, 138, 221, 1)'  # blue
-        elif temperature < 20:
-            return 'rgba(117, 190, 84, 1)'  # green
-        elif temperature < 25:
-            return 'rgba(254, 151, 0, 1)',  # orange
-        else:
-            return 'rgba(230, 76, 60, 1)'  # red
-
-    @staticmethod
-    def __determine_color_for_wind(windSpeed: float):
-        if windSpeed < 20:
-            return 'rgba(255, 255, 255, 1)'
-        elif windSpeed < 60:
-            return 'rgba(254, 151, 0, 1)'
-        else:
-            return 'rgba(230, 76, 60, 1)'
 
     def render(self, data: Dict) -> str:
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__, data=data)
