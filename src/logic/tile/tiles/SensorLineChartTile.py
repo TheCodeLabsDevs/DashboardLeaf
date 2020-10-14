@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Dict, Tuple, List
 
+from TheCodeLabs_BaseUtils.MultiCacheKeyService import MultiCacheKeyService
 from flask import Blueprint
 
 from logic import Constants, Helpers
@@ -18,6 +19,7 @@ class SensorLineChartTile(Tile):
         "title": "My Room",
         "url": "http://127.0.0.1:10003",
         "sensorID": 1,
+        "sensorIDsForMinMax": [2, 3, 4],
         "numberOfHoursToShow": 4,
         "decimals": 1,
         "lineColor": "rgba(254, 151, 0, 1)",
@@ -41,41 +43,67 @@ class SensorLineChartTile(Tile):
 
     def fetch(self, pageName: str) -> Dict:
         storageLeafService = ServiceManager.get_instance().get_service_by_type_name('StorageLeafService')
-        cacheKey = f'{pageName}_{self._uniqueName}'
+
+        startDateTime = datetime.strftime(datetime.now() - timedelta(hours=self._settings['numberOfHoursToShow']),
+                                          self.DATE_FORMAT)
+        endDateTime = datetime.strftime(datetime.now(), self.DATE_FORMAT)
 
         serviceSettings = {
             'url': self._settings['url'],
             'sensorID': self._settings['sensorID'],
             'fetchType': 'all',
-            'fetchLimit': 1000,
+            'startDateTime': startDateTime,
+            'endDateTime': endDateTime
         }
+        cacheKey = f'{pageName}_{self._uniqueName}_all'
         sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
-        x, y = self.__filter_measurements(sensorData['sensorValue'])
+        x, y = self.__prepare_measurement_data(sensorData['sensorValue'])
         latest = y[-1] if y else ''
+
+        minValue, maxValue = self.__get_min_and_max(pageName,
+                                                    sensorData['sensorInfo']['type'],
+                                                    startDateTime,
+                                                    endDateTime,
+                                                    storageLeafService)
 
         return {
             'latest': latest,
             'x': x,
             'y': y,
-            'sensorInfo': sensorData['sensorInfo']
+            'sensorInfo': sensorData['sensorInfo'],
+            'min': minValue,
+            'max': maxValue
         }
 
-    def __filter_measurements(self, measurements: List[Dict]) -> Tuple[List[str], List[str]]:
+    def __get_min_and_max(self, pageName: str, sensorType: Dict,
+                          startDateTime: str, endDateTime: str,
+                          storageLeafService: MultiCacheKeyService):
+        if sensorType == 'humidity':
+            return 0, 100
+
+        minMaxSettings = {
+            'url': self._settings['url'],
+            'sensorIDsForMinMax': self._settings['sensorIDsForMinMax'],
+            'fetchType': 'minMax',
+            'startDateTime': startDateTime,
+            'endDateTime': endDateTime
+        }
+        cacheKey = f'{pageName}_{self._uniqueName}_minMax'
+        minMaxData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, minMaxSettings)
+        LOGGER.debug(f'Received min/max: {minMaxData} for sensorIDs: {self._settings["sensorIDsForMinMax"]}')
+        return min(0, minMaxData['min']), minMaxData['max']
+
+    def __prepare_measurement_data(self, measurements: List[Dict]) -> Tuple[List[str], List[str]]:
         x = []
         y = []
-        timeLimit = datetime.now() - timedelta(hours=self._settings['numberOfHoursToShow'])
 
         for measurement in measurements:
             timestamp = measurement['timestamp']
-            parsedTime = datetime.strptime(timestamp, self.DATE_FORMAT)
-            if parsedTime < timeLimit:
-                break
             x.append(timestamp)
+
             value = float(measurement['value'])
             y.append(Helpers.round_to_decimals(value, self._settings['decimals']))
-
-        LOGGER.debug(f'Filtered {len(measurements)} to {len(x)} for sensor {self._settings["sensorID"]}')
 
         x.reverse()
         y.reverse()
@@ -89,6 +117,8 @@ class SensorLineChartTile(Tile):
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
                                     x=data['x'],
                                     y=data['y'],
+                                    min=data['min'],
+                                    max=data['max'],
                                     latest=data['latest'],
                                     unit=unit,
                                     icon=icon,
