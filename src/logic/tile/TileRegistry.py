@@ -21,12 +21,14 @@ class TileRegistry(Registry):
     def get_instance() -> TileRegistry:
         if TileRegistry.__instance is None:
             TileRegistry()
+
         return TileRegistry.__instance
 
     def __init__(self):
         if TileRegistry.__instance is None:
             super().__init__()
             TileRegistry.__instance = self
+            self.__safety_check()
         else:
             raise Exception('This class is a singleton!')
 
@@ -35,3 +37,10 @@ class TileRegistry(Registry):
 
     def _get_implementation_type(self) -> Type:
         return Tile
+
+    def __safety_check(self):
+        for implementationTypeName in self.get_all_available_implementation_types():
+            implementation = self.get_implementation_by_type_name(implementationTypeName)
+            if not hasattr(implementation, 'EXAMPLE_SETTINGS'):
+                raise AttributeError(f'Missing attribute "EXAMPLE_SETTINGS" in {implementationTypeName}')
+

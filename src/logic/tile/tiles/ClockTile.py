@@ -8,6 +8,8 @@ from logic.tile.Tile import Tile
 
 
 class ClockTile(Tile):
+    EXAMPLE_SETTINGS = {}
+
     DATE_FORMAT = '%H:%M:%S'
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
