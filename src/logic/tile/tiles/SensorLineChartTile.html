@@ -60,7 +60,9 @@
     </div>
 
     <script>
-        Plotly.newPlot(document.getElementById('{{ chartId }}'), [{
+        function createChart_{{ chartId | replace('-', '_') }}()
+        {
+            let data = [{
                 x: {{ x }},
                 y: {{ y }},
                 fill: 'tozeroy',
@@ -72,7 +74,9 @@
                     width: 3
                 },
                 fillcolor: '{{ fillColor }}'
-            }], {
+            }];
+
+            let layout = {
                 xaxis: {
                     showgrid: false,
                     zeroline: false,
@@ -93,12 +97,18 @@
                     t: 0
                 },
                 hovermode: 'closest'
-            },
-            {
+            };
+
+            let config = {
                 displayModeBar: false,
                 displaylogo: false,
                 responsive: true,
                 locale: 'de'
-            });
+            };
+
+            Plotly.newPlot(document.getElementById('{{ chartId }}'), data, layout, config);
+        }
+
+        createChart_{{ chartId | replace('-', '_') }}();
     </script>
 </div>

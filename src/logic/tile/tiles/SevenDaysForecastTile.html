@@ -14,7 +14,9 @@
     <div class="chart" id="{{ chartId }}"></div>
 
     <script>
-        Plotly.newPlot(document.getElementById('{{ chartId }}'), [{
+        function createChart_{{ chartId | replace('-', '_') }}()
+        {
+            let data = [{
                 x: {{ formattedDates }},
                 y: {{ maxValues }},
                 text: {{ maxValues }},
@@ -55,8 +57,9 @@
                         color: 'rgba(70, 138, 221, 0.2)',
                         width: 3
                     }
-                }],
-            {
+                }];
+
+            let layout = {
                 xaxis: {
                     showgrid: false,
                     visible: true,
@@ -83,12 +86,18 @@
                     t: 5
                 },
                 hovermode: false,
-            },
-            {
+            };
+
+            let config = {
                 displayModeBar: false,
                 displaylogo: false,
                 responsive: true,
                 locale: 'de'
-            });
+            };
+
+            Plotly.newPlot(document.getElementById('{{ chartId }}'), data, layout, config);
+        }
+
+        createChart_{{ chartId | replace('-', '_') }}();
     </script>
 </div>
