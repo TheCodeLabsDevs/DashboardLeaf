@@ -38,7 +38,7 @@ class HourlyForecastTile(Tile):
             timestamp = datetime.utcfromtimestamp(timestamp)
             timestamp = timeZone.fromutc(timestamp)
 
-            temperature = 21.3
+            temperature = entry['temp']
             icon = entry['weather'][0]['id']
             rainProbability = entry['pop'] * 100
             windSpeed = entry['wind_speed'] * 3.6
