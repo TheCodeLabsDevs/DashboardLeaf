@@ -40,7 +40,7 @@ class HourlyForecastTile(Tile):
 
             temperature = entry['temp']
             icon = entry['weather'][0]['id']
-            rainProbability = entry['pop'] * 100
+            rainProbability = round(entry['pop'] * 100, -1)  # -1 rounds to the next ten
             windSpeed = entry['wind_speed'] * 3.6
 
             hourData.append({
