@@ -1,3 +1,4 @@
+import html
 import logging
 import os
 import uuid
@@ -42,6 +43,7 @@ class SensorLineChartTile(Tile):
     }
 
     DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+    DATE_FORMAT_CHART = '%H:%M:%S'
     MAX_Y_AXIS_SPACING = 2
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
@@ -118,11 +120,16 @@ class SensorLineChartTile(Tile):
     def render(self, data: Dict) -> str:
         sensorType = data['sensorInfo']['type']
         unit = self.UNIT_BY_SENSOR_TYPE.get(sensorType, '')
+        unescapedUnit = html.unescape(unit)
         icon = self.ICON_BY_SENSOR_TYPE.get(sensorType, '')
+
+        textLabels = [f'{self.__format_date(xItem)} - {yItem}{unescapedUnit}' for xItem, yItem in zip(data['x'],
+                                                                                                      data['y'])]
 
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
                                     x=data['x'],
                                     y=data['y'],
+                                    textLabels=textLabels,
                                     min=data['min'],
                                     max=data['max'],
                                     latest=data['latest'],
@@ -132,6 +139,10 @@ class SensorLineChartTile(Tile):
                                     lineColor=self._settings['lineColor'],
                                     fillColor=self._settings['fillColor'],
                                     chartId=str(uuid.uuid4()))
+
+    def __format_date(self, dateTime: str):
+        parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)
+        return datetime.strftime(parsedDateTime, self.DATE_FORMAT_CHART)
 
     def construct_blueprint(self, pageName: str, *args, **kwargs):
         return Blueprint(f'{pageName}_{__class__.__name__}_{self.get_uniqueName()}', __name__)

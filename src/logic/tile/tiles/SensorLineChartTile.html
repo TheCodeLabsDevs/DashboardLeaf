@@ -65,6 +65,7 @@
             let data = [{
                 x: {{ x }},
                 y: {{ y }},
+                text: {{ textLabels }},
                 fill: 'tozeroy',
                 type: 'scatter',
                 mode: 'lines',
@@ -73,6 +74,7 @@
                     color: '{{ lineColor }}',
                     width: 3
                 },
+                hoverinfo: 'text',
                 fillcolor: '{{ fillColor }}'
             }];
 
@@ -96,8 +98,7 @@
                     l: 0,
                     r: 0,
                     t: 0
-                },
-                hovermode: 'closest'
+                }
             };
 
             let config = {
