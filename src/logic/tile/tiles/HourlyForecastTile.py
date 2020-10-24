@@ -48,6 +48,7 @@ class HourlyForecastTile(Tile):
                 'temperature': Helpers.round_to_decimals(temperature, 0),
                 'temperatureColor': Helpers.determine_color_for_temperature(temperature),
                 'icon': icon,
+                'iconColor': Helpers.determine_color_for_weather_icon(icon),
                 'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 0)} km/h',
                 'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
                 'rainProbability': f'{Helpers.round_to_decimals(rainProbability, 0)} %'

@@ -29,13 +29,15 @@ class CurrentWeatherTile(Tile):
         currentTemperature = currentWeather['temp']
         feelsLike = currentWeather['feels_like']
         windSpeed = currentWeather['wind_speed'] * 3.6
+        icon = currentWeather['weather'][0]['id']
 
         return {
             'temperature': Helpers.round_to_decimals(currentTemperature, 1),
             'temperatureColor': Helpers.determine_color_for_temperature(currentTemperature),
             'feelsLike': Helpers.round_to_decimals(feelsLike, 1),
             'feelsLikeColor': Helpers.determine_color_for_temperature(feelsLike),
-            'icon': currentWeather['weather'][0]['id'],
+            'icon': icon,
+            'iconColor': Helpers.determine_color_for_weather_icon(icon),
             'windDegrees': currentWeather['wind_deg'],
             'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 1)} km/h',
             'windSpeedColor': Helpers.determine_color_for_wind(windSpeed)

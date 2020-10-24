@@ -66,7 +66,7 @@
         {% for item in data %}
             <div class="entry">
                 <div class="hour">{{ item['hour'] }} Uhr</div>
-                <i class="wi wi-owm-{{ item['icon'] }} icon"></i>
+                <i class="wi wi-owm-{{ item['icon'] }} icon" style="color: {{ item['iconColor'] }};"></i>
                 <div class="temperature" style="color: {{ item['temperatureColor'] }}">{{ item['temperature'] }}&deg;C</div>
                 <div class="rain">
                     <i class="wi wi-raindrops"></i>
