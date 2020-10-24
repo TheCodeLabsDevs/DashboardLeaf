@@ -33,7 +33,7 @@
         <div class="chart" id="{{ chartId }}"></div>
         <div class="icons">
             {% for icon in icons %}
-                <i class="wi wi-owm-{{ icon }} icon"></i>
+                <i class="wi wi-owm-{{ icon[0] }} icon" style="color: {{ icon[1] }};"></i>
             {% endfor %}
         </div>
     </div>
