@@ -1,4 +1,3 @@
-import logging
 import os
 
 from TheCodeLabs_BaseUtils.DefaultLogger import DefaultLogger
@@ -10,17 +9,12 @@ from blueprints import Routes
 from logic import Constants
 from logic.page.PageManager import PageManager
 from logic.service.ServiceRegistry import ServiceRegistry
-from logic.service.services.JenkinsSingleJobService import JenkinsSingleJobService
 from logic.tile.TileScheduler import TileScheduler
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 
 
 class DashboardLeaf(FlaskBaseApp):
-    SERVICES = {
-        'JenkinsSingleJob': JenkinsSingleJobService
-    }
-
     def __init__(self, appName: str):
         super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
         self._tileService = None
