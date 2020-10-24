@@ -4,16 +4,39 @@
         border-radius: 1vh;
     }
 
-    .sevenDaysForecast .chart {
+    .sevenDaysForecast .content {
+        display: flex;
+        flex-direction: column;
         width: 90%;
         height: 90%;
-        margin: auto;
+    }
+
+    .sevenDaysForecast .chart {
+        flex: 1;
+    }
+
+    .sevenDaysForecast .icons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        padding: 1vmin 0;
+    }
+
+    .sevenDaysForecast .icon {
+        font-size: 3vmin;
     }
 </style>
 
 <div class="sevenDaysForecast">
-    <div class="chart" id="{{ chartId }}"></div>
-
+    <div class="content">
+        <div class="chart" id="{{ chartId }}"></div>
+        <div class="icons">
+            {% for icon in icons %}
+                <i class="wi wi-owm-{{ icon }} icon"></i>
+            {% endfor %}
+        </div>
+    </div>
     <script>
         function createChart_{{ chartId | replace('-', '_') }}()
         {
@@ -24,7 +47,7 @@
                 mode: 'lines+text',
                 textfont: {
                     family: 'sans-serif',
-                    size: 20,
+                    size: 18,
                     color: 'rgba(230, 76, 60, 1)',
                 },
                 type: 'scatter',
@@ -45,7 +68,7 @@
                     mode: 'lines+text',
                     textfont: {
                         family: 'sans-serif',
-                        size: 20,
+                        size: 18,
                         color: 'rgba(70, 138, 221, 1))'
                     },
                     type: 'scatter',
@@ -82,9 +105,9 @@
                 showlegend: false,
                 margin: {
                     b: 30,
-                    l: 5,
-                    r: 5,
-                    t: 5
+                    l: 0,
+                    r: 0,
+                    t: 0
                 },
                 hovermode: false,
             };

@@ -33,10 +33,13 @@ class SevenDaysForecastTile(Tile):
         forecast = weatherData['daily']
 
         forecastData = {}
+        icons = []
         for day in forecast:
             date = day['dt']
             date = datetime.fromtimestamp(date)
             date = datetime.strftime(date, self.DATE_FORMAT)
+            icon = day['weather'][0]['id']
+            icons.append(icon)
             forecastData[date] = (int(day['temp']['min']), int(day['temp']['max']))
 
         minValues = [x[0] for x in forecastData.values()]
@@ -45,7 +48,8 @@ class SevenDaysForecastTile(Tile):
         return {
             'formattedDates': list(forecastData.keys()),
             'minValues': minValues,
-            'maxValues': maxValues
+            'maxValues': maxValues,
+            'icons': icons
         }
 
     def render(self, data: Dict) -> str:
@@ -53,6 +57,7 @@ class SevenDaysForecastTile(Tile):
                                     formattedDates=data['formattedDates'],
                                     minValues=data['minValues'],
                                     maxValues=data['maxValues'],
+                                    icons=data['icons'],
                                     chartId=str(uuid.uuid4()))
 
     def construct_blueprint(self, pageName: str, *args, **kwargs):
