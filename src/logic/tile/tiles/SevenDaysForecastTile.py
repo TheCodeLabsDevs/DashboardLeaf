@@ -39,7 +39,7 @@ class SevenDaysForecastTile(Tile):
             date = datetime.fromtimestamp(date)
             date = datetime.strftime(date, self.DATE_FORMAT)
             icon = day['weather'][0]['id']
-            iconColor = Helpers.determine_color_for_weather_icon(icon)
+            iconColor = Helpers.determine_color_for_weather_icon(icon, True)
             icons.append((icon, iconColor))
             forecastData[date] = (int(day['temp']['min']), int(day['temp']['max']))
 

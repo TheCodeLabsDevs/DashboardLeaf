@@ -63,7 +63,13 @@
 
 <div class="currentTemperatureTile">
     <div class="content">
-        <i class="wi wi-owm-{{ data['icon'] }} icon" style="color: {{ data['iconColor'] }};"></i>
+        {% if data['isDayTime'] %}
+            {% set iconPrefix = 'wi-owm-day-' %}
+        {% else %}
+            {% set iconPrefix = 'wi-owm-night-' %}
+        {% endif %}
+
+        <i class="wi {{ iconPrefix }}{{ data['icon'] }} icon" style="color: {{ data['iconColor'] }};"></i>
         <div class="entries">
             <div class="temperatures">
                 <div class="temperature-entry">

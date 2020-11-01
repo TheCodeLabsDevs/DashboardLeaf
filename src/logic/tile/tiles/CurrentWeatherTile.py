@@ -1,6 +1,8 @@
 import os
+from datetime import datetime
 from typing import Dict
 
+import pytz
 from flask import Blueprint
 
 from logic import Helpers
@@ -12,7 +14,8 @@ class CurrentWeatherTile(Tile):
     EXAMPLE_SETTINGS = {
         "lat": "51.012825",
         "lon": "13.666365",
-        "apiKey": "myApiKey"
+        "apiKey": "myApiKey",
+        "timeZone": "Europe/Berlin"
     }
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
@@ -23,6 +26,8 @@ class CurrentWeatherTile(Tile):
 
         fetchIntervalInSeconds = 60 * 10  # query api less often
 
+        timeZone = pytz.timezone(self._settings['timeZone'])
+
         # cache key will be determined in service
         weatherData = weatherService.get_data('', fetchIntervalInSeconds, self._settings)
         currentWeather = weatherData['current']
@@ -30,6 +35,9 @@ class CurrentWeatherTile(Tile):
         feelsLike = currentWeather['feels_like']
         windSpeed = currentWeather['wind_speed'] * 3.6
         icon = currentWeather['weather'][0]['id']
+        sunrise = Helpers.timestamp_to_timezone(currentWeather['sunrise'], timeZone).timestamp()
+        sunset = Helpers.timestamp_to_timezone(currentWeather['sunset'], timeZone).timestamp()
+        isDayTime = Helpers.is_dayTime(sunrise, sunset)
 
         return {
             'temperature': Helpers.round_to_decimals(currentTemperature, 1),
@@ -37,10 +45,11 @@ class CurrentWeatherTile(Tile):
             'feelsLike': Helpers.round_to_decimals(feelsLike, 1),
             'feelsLikeColor': Helpers.determine_color_for_temperature(feelsLike),
             'icon': icon,
-            'iconColor': Helpers.determine_color_for_weather_icon(icon),
+            'iconColor': Helpers.determine_color_for_weather_icon(icon, isDayTime),
             'windDegrees': currentWeather['wind_deg'],
             'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 1)} km/h',
-            'windSpeedColor': Helpers.determine_color_for_wind(windSpeed)
+            'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
+            'isDayTime': isDayTime
         }
 
     def render(self, data: Dict) -> str:

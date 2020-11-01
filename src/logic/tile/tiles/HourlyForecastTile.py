@@ -31,27 +31,31 @@ class HourlyForecastTile(Tile):
         # cache key will be determined in service
         weatherData = weatherService.get_data('', fetchIntervalInSeconds, self._settings)
 
+        sunrise = Helpers.timestamp_to_timezone(weatherData['current']['sunrise'], timeZone).timestamp()
+        sunset = Helpers.timestamp_to_timezone(weatherData['current']['sunset'], timeZone).timestamp()
+
         hourData = []
         hourlyForecast = weatherData['hourly']
         for entry in hourlyForecast[:12]:
-            timestamp = entry['dt']
-            timestamp = datetime.utcfromtimestamp(timestamp)
-            timestamp = timeZone.fromutc(timestamp)
+            timestamp = Helpers.timestamp_to_timezone(entry['dt'], timeZone)
 
             temperature = entry['temp']
             icon = entry['weather'][0]['id']
             rainProbability = round(entry['pop'] * 100, -1)  # -1 rounds to the next ten
             windSpeed = entry['wind_speed'] * 3.6
 
+            isDayTime = Helpers.is_dayTime(sunrise, sunset, currentTimestamp=timestamp.timestamp())
+
             hourData.append({
                 'hour': timestamp.strftime('%H'),
                 'temperature': Helpers.round_to_decimals(temperature, 0),
                 'temperatureColor': Helpers.determine_color_for_temperature(temperature),
                 'icon': icon,
-                'iconColor': Helpers.determine_color_for_weather_icon(icon),
+                'iconColor': Helpers.determine_color_for_weather_icon(icon, isDayTime),
                 'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 0)} km/h',
                 'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
-                'rainProbability': f'{Helpers.round_to_decimals(rainProbability, 0)} %'
+                'rainProbability': f'{Helpers.round_to_decimals(rainProbability, 0)} %',
+                'isDayTime': isDayTime
             })
 
         return {
