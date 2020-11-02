@@ -31,8 +31,8 @@ class HourlyForecastTile(Tile):
         # cache key will be determined in service
         weatherData = weatherService.get_data('', fetchIntervalInSeconds, self._settings)
 
-        sunrise = Helpers.timestamp_to_timezone(weatherData['current']['sunrise'], timeZone).timestamp()
-        sunset = Helpers.timestamp_to_timezone(weatherData['current']['sunset'], timeZone).timestamp()
+        sunrise = Helpers.timestamp_to_timezone(weatherData['current']['sunrise'], timeZone)
+        sunset = Helpers.timestamp_to_timezone(weatherData['current']['sunset'], timeZone)
 
         hourData = []
         hourlyForecast = weatherData['hourly']
@@ -44,7 +44,7 @@ class HourlyForecastTile(Tile):
             rainProbability = round(entry['pop'] * 100, -1)  # -1 rounds to the next ten
             windSpeed = entry['wind_speed'] * 3.6
 
-            isDayTime = Helpers.is_dayTime(sunrise, sunset, currentTimestamp=timestamp.timestamp())
+            isDayTime = Helpers.is_dayTime(sunrise, sunset, currentTimestamp=timestamp)
 
             hourData.append({
                 'hour': timestamp.strftime('%H'),

@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytz
+
 from logic import Constants
 
 
@@ -50,12 +52,12 @@ def determine_color_for_weather_icon(iconId: int, isDayTime: bool):
         return Constants.WHITE.to_rgba()
 
 
-def is_dayTime(sunrise: int, sunset: int, currentTimestamp: int = None) -> bool:
+def is_dayTime(sunrise: datetime, sunset: datetime, currentTimestamp: datetime) -> bool:
     if not currentTimestamp:
-        currentTimestamp = int(datetime.now().timestamp())
+        currentTimestamp = datetime.now()
     return sunrise < currentTimestamp < sunset
 
 
-def timestamp_to_timezone(timestamp: int, timeZone: datetime.tzinfo):
-    timestamp = datetime.utcfromtimestamp(timestamp)
-    return timeZone.fromutc(timestamp)
+def timestamp_to_timezone(timestamp: int, timeZone: datetime.tzinfo) -> datetime:
+    timestamp = datetime.fromtimestamp(timestamp, pytz.timezone('UTC'))
+    return timestamp.astimezone(timeZone)

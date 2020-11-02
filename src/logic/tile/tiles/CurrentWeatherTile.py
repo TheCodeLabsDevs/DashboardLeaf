@@ -35,9 +35,9 @@ class CurrentWeatherTile(Tile):
         feelsLike = currentWeather['feels_like']
         windSpeed = currentWeather['wind_speed'] * 3.6
         icon = currentWeather['weather'][0]['id']
-        sunrise = Helpers.timestamp_to_timezone(currentWeather['sunrise'], timeZone).timestamp()
-        sunset = Helpers.timestamp_to_timezone(currentWeather['sunset'], timeZone).timestamp()
-        isDayTime = Helpers.is_dayTime(sunrise, sunset)
+        sunrise = Helpers.timestamp_to_timezone(currentWeather['sunrise'], timeZone)
+        sunset = Helpers.timestamp_to_timezone(currentWeather['sunset'], timeZone)
+        isDayTime = Helpers.is_dayTime(sunrise, sunset, datetime.now(tz=timeZone))
 
         return {
             'temperature': Helpers.round_to_decimals(currentTemperature, 1),
