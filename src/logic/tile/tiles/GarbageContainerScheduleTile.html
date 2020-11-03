@@ -1,0 +1,68 @@
+<style>
+    .garbageContainerScheduleTile {
+        background-color: #2F2F2F;
+        font-size: 3.5vmin;
+        border-radius: 1vh;
+        font-weight: bold;
+        flex-direction: row;
+    }
+
+    .garbageContainerScheduleTile .icon {
+        font-size: 10vmin;
+    }
+
+    .garbageContainerScheduleTile .content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 85%;
+        height: 85%;
+    }
+
+    .garbageContainerScheduleTile .entries {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+    }
+
+    .garbageContainerScheduleTile .temperatures {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .garbageContainerScheduleTile .temperature-entry {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-left: 3vmin;
+        justify-content: space-between;
+    }
+
+    .garbageContainerScheduleTile .label {
+        font-size: 2vmin;
+    }
+
+    .garbageContainerScheduleTile .wind {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 2vmin;
+        padding-top: 1vmin;
+    }
+
+    .garbageContainerScheduleTile .windSpeed {
+        padding-left: 1vmin;
+    }
+</style>
+
+<div class="garbageContainerScheduleTile">
+    <div class="content">
+        {{ nextEventDate }}
+    </div>
+</div>
