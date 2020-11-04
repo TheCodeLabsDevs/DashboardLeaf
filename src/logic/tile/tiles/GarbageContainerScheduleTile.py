@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Dict, List
 
 from flask import Blueprint
+from babel.dates import format_date
 
 from logic.service.ServiceManager import ServiceManager
 from logic.service.services.IcsService import CalendarEvent
@@ -10,11 +11,18 @@ from logic.tile.Tile import Tile
 
 
 class GarbageContainerScheduleTile(Tile):
-    DATE_FORMAT = '%d.%m. (%a)'
+    DATE_FORMAT = 'dd.MM. (E)'
+
+    ICON_BY_GARBAGE_TYPE = {
+        'Papier': 'garbage_paper',
+        'Gelbe Säcke': 'garbage_plastic',
+        'Bioabfall': 'garbage_bio',
+        'Restabfall': 'garbage_waste'
+    }
 
     EXAMPLE_SETTINGS = {
         "path": "path/to/my/calendar.ics",
-        "garbageType": "Papier" or "Gelbe Säcke" or "Bioabfall" or "Restabfall"
+        "garbageType": "Papier" or "Gelbe Säcke" or "Bioabfall" or "Restabfall",
     }
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
@@ -31,13 +39,14 @@ class GarbageContainerScheduleTile(Tile):
 
         nextEventDate = '--.--.'
         if nextEvent:
-            nextEventDate = datetime.strftime(nextEvent.start, self.DATE_FORMAT)
+            nextEventDate = nextEvent.start
+            nextEventDate = format_date(nextEventDate, self.DATE_FORMAT, 'de')
 
-        # TODO: set locale for weekday
-        # TODO: set icon for garbageType
+        iconName = self.ICON_BY_GARBAGE_TYPE[self._settings['garbageType']]
 
         return {
-            'nextEventDate': nextEventDate
+            'nextEventDate': nextEventDate,
+            'iconFileName': f'{iconName}.png'
         }
 
     def __find_next_date(self, events: List[CalendarEvent]) -> CalendarEvent or None:
@@ -49,7 +58,7 @@ class GarbageContainerScheduleTile(Tile):
         return None
 
     def render(self, data: Dict) -> str:
-        return Tile.render_template(os.path.dirname(__file__), __class__.__name__, nextEventDate=data['nextEventDate'])
+        return Tile.render_template(os.path.dirname(__file__), __class__.__name__, data=data)
 
     def construct_blueprint(self, pageName: str, *args, **kwargs):
         return Blueprint(f'{pageName}_{__class__.__name__}_{self.get_uniqueName()}', __name__)
