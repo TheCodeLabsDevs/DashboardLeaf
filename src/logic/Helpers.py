@@ -55,7 +55,7 @@ def determine_color_for_weather_icon(iconId: int, isDayTime: bool):
 def is_dayTime(sunrise: datetime, sunset: datetime, currentTimestamp: datetime) -> bool:
     if not currentTimestamp:
         currentTimestamp = datetime.now()
-    return sunrise < currentTimestamp < sunset
+    return sunrise.time() < currentTimestamp.time() < sunset.time()
 
 
 def timestamp_to_timezone(timestamp: int, timeZone: datetime.tzinfo) -> datetime:

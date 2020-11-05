@@ -49,6 +49,13 @@ class HelpersTest(unittest.TestCase):
 
         self.assertTrue(Helpers.is_dayTime(sunrise, sunset, now))
 
+    def test_is_dayTime_differentDays(self):
+        sunrise = datetime(year=2020, month=11, day=1, hour=8, minute=0, second=0)
+        sunset = datetime(year=2020, month=11, day=1, hour=17, minute=0, second=0)
+
+        currentTimestamp = datetime(year=2020, month=11, day=2, hour=12, minute=0, second=0)
+        self.assertTrue(Helpers.is_dayTime(sunrise, sunset, currentTimestamp))
+
     def test_timestamp_to_timezone_berlin(self):
         timestamp = 1604331478
         timeZone = pytz.timezone('Europe/Berlin')
