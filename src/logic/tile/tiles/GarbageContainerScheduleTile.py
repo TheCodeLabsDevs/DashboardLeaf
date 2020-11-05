@@ -11,7 +11,7 @@ from logic.tile.Tile import Tile
 
 
 class GarbageContainerScheduleTile(Tile):
-    DATE_FORMAT = 'dd.MM. (E)'
+    DATE_FORMAT = 'E dd.MM'
 
     ICON_BY_GARBAGE_TYPE = {
         'Papier': 'garbage_paper',
@@ -38,15 +38,22 @@ class GarbageContainerScheduleTile(Tile):
         nextEvent = self.__find_next_date(eventsForGarbageType)
 
         nextEventDate = '--.--.'
+        remainingDays = ''
         if nextEvent:
             nextEventDate = nextEvent.start
+            if isinstance(nextEventDate, datetime):
+                remainingDays = nextEventDate - datetime.now()
+            else:
+                remainingDays = nextEventDate - datetime.now().date()
+            remainingDays = remainingDays.days
             nextEventDate = format_date(nextEventDate, self.DATE_FORMAT, 'de')
 
         iconName = self.ICON_BY_GARBAGE_TYPE[self._settings['garbageType']]
 
         return {
             'nextEventDate': nextEventDate,
-            'iconFileName': f'{iconName}.png'
+            'iconFileName': f'{iconName}.png',
+            'remainingDays': remainingDays
         }
 
     def __find_next_date(self, events: List[CalendarEvent]) -> CalendarEvent or None:
