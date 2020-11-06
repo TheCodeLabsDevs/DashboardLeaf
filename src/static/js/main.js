@@ -3,7 +3,8 @@ let options = {
     margin: '2vh',
     column: 12,
     disableDrag: true,
-    disableResize: true
+    disableResize: true,
+    minWidth: 650
 };
 
 let grid = GridStack.init(options);
@@ -14,27 +15,27 @@ let socket = io.connect(url + '/update');
 socket.on('tileUpdate', function(msg)
 {
     let data = JSON.parse(msg);
-    let node = document.querySelector('#tile-' + data["fullName"] + ' .container');
+    let node = document.querySelector('#tile-' + data['fullName'] + ' .container');
 
     if(node === null)
     {
         return;
     }
 
-    if(data["content"] === null)
+    if(data['content'] === null)
     {
         node.innerHTML = '<div class="placeholder">❌ Data not yet available</div>';
         return;
     }
 
-    node.innerHTML = data["content"];
+    node.innerHTML = data['content'];
 
     // scripts have to be added dynamically instead of "innerHTML"
     // (otherwise they won't be executed due to browser code injection counter measurements)
     let scriptTags = node.querySelectorAll('script');
     for(script of scriptTags)
     {
-        let newScript = document.createElement("script");
+        let newScript = document.createElement('script');
         let inlineScript = document.createTextNode(script.innerText);
         newScript.appendChild(inlineScript);
         script.parentNode.appendChild(newScript);
@@ -65,4 +66,37 @@ function isMobileDevice()
         }
     })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
+}
+
+
+if(isMobileDevice())
+{
+    onOrientationChange();
+}
+
+function onOrientationChange()
+{
+    let isPortrait = document.documentElement.clientWidth < document.documentElement.clientHeight;
+    if(isPortrait)
+    {
+        let viewportElement = document.getElementById('viewport');
+        if(viewportElement === null)
+        {
+            let newMeta = document.createElement('meta');
+            newMeta.name = 'viewport';
+            newMeta.id = 'viewport';
+            newMeta.content = 'width=device-width, initial-scale=1.0';
+            document.getElementsByTagName('head')[0].appendChild(newMeta);
+        }
+    }
+    else
+    {
+        let viewportElement = document.getElementById('viewport');
+        if(viewportElement !== null)
+        {
+            viewportElement.remove();
+        }
+    }
+
+    grid.update();
 }
