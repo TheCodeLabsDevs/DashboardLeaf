@@ -16,7 +16,7 @@
     </head>
     <body>
         <div class="grid-stack">
-            {% for tileName, tileLayoutSettings in page.tileLayouts.items() %}
+            {% for tileName, tileLayoutSettings in page.get_tile_layouts_sorted().items() %}
                 <div class="grid-stack-item"
                      id="tile-{{ page.uniqueName | replace(' ', '_') }}_{{ tileName }}"
                      data-gs-x="{{ tileLayoutSettings.x }}" data-gs-y="{{ tileLayoutSettings.y }}"
