@@ -3,7 +3,7 @@ let options = {
     margin: '2vh',
     column: 12,
     disableDrag: true,
-    disableResize: true,
+    disableResize: true
 };
 
 let grid = GridStack.init(options);
