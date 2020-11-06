@@ -64,15 +64,9 @@
 <div class="hourlyForecastTile">
     <div class="content">
         {% for item in data %}
-            {% if data['isDayTime'] %}
-                {% set iconPrefix = 'wi-owm-day-' %}
-            {% else %}
-                {% set iconPrefix = 'wi-owm-night-' %}
-            {% endif %}
-
             <div class="entry">
                 <div class="hour">{{ item['hour'] }} Uhr</div>
-                <i class="wi {{ iconPrefix }}{{ item['icon'] }} icon" style="color: {{ item['iconColor'] }};"></i>
+                <i class="wi {{ item['icon'] }} icon" style="color: {{ item['iconColor'] }};"></i>
                 <div class="temperature" style="color: {{ item['temperatureColor'] }}">{{ item['temperature'] }}&deg;C</div>
                 <div class="rain">
                     <i class="wi wi-raindrops"></i>
