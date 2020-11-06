@@ -37,11 +37,12 @@ class SevenDaysForecastTile(Tile):
         for day in forecast:
             date = day['dt']
             date = datetime.fromtimestamp(date)
-            date = datetime.strftime(date, self.DATE_FORMAT)
+            formattedDate = datetime.strftime(date, self.DATE_FORMAT)
             icon = day['weather'][0]['id']
             iconColor = Helpers.determine_color_for_weather_icon(icon, True)
-            icons.append((icon, iconColor))
-            forecastData[date] = (int(day['temp']['min']), int(day['temp']['max']))
+            isWeekDay = date.weekday() < 5
+            icons.append((icon, iconColor, isWeekDay))
+            forecastData[formattedDate] = (int(day['temp']['min']), int(day['temp']['max']))
 
         minValues = [x[0] for x in forecastData.values()]
         maxValues = [x[1] for x in forecastData.values()]

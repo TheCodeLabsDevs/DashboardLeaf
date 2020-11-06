@@ -20,11 +20,15 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-around;
-        padding: 1vmin 0;
     }
 
     .sevenDaysForecast .icon {
+        padding: 1vmin 0.5vmin;
         font-size: 3vmin;
+    }
+
+    .sevenDaysForecast .weekend {
+        border-top: 0.3vmin solid #E64C3C;
     }
 </style>
 
@@ -33,7 +37,7 @@
         <div class="chart" id="{{ chartId }}"></div>
         <div class="icons">
             {% for icon in icons %}
-                <i class="wi wi-owm-{{ icon[0] }} icon" style="color: {{ icon[1] }};"></i>
+                <i class="wi wi-owm-{{ icon[0] }} icon {% if not icon[2] %}weekend{% endif %} " style="color: {{ icon[1] }};"></i>
             {% endfor %}
         </div>
     </div>
@@ -48,7 +52,7 @@
                 textfont: {
                     family: 'sans-serif',
                     size: 18,
-                    color: 'rgba(230, 76, 60, 1)',
+                    color: 'rgb(230,76,60)',
                 },
                 type: 'scatter',
                 marker: {
