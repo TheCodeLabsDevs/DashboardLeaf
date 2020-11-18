@@ -62,21 +62,31 @@
     <script>
         function createChart_{{ chartId | replace('-', '_') }}()
         {
-            let data = [{
-                x: {{ x }},
-                y: {{ y }},
-                text: {{ textLabels }},
-                fill: 'tozeroy',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    shape: 'spline',
-                    color: '{{ lineColor }}',
-                    width: 3
+            let data = [
+                {
+                    x: {{ x }},
+                    y: {{ y }},
+                    text: {{ textLabels }},
+                    fill: 'tozeroy',
+                    type: 'scatter',
+                    mode: 'lines',
+                    line: {
+                        shape: 'spline',
+                        color: '{{ lineColor }}',
+                        width: 3
+                    },
+                    hoverinfo: 'text',
+                    fillcolor: '{{ fillColor }}'
                 },
-                hoverinfo: 'text',
-                fillcolor: '{{ fillColor }}'
-            }];
+                {
+                    x: {{ ghostTraceX }},
+                    y: {{ ghostTraceY }},
+                    fill: 'tozeroy',
+                    type: 'scatter',
+                    mode: 'none',
+                    fillcolor: '{{ fillColor }}'
+                }
+            ];
 
             let layout = {
                 xaxis: {

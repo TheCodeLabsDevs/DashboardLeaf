@@ -75,13 +75,24 @@ class SensorLineChartTile(Tile):
                                                     endDateTime,
                                                     storageLeafService)
 
+        # Check if all values are above zero and the min value for the sensor group is below zero.
+        # Therefore a ghost trace must be generated that fills the area underneath the x-axis.
+        ghostTraceX = []
+        ghostTraceY = []
+        if all(float(i) >= 0 for i in y):
+            if minValue < 0:
+                ghostTraceX = [x[0], x[-1]]
+                ghostTraceY = [minValue, minValue]
+
         return {
             'latest': latest,
             'x': x,
             'y': y,
             'sensorInfo': sensorData['sensorInfo'],
             'min': minValue,
-            'max': maxValue
+            'max': maxValue,
+            'ghostTraceX': ghostTraceX,
+            'ghostTraceY': ghostTraceY
         }
 
     def __get_min_and_max(self, pageName: str, sensorType: Dict,
@@ -138,7 +149,9 @@ class SensorLineChartTile(Tile):
                                     title=self._settings['title'],
                                     lineColor=self._settings['lineColor'],
                                     fillColor=self._settings['fillColor'],
-                                    chartId=str(uuid.uuid4()))
+                                    chartId=str(uuid.uuid4()),
+                                    ghostTraceX=data['ghostTraceX'],
+                                    ghostTraceY=data['ghostTraceY'])
 
     def __format_date(self, dateTime: str):
         parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)
