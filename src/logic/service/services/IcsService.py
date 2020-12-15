@@ -55,13 +55,15 @@ class IcsService(MultiCacheKeyService):
 
                 event.url = component.get('URL')
                 events.append(event)
+
+        events = sorted(events, key=lambda event: event.start)
         return {'events': events}
 
 
 if __name__ == '__main__':
     s = IcsService()
 
-    events = s.get_data('0815', 5, {'path': 'C:/Users/RobertG/Desktop/abfallkalender_2020_richard-wagner-str.ics'})['events']
+    events = s.get_data('0815', 5, {'path': '../../../../abfallkalender_2021_richard-wagner-str.ics'})['events']
     for x in events:
         # if 'Papier' in x.summary:
-        print(x.summary)
+        print(x.summary, x.start)
