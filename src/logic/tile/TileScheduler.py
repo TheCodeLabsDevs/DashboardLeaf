@@ -35,10 +35,16 @@ class TileScheduler:
             LOGGER.warning(f'Tile "{fullName}" already registered')
             return
 
+        seconds = tile.get_intervalInSeconds()
+        nextRunTime = datetime.now()
+        if seconds == -1:  # disable automatic refresh
+            seconds = 9999999999  # 317 years
+            nextRunTime = None  # job is paused
+
         job = self.__scheduler.add_job(tile.update, 'interval',
                                        [pageName],
-                                       seconds=tile.get_intervalInSeconds(),
-                                       next_run_time=datetime.now())
+                                       seconds=seconds,
+                                       next_run_time=nextRunTime)
 
         self.__jobs[fullName] = job
         self.__cache[fullName] = None

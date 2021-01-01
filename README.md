@@ -37,7 +37,7 @@ The following snippet shows an example of a tile in the settings files.
 
 - `tileType` - References the name of a tile class. This class must exist on start of the server.
 - `uniqueName` - This name must be unique across the complete page.
-- `intervalInSeconds` - Specifies the automatic refresh rate in seconds.
+- `intervalInSeconds` - Specifies the automatic refresh rate in seconds (Use `-1` to disable automatic refresh).
 - `x` - Horizontal position in the grid, starting by 0 (**Note:** Positions should not be assigned more than once!)
 - `y` - Vertical position in the grid, starting by 0 (**Note:** Positions should not be assigned more than once!)
 - `width` - The tile's width (minimum is 1 maximum is 12 on desktop horizontal screens)
