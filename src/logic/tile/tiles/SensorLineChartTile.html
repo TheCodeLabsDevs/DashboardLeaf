@@ -22,7 +22,9 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 5%;
+        {% if not showAxes %}
+            padding-bottom: 5%;
+        {% endif %}
     }
 
     .sensorLineChartTile .title {
@@ -52,7 +54,9 @@
         <div class="header">
             <div class="header-left">
                 <div class="title">{{ title }}</div>
-                <div class="value">{{ latest }}{{ unit }}</div>
+                {% if not showAxes %}
+                    <div class="value">{{ latest }}{{ unit }}</div>
+                {% endif %}
             </div>
             <i class="wi {{ icon }}"></i>
         </div>
@@ -91,29 +95,45 @@
             let layout = {
                 xaxis: {
                     showgrid: false,
-                    zeroline: false,
-                    visible: false,
+                    zeroline: {{ showAxes | lower }},
+                    visible: {{ showAxes | lower }},
+                    showspikes: {{ showAxes | lower }},
+                    spikedash: 'solid',
+                    spikecolor: 'white',
+                    spikethickness: 2,
+                    tickcolor: 'white',
+                    zerolinecolor: 'white',
+                    linecolor: 'white',
+                    tickfont: {
+                        color: 'white'
+                    }
                 },
                 yaxis: {
                     showgrid: false,
-                    zeroline: false,
-                    visible: false,
-                    range: [{{ min }}, {{ max }}]
+                    zeroline: {{ showAxes | lower }},
+                    visible: {{ showAxes | lower }},
+                    range: [{{ min }}, {{ max }}],
+                    tickcolor: 'white',
+                    zerolinecolor: 'white',
+                    linecolor: 'white',
+                    tickfont: {
+                        color: 'white'
+                    }
                 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
                 showlegend: false,
                 margin: {
-                    b: 0,
-                    l: 0,
-                    r: 0,
+                    b: {% if showAxes %}50{% else %}0{% endif %},
+                    l: {% if showAxes %}50{% else %}0{% endif %},
+                    r: {% if showAxes %}50{% else %}0{% endif %},
                     t: 0
                 },
                 dragmode: !isMobileDevice()
             };
 
             let config = {
-                displayModeBar: false,
+                displayModeBar: {{ showAxes | lower }},
                 displaylogo: false,
                 responsive: true,
                 locale: 'de'

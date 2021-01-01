@@ -29,7 +29,8 @@ class SensorLineChartTile(Tile):
         "numberOfHoursToShow": 4,
         "decimals": 1,
         "lineColor": "rgba(254, 151, 0, 1)",
-        "fillColor": "rgba(254, 151, 0, 0.2)"
+        "fillColor": "rgba(254, 151, 0, 0.2)",
+        "showAxes": True
     }
 
     UNIT_BY_SENSOR_TYPE = {
@@ -137,6 +138,11 @@ class SensorLineChartTile(Tile):
         textLabels = [f'{self.__format_date(xItem)} - {yItem}{unescapedUnit}' for xItem, yItem in zip(data['x'],
                                                                                                       data['y'])]
 
+        title = self._settings['title']
+        if self._settings['showAxes']:
+            days = int(self._settings['numberOfHoursToShow'] / 24)
+            title = f'{title} - {days} days'
+
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
                                     x=data['x'],
                                     y=data['y'],
@@ -146,12 +152,13 @@ class SensorLineChartTile(Tile):
                                     latest=data['latest'],
                                     unit=unit,
                                     icon=icon,
-                                    title=self._settings['title'],
+                                    title=title,
                                     lineColor=self._settings['lineColor'],
                                     fillColor=self._settings['fillColor'],
                                     chartId=str(uuid.uuid4()),
                                     ghostTraceX=data['ghostTraceX'],
-                                    ghostTraceY=data['ghostTraceY'])
+                                    ghostTraceY=data['ghostTraceY'],
+                                    showAxes=self._settings['showAxes'])
 
     def __format_date(self, dateTime: str):
         parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)
