@@ -34,13 +34,21 @@
     .sensorLineChartTile .header-left {
         display: flex;
         flex-direction: column;
-        padding-top: 3%;
+        {% if showAxes %}
+            padding-top: 1%;
+        {% else %}
+            padding-top: 3%;
+        {% endif %}
         padding-left: 5%;
     }
 
     .sensorLineChartTile i {
         margin-right: 5%;
-        font-size: 3.8vmin;
+        {% if showAxes %}
+            font-size: 2.5vmin;
+        {% else %}
+            font-size: 3.8vmin;
+        {% endif %}
     }
 
     .sensorLineChartTile .title,
