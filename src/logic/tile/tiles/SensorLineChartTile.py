@@ -74,7 +74,8 @@ class SensorLineChartTile(Tile):
                                                     sensorData['sensorInfo']['type'],
                                                     startDateTime,
                                                     endDateTime,
-                                                    storageLeafService)
+                                                    storageLeafService,
+                                                    y)
 
         # Check if all values are above zero and the min value for the sensor group is below zero.
         # Therefore a ghost trace must be generated that fills the area underneath the x-axis.
@@ -98,9 +99,17 @@ class SensorLineChartTile(Tile):
 
     def __get_min_and_max(self, pageName: str, sensorType: Dict,
                           startDateTime: str, endDateTime: str,
-                          storageLeafService: MultiCacheKeyService):
+                          storageLeafService: MultiCacheKeyService, y: List):
         if sensorType == SensorType.HUMIDITY:
             return 0, 100
+
+        # prevent fetching min/max from StorageLeaf as this would consume a lot of time due to huge timespans
+        if self._settings['showAxes']:
+            yValues = [float(item) for item in y]
+            if yValues:
+                return min(0.0, min(yValues)), max(yValues) + self.MAX_Y_AXIS_SPACING
+            else:
+                return 0, 0 + self.MAX_Y_AXIS_SPACING
 
         minMaxSettings = {
             'url': self._settings['url'],
