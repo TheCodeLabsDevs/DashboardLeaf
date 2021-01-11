@@ -10,11 +10,10 @@
         <div class="main">
             <div class="content">
                 <h2>Available Pages</h2>
-                <ul>
-                    {% for name in pageNames %}
-                        <li><a href="{{ url_for("routes.show_page", pageName=name) }}">{{ name }}</a></li>
-                    {% endfor %}
-                </ul>
+                <div class="spacer"></div>
+                {% for name in pageNames %}
+                    <a class="page-item" href="{{ url_for("routes.show_page", pageName=name) }}">{{ name }}</a>
+                {% endfor %}
             </div>
         </div>
     </body>

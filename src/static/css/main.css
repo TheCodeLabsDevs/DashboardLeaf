@@ -52,3 +52,26 @@ body {
     margin: auto;
     text-align: center;
 }
+
+.spacer {
+    margin-bottom: 5vmin;
+}
+
+.page-item {
+    display: block;
+    background-color: #616161;
+    text-align: center;
+    border-radius: 1vh;
+    margin: 2vmin;
+    padding: 2vmin;
+
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 600px) {
+    .content {
+        width: 90%;
+    }
+}
