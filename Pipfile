@@ -24,4 +24,7 @@ Babel = "==2.8.0"
 icalendar = "==4.0.7"
 python-jenkins = "==1.5.0"
 
+# tiles
+timeago = "==1.0.15"
+
 [dev-packages]

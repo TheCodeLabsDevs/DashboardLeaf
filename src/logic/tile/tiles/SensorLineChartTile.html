@@ -42,13 +42,42 @@
         padding-left: 5%;
     }
 
-    .sensorLineChartTile i {
+    .sensorLineChartTile .header-right {
         margin-right: 5%;
+    }
+
+    .sensorLineChartTile i {
         {% if showAxes %}
             font-size: 2.5vmin;
         {% else %}
             font-size: 3.8vmin;
         {% endif %}
+    }
+
+    .sensorLineChartTile .warning {
+        display: flex;
+        flex-direction: row;
+        color: #FF0000;
+        padding-right: 2vmin;
+        align-items: center;
+        align-self: flex-start;
+        flex-grow: 1;
+        justify-content: flex-end;
+
+        {% if showAxes %}
+            padding-top: 1%;
+        {% else %}
+            padding-top: 3%;
+        {% endif %}
+    }
+
+    .sensorLineChartTile .warning i {
+        font-size: 2.5vmin;
+        padding-right: 1vmin;
+    }
+
+    .sensorLineChartTile .warning-text {
+        font-size: 1.5vmin;
     }
 
     .sensorLineChartTile .title,
@@ -66,7 +95,15 @@
                     <div class="value">{{ latest }}{{ unit }}</div>
                 {% endif %}
             </div>
-            <i class="wi {{ icon }}"></i>
+            {% if timeAgo %}
+                <div class="warning">
+                    <i class="material-icons icon-warning">warning</i>
+                    <div class="warning-text">{{ timeAgo }}</div>
+                </div>
+            {% endif %}
+            <div class="header-right">
+                <i class="wi {{ icon }}"></i>
+            </div>
         </div>
         <div class="chart" id="{{ chartId }}"></div>
     </div>

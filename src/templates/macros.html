@@ -1,4 +1,4 @@
-{% macro header() -%}
+{% macro header(addViewport) -%}
     <meta charset="UTF-8"/>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -6,5 +6,7 @@
 
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    {% if addViewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    {% endif%}
 {%- endmacro %}

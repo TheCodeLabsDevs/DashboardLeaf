@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Dict, Tuple, List
 
+from timeago import format
 from TheCodeLabs_BaseUtils.MultiCacheKeyService import MultiCacheKeyService
 from flask import Blueprint
 
@@ -30,7 +31,8 @@ class SensorLineChartTile(Tile):
         "decimals": 1,
         "lineColor": "rgba(254, 151, 0, 1)",
         "fillColor": "rgba(254, 151, 0, 0.2)",
-        "showAxes": True
+        "showAxes": True,
+        "outdatedValueWarningLimitInSeconds": 300  # use -1 to disable warning
     }
 
     UNIT_BY_SENSOR_TYPE = {
@@ -68,7 +70,8 @@ class SensorLineChartTile(Tile):
         sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
         x, y = self.__prepare_measurement_data(sensorData['sensorValue'])
-        latest = y[-1] if y else ''
+        latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else datetime(year=1970, month=1, day=1, hour=0, minute=0, second=0)
+        latestValue = y[-1] if y else ''
 
         minValue, maxValue = self.__get_min_and_max(pageName,
                                                     sensorData['sensorInfo']['type'],
@@ -87,14 +90,15 @@ class SensorLineChartTile(Tile):
                 ghostTraceY = [minValue, minValue]
 
         return {
-            'latest': latest,
+            'latest': latestValue,
             'x': x,
             'y': y,
             'sensorInfo': sensorData['sensorInfo'],
             'min': minValue,
             'max': maxValue,
             'ghostTraceX': ghostTraceX,
-            'ghostTraceY': ghostTraceY
+            'ghostTraceY': ghostTraceY,
+            'latestTime': latestTime
         }
 
     def __get_min_and_max(self, pageName: str, sensorType: Dict,
@@ -152,6 +156,14 @@ class SensorLineChartTile(Tile):
             days = int(self._settings['numberOfHoursToShow'] / 24)
             title = f'{title} - {days} days'
 
+        now = datetime.now()
+        timeAgo = ''
+        outdatedValueWarningLimitInSeconds = self._settings['outdatedValueWarningLimitInSeconds']
+        if outdatedValueWarningLimitInSeconds > 0:
+            timeDifference = now - data['latestTime']
+            if timeDifference.total_seconds() > outdatedValueWarningLimitInSeconds:
+                timeAgo = format(timeDifference)
+
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
                                     x=data['x'],
                                     y=data['y'],
@@ -167,7 +179,8 @@ class SensorLineChartTile(Tile):
                                     chartId=str(uuid.uuid4()),
                                     ghostTraceX=data['ghostTraceX'],
                                     ghostTraceY=data['ghostTraceY'],
-                                    showAxes=self._settings['showAxes'])
+                                    showAxes=self._settings['showAxes'],
+                                    timeAgo=timeAgo)
 
     def __format_date(self, dateTime: str):
         parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)
