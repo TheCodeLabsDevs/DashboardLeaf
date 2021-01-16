@@ -24,12 +24,12 @@ class StorageLeafService(MultiCacheKeyService):
     def _fetch_data(self, settings: Dict) -> Dict:
         fetchType = settings['fetchType']
         if fetchType == 'minMax':
-            joinedIDs = ','.join([str(item) for item in settings["sensorIDsForMinMax"]])
+            joinedIDs = '&'.join([f'sensorIds={item}' for item in settings["sensorIDsForMinMax"]])
             startDateTime = urllib.parse.quote(settings['startDateTime'])
             endDateTime = urllib.parse.quote(settings['endDateTime'])
 
             urlMinMax = Helpers.join_url_parts(settings['url'],
-                                               f'measurements/minMax?sensorIds={joinedIDs}'
+                                               f'measurements/minMax?{joinedIDs}'
                                                f'&startDateTime={startDateTime}'
                                                f'&endDateTime={endDateTime}')
             minMaxResponse = requests.get(urlMinMax)
