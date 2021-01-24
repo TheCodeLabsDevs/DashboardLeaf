@@ -1,0 +1,99 @@
+<style>
+    .boardGameTile {
+        background-color: #2F2F2F;
+        font-size: 2.5vmin;
+        border-radius: 1vh;
+        font-weight: bold;
+        flex-direction: row;
+    }
+
+    .boardGameTile .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 85%;
+        height: 85%;
+        text-align: center;
+    }
+
+    .boardGameTile .centered {
+        text-align: center;
+    }
+
+    .boardGameTile .text-left {
+        text-align: left;
+    }
+
+    .boardGameTile td {
+        padding: 0 4vmin;
+        vertical-align: top;
+    }
+
+    .boardGameTile .headline {
+        font-size: 3.5vmin;
+        padding-bottom: 2vmin;
+    }
+
+    .boardGameTile .small {
+        font-size: 2vmin;
+    }
+
+    .boardGameTile .randomGame {
+        border: 0.4vmin solid white;
+        border-radius: 1vmin;
+        padding: 2vmin
+    }
+</style>
+
+<div class="boardGameTile">
+    <div class="content">
+        <table>
+            <tr>
+                <td class="centered headline">
+                    Spiele
+                    <div class="small">max. 2 Spieler</div>
+                </td>
+                <td class="centered headline">
+                    Spiele
+                    <div class="small">min. 3 Spieler</div>
+                </td>
+                <td class="centered headline">
+                    Spiele
+                    <div class="small">&gt; 2 Spieler</div>
+                </td>
+                <td class="headline">
+                    Spielvorschlag
+                    <div class="small">(Klicken für neuen Vorschlag)</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul class="text-left">
+                        {% for game in gamesForTwo %}
+                            <li>{{ game.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul class="text-left">
+                        {% for game in gamesAtLeastThree %}
+                            <li>{{ game.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul class="text-left">
+                        {% for game in gamesForThreeOrMore %}
+                            <li>{{ game.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <div class="randomGame">
+                        <div>{{ randomGame.name }}</div>
+                        <div class="small">{{ randomGame.minPlayers }} - {{ randomGame.maxPlayers }} Spieler</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
