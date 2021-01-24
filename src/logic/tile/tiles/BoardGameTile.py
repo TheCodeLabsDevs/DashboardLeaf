@@ -31,7 +31,7 @@ class BoardGameTile(Tile):
         jsonService = ServiceManager.get_instance().get_service_by_type_name('JsonService')
 
         cacheKey = f'{pageName}_{self._uniqueName}_{self._settings["path"]}'
-        games = jsonService.get_data(cacheKey, self._intervalInSeconds, self._settings)['data']['games']
+        games = jsonService.get_data(cacheKey, 0, self._settings)['data']['games']
         games = sorted(games, key=lambda game: game['name'])
 
         gamesForTwo = [game for game in games if game['maxPlayers'] == 2 and game['minPlayers'] == 2]
