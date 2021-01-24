@@ -7,6 +7,7 @@ from flask_socketio import SocketIO
 
 from blueprints import Routes
 from logic import Constants
+from logic.Constants import CONFIG_DIR
 from logic.page.PageManager import PageManager
 from logic.service.ServiceRegistry import ServiceRegistry
 from logic.tile.TileScheduler import TileScheduler
@@ -16,7 +17,8 @@ LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 
 class DashboardLeaf(FlaskBaseApp):
     def __init__(self, appName: str):
-        super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True)
+        super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True,
+                         settingsPath=os.path.join(CONFIG_DIR, 'settings.json'))
         self._tileService = None
         self._pageManager = None
         ServiceRegistry.get_instance()
@@ -35,7 +37,7 @@ class DashboardLeaf(FlaskBaseApp):
             self._tileScheduler.emit_from_cache()
 
         self._tileScheduler = TileScheduler(socketio)
-        self._pageManager = PageManager(Constants.ROOT_DIR, self._tileScheduler, app)
+        self._pageManager = PageManager(Constants.CONFIG_DIR, self._tileScheduler, app)
         self._tileScheduler.run()
         return app
 

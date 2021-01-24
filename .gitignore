@@ -1,7 +1,5 @@
 /Pipfile.lock
-/settings.json
-/pageSettings.json
-/pageSettings_backup.json
-/boardGames.json
+/config/settings.json
+/config
 .idea/
 /*.ics
