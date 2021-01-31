@@ -13,16 +13,15 @@ python_version = "3"
 
 [packages]
 flask = "==1.1.2"
-gevent = "==20.9.0"
+gevent = "==21.1.2"
 TheCodeLabs-BaseUtils = "*"
 TheCodeLabs-FlaskUtils = "*"
 flask-socketio= "==5.0.1"
-apscheduler = "==3.6.3"
-Babel = "==2.8.0"
+apscheduler = "==3.7.0"
+Babel = "==2.9.0"
 
 # services
 icalendar = "==4.0.7"
-python-jenkins = "==1.5.0"
 
 # tiles
 timeago = "==1.0.15"
