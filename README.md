@@ -49,14 +49,14 @@ Displays the next time a certain garbage type is collected.
 ## Credits
 
 ### Icons
-- leaf icon - made by Freepik [https://www.flaticon.com/](https://www.flaticon.com/)]
+- leaf icon - made by Freepik from [https://www.flaticon.com/](https://www.flaticon.com/)]
 - info solid icon - "fas fa-info" from [https://fontawesome.com/]([https://fontawesome.com/])
 
 ### Garbage icons
 - recycle bin - made by monkik from [https://www.flaticon.com/](https://www.flaticon.com/)
 - apple black silhouette with a leaf - made by Freepik from [https://www.flaticon.com/](https://www.flaticon.com/)
 - journal - made by Freepik from [https://www.flaticon.com/](https://www.flaticon.com/)
-- trash - made by Smashicons [https://www.flaticon.com/](https://www.flaticon.com/)]
+- trash - made by Smashicons from [https://www.flaticon.com/](https://www.flaticon.com/)]
 
 ### Fonts
 - Roboto - https://fonts.google.com/specimen/Roboto
