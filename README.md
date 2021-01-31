@@ -69,7 +69,7 @@ Displays the next time a certain garbage type is collected.
 - socket.io - [https://github.com/socketio/socket.io](https://github.com/socketio/socket.io)
 
 ### Python libraries
-See `Pipfile.lock`  
+See `Pipfile` and `Pipfile.lock`
 (This project uses some personal libraries not available on the official pypi. The source code can be found here [https://thecodelabs.de/TheCodeLabs/PythonLibs](https://thecodelabs.de/TheCodeLabs/PythonLibs))
 
 ---
