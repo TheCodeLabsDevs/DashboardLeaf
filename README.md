@@ -2,6 +2,79 @@
 
 Flask server for displaying multiple dashboards with custom tiles that refresh periodically.
 
+![](/build/showcase/Showcase.png)
+
+## Available default tiles
+
+### CurrentWeatherTile
+Displays the current weather condition, temperature, felt temperature and wind speed.
+
+![](/build/showcase/CurrentWeatherTile.PNG)
+
+### HourlyForecastTile
+Displays the forecast for the next 12 hours including condition, temperature, rain probability and wind speed.
+
+![](/build/showcase/HourlyForecastTile.PNG)
+
+### SevenDaysForecastTile
+Displays the forecast for the next 7 days including minimum and maximum temperatures as chart as well as the condition.
+
+![](/build/showcase/SevenDaysForecastTile.PNG)
+
+### SensorLineChartTile
+Displays data from a given StorageLeaf sensor as a chart.
+
+![](/build/showcase/SensorLineChartTile.PNG)
+
+### GarbageScheduleTile
+Displays the next time a certain garbage type is collected.
+
+![](/build/showcase/GarbageScheduleTile.PNG)
+
+
+### Additional tiles
+- BoardGameTile - Display board games from your private collection grouped by player count and provide a random choice.
+- ClockTile - Simple clock
+- SimpleSensorValueTile - Display a sensor value from a corresponding StorageLeaf sensor.
+
+
+## Available default services
+
+- WeatherService - Read data from https://openweathermap.org/
+- StorageLeafService - Retrieve sensor data from a StorageLeaf server
+- IcsService - Parse events from an .ics calendar file
+- JsonService - Parse information from a json file
+
+---
+## Credits
+
+### Icons
+- leaf icon - made by Freepik [https://www.flaticon.com/](https://www.flaticon.com/)]
+- info solid icon - "fas fa-info" from [https://fontawesome.com/]([https://fontawesome.com/])
+
+### Garbage icons
+- recycle bin - made by monkik from [https://www.flaticon.com/](https://www.flaticon.com/)
+- apple black silhouette with a leaf - made by Freepik from [https://www.flaticon.com/](https://www.flaticon.com/)
+- journal - made by Freepik from [https://www.flaticon.com/](https://www.flaticon.com/)
+- trash - made by Smashicons [https://www.flaticon.com/](https://www.flaticon.com/)]
+
+### Fonts
+- Roboto - https://fonts.google.com/specimen/Roboto
+- weathericons - https://github.com/erikflowers/weather-icons
+
+### Javascript libraries
+- gridstack.js - [https://github.com/gridstack/gridstack.js](https://github.com/socketio/socket.io)
+- plotly.js - [https://plotly.com/javascript/](https://github.com/socketio/socket.io)
+- weather-icons - [https://github.com/erikflowers/weather-icons](https://github.com/socketio/socket.io)
+- socket.io - [https://github.com/socketio/socket.io](https://github.com/socketio/socket.io)
+
+### Python libraries
+See `Pipfile.lock`  
+(This project uses some personal libraries not available on the official pypi. The source code can be found here [https://thecodelabs.de/TheCodeLabs/PythonLibs](https://thecodelabs.de/TheCodeLabs/PythonLibs))
+
+---
+# Documentation
+
 ## Page
 
 Holds multiple tiles and displays them in a grid. On mobile devices in portrait orientation the grid will be displayed as a single column.  
