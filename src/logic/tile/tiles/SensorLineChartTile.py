@@ -117,6 +117,10 @@ class SensorLineChartTile(Tile):
             else:
                 return 0, 0 + self.MAX_Y_AXIS_SPACING
 
+        return self.__get_min_max_from_service(pageName, startDateTime, endDateTime, storageLeafService)
+
+    def __get_min_max_from_service(self, pageName: str, startDateTime: str, endDateTime: str,
+                                   storageLeafService: MultiCacheKeyService):
         minMaxSettings = {
             'url': self._settings['url'],
             'sensorIDsForMinMax': self._settings['sensorIDsForMinMax'],
@@ -124,6 +128,7 @@ class SensorLineChartTile(Tile):
             'startDateTime': startDateTime,
             'endDateTime': endDateTime
         }
+
         cacheKey = f'{pageName}_{self._uniqueName}_minMax'
         minMaxData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, minMaxSettings)
         LOGGER.debug(f'Received min/max: {minMaxData} for sensorIDs: {self._settings["sensorIDsForMinMax"]}')
