@@ -61,15 +61,7 @@ class SensorLineChartTile(Tile):
                                           self.DATE_FORMAT)
         endDateTime = datetime.strftime(datetime.now(), self.DATE_FORMAT)
 
-        serviceSettings = {
-            'url': self._settings['url'],
-            'sensorID': self._settings['sensorID'],
-            'fetchType': 'all',
-            'startDateTime': startDateTime,
-            'endDateTime': endDateTime
-        }
-        cacheKey = f'{pageName}_{self._uniqueName}_all'
-        sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
+        sensorData = self.__get_sensor_data_from_service(endDateTime, pageName, startDateTime, storageLeafService)
 
         x, y = self._prepare_measurement_data(sensorData['sensorValue'])
         latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else self.DATETIME_UNIX_TIMESTAMP_START
@@ -97,6 +89,18 @@ class SensorLineChartTile(Tile):
             'ghostTraceY': ghostTraceY,
             'latestTime': latestTime
         }
+
+    def __get_sensor_data_from_service(self, endDateTime, pageName, startDateTime, storageLeafService):
+        serviceSettings = {
+            'url': self._settings['url'],
+            'sensorID': self._settings['sensorID'],
+            'fetchType': 'all',
+            'startDateTime': startDateTime,
+            'endDateTime': endDateTime
+        }
+        cacheKey = f'{pageName}_{self._uniqueName}_all'
+        sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
+        return sensorData
 
     def _get_min_and_max(self, pageName: str, sensorType: Dict,
                          startDateTime: str, endDateTime: str,
