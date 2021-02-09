@@ -1,6 +1,8 @@
 import datetime
 from unittest.mock import MagicMock
 
+import pytest
+
 from logic.tile.tiles.SensorLineChartTile import SensorLineChartTile, SensorType
 
 
@@ -112,3 +114,31 @@ class TestGetMinMax:
                                        storage_leaf_service_mock(None, None),
                                        [-6.0, 12])
         assert result == (-6 - SensorLineChartTile.MAX_Y_AXIS_SPACING, 12 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
+
+
+class TestPrepareMeasurementData:
+    def test_no_measurements(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+        measurements = []
+
+        assert tile._prepare_measurement_data(measurements) == ([], [])
+
+    def test_should_return_rounded_values(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+        measurements = [
+            {'id': 409281, 'value': '-5.37', 'timestamp': '2021-02-09 17:47:55', 'sensor_id': 5}
+        ]
+
+        assert tile._prepare_measurement_data(measurements) == (['2021-02-09 17:47:55'], ['-5.4'])
+
+    def test_multiple_measurements_should_return_timestamps_from_latest_to_oldest(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+
+        timestamp1 = '2021-02-09 17:47:55'
+        timestamp2 = '2021-02-09 17:48:55'
+        measurements = [
+            {'id': 409281, 'value': '-5.37', 'timestamp': timestamp1, 'sensor_id': 5},
+            {'id': 409282, 'value': '-6.2', 'timestamp': timestamp2, 'sensor_id': 5}
+        ]
+
+        assert tile._prepare_measurement_data(measurements) == ([timestamp2, timestamp1], ['-6.2', '-5.4'])

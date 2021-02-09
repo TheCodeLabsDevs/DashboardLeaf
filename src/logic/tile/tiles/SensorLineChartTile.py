@@ -71,7 +71,7 @@ class SensorLineChartTile(Tile):
         cacheKey = f'{pageName}_{self._uniqueName}_all'
         sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
-        x, y = self.__prepare_measurement_data(sensorData['sensorValue'])
+        x, y = self._prepare_measurement_data(sensorData['sensorValue'])
         latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else self.DATETIME_UNIX_TIMESTAMP_START
         latestValue = y[-1] if y else ''
 
@@ -134,7 +134,7 @@ class SensorLineChartTile(Tile):
         LOGGER.debug(f'Received min/max: {minMaxData} for sensorIDs: {self._settings["sensorIDsForMinMax"]}')
         return minMaxData.get('min', 0) or 0, minMaxData.get('max', 0) or 0
 
-    def __prepare_measurement_data(self, measurements: List[Dict]) -> Tuple[List[str], List[str]]:
+    def _prepare_measurement_data(self, measurements: List[Dict]) -> Tuple[List[str], List[str]]:
         x = []
         y = []
 
