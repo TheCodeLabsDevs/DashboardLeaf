@@ -63,7 +63,7 @@ def test_humidity_returns_0_and_100(example_settings):
     assert result == (0, 100)
 
 
-def test_temperature_no_values_returns_min_and_max_of_api_plus_spacing(example_settings):
+def test_temperature_no_values_returns_min_and_max_of_api(example_settings):
     tile = SensorLineChartTile('mySensorTile', example_settings, 10)
 
     result = tile._get_min_and_max('myPage',
@@ -71,10 +71,10 @@ def test_temperature_no_values_returns_min_and_max_of_api_plus_spacing(example_s
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(15.0, 20.0),
                                    [])
-    assert result == (0, 20 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-SensorLineChartTile.MAX_Y_AXIS_SPACING, 20 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
 
 
-def test_temperature_min_max_data_is_none_returns_zero_and_zero_plus_spacing(example_settings):
+def test_temperature_min_max_data_is_none_returns_zero(example_settings):
     tile = SensorLineChartTile('mySensorTile', example_settings, 10)
 
     result = tile._get_min_and_max('myPage',
@@ -82,7 +82,7 @@ def test_temperature_min_max_data_is_none_returns_zero_and_zero_plus_spacing(exa
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(None, None),
                                    [])
-    assert result == (0, SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-SensorLineChartTile.MAX_Y_AXIS_SPACING, SensorLineChartTile.MAX_Y_AXIS_SPACING)
 
 
 def test_temperature_min_is_above_zero_returns_zero_min(example_settings):
@@ -93,7 +93,7 @@ def test_temperature_min_is_above_zero_returns_zero_min(example_settings):
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(5, 6),
                                    [])
-    assert result == (0, 6 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-SensorLineChartTile.MAX_Y_AXIS_SPACING, 6 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
 
 
 def test_temperature_min_is_below_zero_returns_min(example_settings):
@@ -104,7 +104,7 @@ def test_temperature_min_is_below_zero_returns_min(example_settings):
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(-3, 6),
                                    [])
-    assert result == (-3, 6 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-3 - SensorLineChartTile.MAX_Y_AXIS_SPACING, 6 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
 
 
 def test_temperature_show_axes_no_values(example_settings_with_axes):
@@ -115,7 +115,7 @@ def test_temperature_show_axes_no_values(example_settings_with_axes):
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(None, None),
                                    [])
-    assert result == (0, SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-SensorLineChartTile.MAX_Y_AXIS_SPACING, SensorLineChartTile.MAX_Y_AXIS_SPACING)
 
 
 def test_temperature_show_axes_values_above_zero_return_zero_min(example_settings_with_axes):
@@ -126,7 +126,7 @@ def test_temperature_show_axes_values_above_zero_return_zero_min(example_setting
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(None, None),
                                    [6.0, 12])
-    assert result == (0, 12 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-SensorLineChartTile.MAX_Y_AXIS_SPACING, 12 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
 
 
 def test_temperature_show_axes_values_below_zero_return_min(example_settings_with_axes):
@@ -137,4 +137,4 @@ def test_temperature_show_axes_values_below_zero_return_min(example_settings_wit
                                    START_DATE, END_DATE,
                                    storage_leaf_service_mock(None, None),
                                    [-6.0, 12])
-    assert result == (-6, 12 + SensorLineChartTile.MAX_Y_AXIS_SPACING)
+    assert result == (-6 - SensorLineChartTile.MAX_Y_AXIS_SPACING, 12 + SensorLineChartTile.MAX_Y_AXIS_SPACING)

@@ -117,7 +117,7 @@ class SensorLineChartTile(Tile):
         else:
             minValue, maxValue = self.__get_min_max_from_service(pageName, startDateTime, endDateTime,
                                                                  storageLeafService)
-        return min(0, minValue), maxValue + self.MAX_Y_AXIS_SPACING
+        return min(0, minValue) - self.MAX_Y_AXIS_SPACING, maxValue + self.MAX_Y_AXIS_SPACING
 
     def __get_min_max_from_service(self, pageName: str, startDateTime: str, endDateTime: str,
                                    storageLeafService: MultiCacheKeyService):
