@@ -59,7 +59,8 @@ class HourlyForecastTile(Tile):
                 'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 0)} km/h',
                 'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
                 'rainProbability': f'{Helpers.round_to_decimals(rainProbability, 0)} %',
-                'isDayTime': isDayTime
+                'isDayTime': isDayTime,
+                'description': entry['weather'][0]['description']
             })
 
         return {
