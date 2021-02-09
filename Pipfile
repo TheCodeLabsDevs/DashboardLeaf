@@ -27,3 +27,4 @@ icalendar = "==4.0.7"
 timeago = "==1.0.15"
 
 [dev-packages]
+pytest= "*"

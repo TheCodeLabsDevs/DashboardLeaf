@@ -47,6 +47,7 @@ class SensorLineChartTile(Tile):
 
     DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
     DATE_FORMAT_CHART = '%H:%M:%S'
+
     MAX_Y_AXIS_SPACING = 2
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
@@ -70,15 +71,16 @@ class SensorLineChartTile(Tile):
         sensorData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, serviceSettings)
 
         x, y = self.__prepare_measurement_data(sensorData['sensorValue'])
-        latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else datetime(year=1970, month=1, day=1, hour=0, minute=0, second=0)
+        latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else datetime(year=1970, month=1, day=1, hour=0,
+                                                                                   minute=0, second=0)
         latestValue = y[-1] if y else ''
 
-        minValue, maxValue = self.__get_min_and_max(pageName,
-                                                    sensorData['sensorInfo']['type'],
-                                                    startDateTime,
-                                                    endDateTime,
-                                                    storageLeafService,
-                                                    y)
+        minValue, maxValue = self._get_min_and_max(pageName,
+                                                   sensorData['sensorInfo']['type'],
+                                                   startDateTime,
+                                                   endDateTime,
+                                                   storageLeafService,
+                                                   y)
 
         # Check if all values are above zero and the min value for the sensor group is below zero.
         # Therefore a ghost trace must be generated that fills the area underneath the x-axis.
@@ -101,9 +103,9 @@ class SensorLineChartTile(Tile):
             'latestTime': latestTime
         }
 
-    def __get_min_and_max(self, pageName: str, sensorType: Dict,
-                          startDateTime: str, endDateTime: str,
-                          storageLeafService: MultiCacheKeyService, y: List):
+    def _get_min_and_max(self, pageName: str, sensorType: Dict,
+                         startDateTime: str, endDateTime: str,
+                         storageLeafService: MultiCacheKeyService, y: List) -> Tuple[float, float]:
         if sensorType == SensorType.HUMIDITY:
             return 0, 100
 
