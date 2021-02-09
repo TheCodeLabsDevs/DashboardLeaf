@@ -84,12 +84,7 @@ class SensorLineChartTile(Tile):
 
         # Check if all values are above zero and the min value for the sensor group is below zero.
         # Therefore a ghost trace must be generated that fills the area underneath the x-axis.
-        ghostTraceX = []
-        ghostTraceY = []
-        if all(float(i) >= 0 for i in y):
-            if minValue < 0:
-                ghostTraceX = [x[0], x[-1]]
-                ghostTraceY = [minValue, minValue]
+        ghostTraceX, ghostTraceY = self._prepare_ghost_trace(minValue, x, y)
 
         return {
             'latest': latestValue,
@@ -148,6 +143,17 @@ class SensorLineChartTile(Tile):
         x.reverse()
         y.reverse()
         return x, y
+
+    def _prepare_ghost_trace(self, minValue, x, y):
+        ghostTraceX = []
+        ghostTraceY = []
+
+        if all(float(i) >= 0 for i in y):
+            if minValue < 0:
+                ghostTraceX = [x[0], x[-1]]
+                ghostTraceY = [minValue, minValue]
+
+        return ghostTraceX, ghostTraceY
 
     def render(self, data: Dict) -> str:
         sensorType = data['sensorInfo']['type']

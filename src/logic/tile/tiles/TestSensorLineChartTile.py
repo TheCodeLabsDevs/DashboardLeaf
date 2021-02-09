@@ -142,3 +142,23 @@ class TestPrepareMeasurementData:
         ]
 
         assert tile._prepare_measurement_data(measurements) == ([timestamp2, timestamp1], ['-6.2', '-5.4'])
+
+
+class TestPrepareGhostTrace:
+    def test_all_values_below_zero_returns_empty_lists(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+        x = ['2021-02-09 17:47:55']
+        y = [-12]
+        assert tile._prepare_ghost_trace(-10, x, y) == ([], [])
+
+    def test_all_values_above_zero_and_min_from_api_above_zero_returns_empty_lists(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+        x = ['2021-02-09 17:47:55', '2021-02-09 17:48:55']
+        y = [6, 8]
+        assert tile._prepare_ghost_trace(10, x, y) == ([], [])
+
+    def test_all_values_above_zero_and_min_from_api_below_zero_returns_ghost_trace(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+        x = ['2021-02-09 17:47:55', '2021-02-09 17:48:55']
+        y = [6, 8]
+        assert tile._prepare_ghost_trace(-10, x, y) == (x, [-10, -10])
