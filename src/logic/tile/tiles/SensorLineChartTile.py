@@ -112,12 +112,12 @@ class SensorLineChartTile(Tile):
         # prevent fetching min/max from StorageLeaf as this would consume a lot of time due to huge timespans
         if self._settings['showAxes']:
             yValues = [float(item) for item in y]
-            if yValues:
-                return min(0.0, min(yValues)), max(yValues) + self.MAX_Y_AXIS_SPACING
-            else:
-                return 0, 0 + self.MAX_Y_AXIS_SPACING
-
-        return self.__get_min_max_from_service(pageName, startDateTime, endDateTime, storageLeafService)
+            minValue = min(yValues, default=0)
+            maxValue = max(yValues, default=0)
+        else:
+            minValue, maxValue = self.__get_min_max_from_service(pageName, startDateTime, endDateTime,
+                                                                 storageLeafService)
+        return min(0, minValue), maxValue + self.MAX_Y_AXIS_SPACING
 
     def __get_min_max_from_service(self, pageName: str, startDateTime: str, endDateTime: str,
                                    storageLeafService: MultiCacheKeyService):
@@ -132,7 +132,7 @@ class SensorLineChartTile(Tile):
         cacheKey = f'{pageName}_{self._uniqueName}_minMax'
         minMaxData = storageLeafService.get_data(cacheKey, self._intervalInSeconds, minMaxSettings)
         LOGGER.debug(f'Received min/max: {minMaxData} for sensorIDs: {self._settings["sensorIDsForMinMax"]}')
-        return min(0, minMaxData['min'] or 0), (minMaxData['max'] or 0) + self.MAX_Y_AXIS_SPACING
+        return minMaxData.get('min', 0) or 0, minMaxData.get('max', 0) or 0
 
     def __prepare_measurement_data(self, measurements: List[Dict]) -> Tuple[List[str], List[str]]:
         x = []
