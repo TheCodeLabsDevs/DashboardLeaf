@@ -70,7 +70,7 @@
             {% set iconPrefix = 'wi-owm-night-' %}
         {% endif %}
 
-        <i class="wi {{ iconPrefix }}{{ data['icon'] }} icon" style="color: {{ data['iconColor'] }};"></i>
+        <i class="wi {{ iconPrefix }}{{ data['icon'] }} icon" title="{{ data['description'] }}" style="color: {{ data['iconColor'] }};"></i>
         <div class="entries">
             <div class="temperatures">
                 <div class="temperature-entry">

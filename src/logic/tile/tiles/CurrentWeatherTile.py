@@ -49,7 +49,8 @@ class CurrentWeatherTile(Tile):
             'windDegrees': currentWeather['wind_deg'],
             'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 1)} km/h',
             'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
-            'isDayTime': isDayTime
+            'isDayTime': isDayTime,
+            'description':  currentWeather['weather'][0]['description']
         }
 
     def render(self, data: Dict) -> str:
