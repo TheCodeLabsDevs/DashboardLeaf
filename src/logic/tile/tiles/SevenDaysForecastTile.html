@@ -37,7 +37,7 @@
         <div class="chart" id="{{ chartId }}"></div>
         <div class="icons">
             {% for icon in icons %}
-                <i class="wi wi-owm-day-{{ icon['icon'] }} icon {% if not icon['isWeekDay'] %}weekend{% endif %} " style="color: {{ icon['iconColor'] }};"></i>
+                <i class="wi wi-owm-day-{{ icon['icon'] }} icon {% if not icon['isWeekDay'] %}weekend{% endif %} " title="{{ icon['description'] }}" style="color: {{ icon['iconColor'] }};"></i>
             {% endfor %}
         </div>
     </div>
