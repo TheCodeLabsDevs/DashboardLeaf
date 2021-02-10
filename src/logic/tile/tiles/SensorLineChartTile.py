@@ -152,6 +152,9 @@ class SensorLineChartTile(Tile):
         ghostTraceX = []
         ghostTraceY = []
 
+        if not x or not y:
+            return ghostTraceX, ghostTraceY
+
         if all(float(i) >= 0 for i in y):
             if minValue < 0:
                 ghostTraceX = [x[0], x[-1]]

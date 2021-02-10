@@ -162,3 +162,9 @@ class TestPrepareGhostTrace:
         x = ['2021-02-09 17:47:55', '2021-02-09 17:48:55']
         y = [6, 8]
         assert tile._prepare_ghost_trace(-10, x, y) == (x, [-10, -10])
+
+    def test_no_values_returns_empty_lists(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+        x = []
+        y = []
+        assert tile._prepare_ghost_trace(-10, x, y) == ([], [])
