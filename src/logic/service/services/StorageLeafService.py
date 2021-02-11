@@ -54,11 +54,17 @@ class StorageLeafService(MultiCacheKeyService):
         if sensorInfoResponse.status_code != 200:
             raise Exception(f'Invalid status code: {sensorInfoResponse.status_code}')
 
+        urlDeviceInfo = Helpers.join_url_parts(settings['url'], 'device', str(sensorInfoResponse.json()['device_id']))
+        deviceInfoResponse = requests.get(urlDeviceInfo)
+        if deviceInfoResponse.status_code != 200:
+            raise Exception(f'Invalid status code: {deviceInfoResponse.status_code}')
+
         sensorValueResponse = requests.get(urlSensorValue)
         if sensorValueResponse.status_code != 200:
             raise Exception(f'Invalid status code: {sensorValueResponse.status_code}')
 
         return {
+            'deviceInfo': deviceInfoResponse.json(),
             'sensorInfo': sensorInfoResponse.json(),
             'sensorValue': sensorValueResponse.json()
         }

@@ -22,7 +22,9 @@
                     "showAxes": false,
                     "outdatedValueWarning": {
                         "enable": false,
-                        "limitInSeconds": -1
+                        "limitInSeconds": -1,
+                        "enableNotificationViaPushbullet": false,
+                        "pushbulletToken": null
                     }
                 },
                 "x": 0,

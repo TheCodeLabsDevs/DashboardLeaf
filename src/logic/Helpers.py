@@ -1,6 +1,8 @@
+import json
 from datetime import datetime
 
 import pytz
+import requests
 
 from logic import Constants
 
@@ -61,3 +63,23 @@ def is_dayTime(sunrise: datetime, sunset: datetime, currentTimestamp: datetime) 
 def timestamp_to_timezone(timestamp: int, timeZone: datetime.tzinfo) -> datetime:
     timestamp = datetime.fromtimestamp(timestamp, pytz.timezone('UTC'))
     return timestamp.astimezone(timeZone)
+
+
+PUSHBULLET_PUSH_URL = 'https://api.pushbullet.com/v2/pushes'
+
+
+def send_notification_via_pushbullet(token: str, title: str, body: str):
+    data = {
+        'type': 'note',
+        'title': title,
+        'body': body
+    }
+
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post(PUSHBULLET_PUSH_URL, data=json.dumps(data), headers=headers)
+    if response.status_code != 200:
+        raise Exception(f'Error sending notification via pushbullet (status code: "{response.status_code}")')

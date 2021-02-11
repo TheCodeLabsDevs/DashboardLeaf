@@ -34,7 +34,9 @@ class SensorLineChartTile(Tile):
         "showAxes": True,
         "outdatedValueWarning": {
             "enable": False,
-            "limitInSeconds": 300
+            "limitInSeconds": 300,
+            "enableNotificationViaPushbullet": False,
+            "pushbulletToken": None
         }
     }
 
@@ -86,6 +88,7 @@ class SensorLineChartTile(Tile):
             'x': x,
             'y': y,
             'sensorInfo': sensorData['sensorInfo'],
+            'deviceInfo': sensorData['deviceInfo'],
             'min': minValue,
             'max': maxValue,
             'ghostTraceX': ghostTraceX,
@@ -181,6 +184,8 @@ class SensorLineChartTile(Tile):
 
         warningSettings = self._settings['outdatedValueWarning']
         timeSinceLastValue = self.__get_time_since_last_value(warningSettings, data)
+        if warningSettings['enableNotificationViaPushbullet']:
+            self.__send_notification(warningSettings, data['sensorInfo'], data['deviceInfo'], timeSinceLastValue)
 
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
                                     x=data['x'],
@@ -216,6 +221,19 @@ class SensorLineChartTile(Tile):
                 timeAgo = format(timeDifference)
 
         return timeAgo
+
+    def __send_notification(self, warningSettings: Dict, sensorInfo: Dict, deviceInfo: Dict, timeSinceLastValue: str):
+        token = warningSettings['pushbulletToken']
+
+        sensorName = sensorInfo['name']
+        sensorType = sensorInfo['type']
+        deviceName = deviceInfo['name']
+
+        title = 'DashboardLeaf - Outdated Value Warning'
+        description = f'Last value for sensor "{sensorName}" received {timeSinceLastValue} ' \
+                      f'(type: {sensorType}, device: {deviceName})'
+
+        Helpers.send_notification_via_pushbullet(token, title, description)
 
     def __format_date(self, dateTime: str):
         parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)
