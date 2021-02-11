@@ -43,7 +43,13 @@
                     "numberOfHoursToShow": 4,
                     "decimals": 0,
                     "lineColor": "rgba(70, 138, 221, 1))",
-                    "fillColor": "rgba(70, 138, 221, 0.2)"
+                    "fillColor": "rgba(70, 138, 221, 0.2)",
+                    "outdatedValueWarning": {
+                        "enable": false,
+                        "limitInSeconds": -1,
+                        "enableNotificationViaPushbullet": false,
+                        "pushbulletToken": null
+                    }
                 },
                 "x": 0,
                 "y": 3,
