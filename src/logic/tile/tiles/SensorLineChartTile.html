@@ -95,10 +95,10 @@
                     <div class="value">{{ latest }}{{ unit }}</div>
                 {% endif %}
             </div>
-            {% if timeAgo %}
+            {% if timeSinceLastValue %}
                 <div class="warning">
                     <i class="material-icons icon-warning">warning</i>
-                    <div class="warning-text">{{ timeAgo }}</div>
+                    <div class="warning-text">{{ timeSinceLastValue }}</div>
                 </div>
             {% endif %}
             <div class="header-right">

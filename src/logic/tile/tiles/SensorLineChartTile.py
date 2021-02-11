@@ -32,7 +32,10 @@ class SensorLineChartTile(Tile):
         "lineColor": "rgba(254, 151, 0, 1)",
         "fillColor": "rgba(254, 151, 0, 0.2)",
         "showAxes": True,
-        "outdatedValueWarningLimitInSeconds": 300  # use -1 to disable warning
+        "outdatedValueWarning": {
+            "enable": False,
+            "limitInSeconds": 300
+        }
     }
 
     UNIT_BY_SENSOR_TYPE = {
@@ -176,13 +179,8 @@ class SensorLineChartTile(Tile):
             days = int(self._settings['numberOfHoursToShow'] / 24)
             title = f'{title} - {days} days'
 
-        now = datetime.now()
-        timeAgo = ''
-        outdatedValueWarningLimitInSeconds = self._settings['outdatedValueWarningLimitInSeconds']
-        if outdatedValueWarningLimitInSeconds > 0:
-            timeDifference = now - data['latestTime']
-            if timeDifference.total_seconds() > outdatedValueWarningLimitInSeconds:
-                timeAgo = format(timeDifference)
+        warningSettings = self._settings['outdatedValueWarning']
+        timeSinceLastValue = self.__get_time_since_last_value(warningSettings, data)
 
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__,
                                     x=data['x'],
@@ -200,7 +198,24 @@ class SensorLineChartTile(Tile):
                                     ghostTraceX=data['ghostTraceX'],
                                     ghostTraceY=data['ghostTraceY'],
                                     showAxes=self._settings['showAxes'],
-                                    timeAgo=timeAgo)
+                                    timeSinceLastValue=timeSinceLastValue)
+
+    def __get_time_since_last_value(self, warningSettings: Dict, data):
+        timeAgo = ''
+
+        if not warningSettings['enable']:
+            return timeAgo
+
+        now = datetime.now()
+
+        limitInSeconds = warningSettings['limitInSeconds']
+
+        if limitInSeconds > 0:
+            timeDifference = now - data['latestTime']
+            if timeDifference.total_seconds() > limitInSeconds:
+                timeAgo = format(timeDifference)
+
+        return timeAgo
 
     def __format_date(self, dateTime: str):
         parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)

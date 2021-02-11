@@ -18,7 +18,12 @@
                     "numberOfHoursToShow": 4,
                     "decimals": 1,
                     "lineColor": "rgba(254, 151, 0, 1)",
-                    "fillColor": "rgba(254, 151, 0, 0.2)"
+                    "fillColor": "rgba(254, 151, 0, 0.2)",
+                    "showAxes": false,
+                    "outdatedValueWarning": {
+                        "enable": false,
+                        "limitInSeconds": -1
+                    }
                 },
                 "x": 0,
                 "y": 0,
