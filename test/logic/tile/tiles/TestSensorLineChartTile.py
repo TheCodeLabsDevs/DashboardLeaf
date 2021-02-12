@@ -2,6 +2,7 @@ import datetime
 from unittest import mock
 from unittest.mock import MagicMock
 
+from logic import Helpers
 from logic.tile.tiles.SensorLineChartTile import SensorLineChartTile, SensorType
 
 
@@ -204,3 +205,42 @@ class TestGetTimeSinceLastValue:
         data = {'latestTime': datetime.datetime(year=2021, month=1, day=1, hour=11, minute=00, second=00)}
 
         assert tile._get_time_since_last_value(warningSettings, data) == '1 hour ago'
+
+
+class TestSendNotification:
+    def __get_warning_settings(self, enable: bool, enableNotification: bool):
+        return {
+            'enable': enable,
+            'limitInSeconds': 10,
+            'enableNotificationViaPushbullet': enableNotification,
+            'pushbulletToken': 'myToken'
+        }
+
+    @mock.patch('logic.tile.tiles.SensorLineChartTile.Helpers')
+    def test_notification_disabled_should_do_nothing(self, helpersMock):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+
+        warningSettings = self.__get_warning_settings(True, False)
+
+        tile._send_notification(warningSettings, {}, {}, '1 hour ago')
+        helpersMock.send_notification_via_pushbullet.assert_not_called()
+
+    @mock.patch('logic.Helpers.requests')
+    def test_send_notification_should_call_pushbullet_api(self, requestsMock):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+
+        warningSettings = self.__get_warning_settings(True, True)
+
+        sensorInfo = {
+            'name': 'mySensor',
+            'type': 'temperature'
+        }
+
+        deviceInfo = {
+            'name': 'myDevice'
+        }
+
+        requestsMock.post.return_value.status_code = 200
+
+        tile._send_notification(warningSettings, sensorInfo, deviceInfo, '1 hour ago')
+        requestsMock.post.assert_called_once_with(Helpers.PUSHBULLET_PUSH_URL, data=mock.ANY, headers=mock.ANY)
