@@ -184,7 +184,7 @@ class TestGetTimeSinceLastValue:
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
         warningSettings = self.__get_warning_settings(False)
-        data = {'latestTime': SensorLineChartTile.DATETIME_UNIX_TIMESTAMP_START}
+        data = {'latestTime': datetime.datetime(year=2021, month=1, day=1, hour=12, minute=0, second=0)}
 
         assert tile._get_time_since_last_value(warningSettings, data) == ''
 
@@ -200,7 +200,7 @@ class TestGetTimeSinceLastValue:
     def test_warnings_enabled_outdated_value_returns_human_readable_string(self, datetimeMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
-        datetimeMock.now.return_value = datetime.datetime(year=2021, month=1, day=1, hour=12, minute=00, second=00)
+        datetimeMock.now.return_value = datetime.datetime(year=2021, month=1, day=1, hour=12, minute=0, second=0)
 
         warningSettings = self.__get_warning_settings(True)
         data = {'latestTime': datetime.datetime(year=2021, month=1, day=1, hour=11, minute=00, second=00)}

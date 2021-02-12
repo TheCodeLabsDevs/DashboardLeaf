@@ -52,7 +52,6 @@ class SensorLineChartTile(Tile):
 
     DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
     DATE_FORMAT_CHART = '%H:%M:%S'
-    DATETIME_UNIX_TIMESTAMP_START = datetime(year=1970, month=1, day=1, hour=0, minute=0, second=0)
 
     MAX_Y_AXIS_SPACING = 2
 
@@ -63,14 +62,14 @@ class SensorLineChartTile(Tile):
     def fetch(self, pageName: str) -> Dict:
         storageLeafService = ServiceManager.get_instance().get_service_by_type_name('StorageLeafService')
 
-        startDateTime = datetime.strftime(datetime.now() - timedelta(hours=self._settings['numberOfHoursToShow']),
-                                          self.DATE_FORMAT)
+        startDateTimeObj = datetime.now() - timedelta(hours=self._settings['numberOfHoursToShow'])
+        startDateTime = datetime.strftime(startDateTimeObj,self.DATE_FORMAT)
         endDateTime = datetime.strftime(datetime.now(), self.DATE_FORMAT)
 
         sensorData = self.__get_sensor_data_from_service(endDateTime, pageName, startDateTime, storageLeafService)
 
         x, y = self._prepare_measurement_data(sensorData['sensorValue'])
-        latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else self.DATETIME_UNIX_TIMESTAMP_START
+        latestTime = datetime.strptime(x[-1], self.DATE_FORMAT) if x else startDateTimeObj
         latestValue = y[-1] if y else ''
 
         minValue, maxValue = self._get_min_and_max(pageName,
