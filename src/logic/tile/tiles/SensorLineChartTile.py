@@ -183,7 +183,7 @@ class SensorLineChartTile(Tile):
             title = f'{title} - {days} days'
 
         warningSettings = self._settings['outdatedValueWarning']
-        timeSinceLastValue = self.__get_time_since_last_value(warningSettings, data)
+        timeSinceLastValue = self._get_time_since_last_value(warningSettings, data)
         if warningSettings['enableNotificationViaPushbullet']:
             self.__send_notification(warningSettings, data['sensorInfo'], data['deviceInfo'], timeSinceLastValue)
 
@@ -205,7 +205,7 @@ class SensorLineChartTile(Tile):
                                     showAxes=self._settings['showAxes'],
                                     timeSinceLastValue=timeSinceLastValue)
 
-    def __get_time_since_last_value(self, warningSettings: Dict, data):
+    def _get_time_since_last_value(self, warningSettings: Dict, data):
         timeAgo = ''
 
         if not warningSettings['enable']:

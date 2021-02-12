@@ -1,7 +1,6 @@
 import datetime
+from unittest import mock
 from unittest.mock import MagicMock
-
-import pytest
 
 from logic.tile.tiles.SensorLineChartTile import SensorLineChartTile, SensorType
 
@@ -168,3 +167,40 @@ class TestPrepareGhostTrace:
         x = []
         y = []
         assert tile._prepare_ghost_trace(-10, x, y) == ([], [])
+
+
+class TestGetTimeSinceLastValue:
+    def __get_warning_settings(self, enable: bool):
+        return {
+            'enable': enable,
+            'limitInSeconds': 10,
+            'enableNotificationViaPushbullet': False,
+            'pushbulletToken': None
+        }
+
+    def test_warnings_disabled_returns_empty_string(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+
+        warningSettings = self.__get_warning_settings(False)
+        data = {'latestTime': SensorLineChartTile.DATETIME_UNIX_TIMESTAMP_START}
+
+        assert tile._get_time_since_last_value(warningSettings, data) == ''
+
+    def test_warnings_enabled_no_outdated_value_returns_empty_string(self):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+
+        warningSettings = self.__get_warning_settings(True)
+        data = {'latestTime': datetime.datetime.now()}
+
+        assert tile._get_time_since_last_value(warningSettings, data) == ''
+
+    @mock.patch('logic.tile.tiles.SensorLineChartTile.datetime')
+    def test_warnings_enabled_outdated_value_returns_human_readable_string(self, datetimeMock):
+        tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
+
+        datetimeMock.now.return_value = datetime.datetime(year=2021, month=1, day=1, hour=12, minute=00, second=00)
+
+        warningSettings = self.__get_warning_settings(True)
+        data = {'latestTime': datetime.datetime(year=2021, month=1, day=1, hour=11, minute=00, second=00)}
+
+        assert tile._get_time_since_last_value(warningSettings, data) == '1 hour ago'
