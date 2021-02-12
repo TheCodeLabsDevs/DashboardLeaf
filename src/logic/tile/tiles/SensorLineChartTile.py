@@ -58,6 +58,7 @@ class SensorLineChartTile(Tile):
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
         super().__init__(uniqueName, settings, intervalInSeconds)
+        self._notificationSent = False
 
     def fetch(self, pageName: str) -> Dict:
         storageLeafService = ServiceManager.get_instance().get_service_by_type_name('StorageLeafService')
@@ -225,6 +226,13 @@ class SensorLineChartTile(Tile):
         if not warningSettings['enableNotificationViaPushbullet']:
             return
 
+        if not timeSinceLastValue:
+            self._notificationSent = False
+            return
+
+        if self._notificationSent:
+            return
+
         token = warningSettings['pushbulletToken']
 
         sensorName = sensorInfo['name']
@@ -236,6 +244,7 @@ class SensorLineChartTile(Tile):
                       f'(type: {sensorType}, device: {deviceName})'
 
         Helpers.send_notification_via_pushbullet(token, title, description)
+        self._notificationSent = True
 
     def __format_date(self, dateTime: str):
         parsedDateTime = datetime.strptime(dateTime, self.DATE_FORMAT)
