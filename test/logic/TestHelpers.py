@@ -6,7 +6,7 @@ import pytz
 from logic import Helpers
 
 
-class HelpersTest(unittest.TestCase):
+class TestHelpers(unittest.TestCase):
     def test_join_url_parts(self):
         self.assertEqual('https://myWebsite/eimer/0815', Helpers.join_url_parts('https://myWebsite', 'eimer', '0815'))
 
