@@ -24,10 +24,14 @@
         width: 12%;
         height: auto;
     }
+
+    .garbageContainerScheduleTile .text-red {
+        color: rgb(230, 76, 60);
+    }
 </style>
 
 <div class="garbageContainerScheduleTile">
-    <div class="content">
+    <div class="content {% if data['remainingDays'] == 0 %}text-red{% endif %}">
         <img src="../../static/images/{{ data['iconFileName'] }}" class="icon"/>
         {{ data['nextEventDate'] }} - {{ data['remainingDays'] }} Tag(e)
     </div>
