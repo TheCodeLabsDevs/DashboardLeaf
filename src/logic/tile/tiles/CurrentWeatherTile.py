@@ -42,7 +42,7 @@ class CurrentWeatherTile(Tile):
         return {
             'temperature': Helpers.round_to_decimals(currentTemperature, 1),
             'temperatureColor': Helpers.determine_color_for_temperature(currentTemperature),
-            'feelsLike': Helpers.round_to_decimals(feelsLike, 1),
+            'feelsLike': Helpers.round_to_decimals(feelsLike, 0),
             'feelsLikeColor': Helpers.determine_color_for_temperature(feelsLike),
             'icon': icon,
             'iconColor': Helpers.determine_color_for_weather_icon(icon, isDayTime),
