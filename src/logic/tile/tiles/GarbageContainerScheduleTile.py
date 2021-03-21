@@ -5,6 +5,7 @@ from typing import Dict, List
 from flask import Blueprint
 from babel.dates import format_date
 
+from logic import Helpers
 from logic.service.ServiceManager import ServiceManager
 from logic.service.services.IcsService import CalendarEvent
 from logic.tile.Tile import Tile
@@ -23,10 +24,17 @@ class GarbageContainerScheduleTile(Tile):
     EXAMPLE_SETTINGS = {
         "path": "path/to/my/calendar.ics",
         "garbageType": "Papier" or "Gelbe Säcke" or "Bioabfall" or "Restabfall",
+        "notificationViaPushbullet": {
+            "enable": False,
+            "daysBeforeEvent": 1,
+            "hour": 10,
+            "pushbulletToken": None
+        }
     }
 
     def __init__(self, uniqueName: str, settings: Dict, intervalInSeconds: int):
         super().__init__(uniqueName, settings, intervalInSeconds)
+        self._lastNotificationDate = None
 
     def fetch(self, pageName: str) -> Dict:
         icsService = ServiceManager.get_instance().get_service_by_type_name('IcsService')
@@ -43,13 +51,15 @@ class GarbageContainerScheduleTile(Tile):
         if nextEvent:
             nextEventDate = nextEvent.start
             if isinstance(nextEventDate, datetime):
-                remainingDays = nextEventDate - datetime.now()
+                remainingDays = nextEventDate - self._get_current_date_time()
             else:
-                remainingDays = nextEventDate - datetime.now().date()
+                remainingDays = nextEventDate - self._get_current_date_time().date()
             remainingDays = remainingDays.days
             nextEventDate = format_date(nextEventDate, self.DATE_FORMAT, 'de')
 
         iconName = self.ICON_BY_GARBAGE_TYPE[self._settings['garbageType']]
+
+        self._send_notification(remainingDays, nextEventDate)
 
         return {
             'nextEventDate': nextEventDate,
@@ -57,13 +67,47 @@ class GarbageContainerScheduleTile(Tile):
             'remainingDays': remainingDays
         }
 
+    def _get_current_date_time(self) -> datetime:
+        return datetime.now()
+
     def __find_next_date(self, events: List[CalendarEvent]) -> CalendarEvent or None:
-        now = datetime.now().date()
+        now = self._get_current_date_time().date()
         for event in events:
             if event.start < now:
                 continue
             return event
         return None
+
+    def _send_notification(self, remainingDays: int, nextEventDate: str):
+        notificationSettings = self._settings['notificationViaPushbullet']
+        if not notificationSettings['enable']:
+            self._lastNotificationDate = None
+            return
+
+        if remainingDays != notificationSettings['daysBeforeEvent']:
+            self._lastNotificationDate = None
+            return
+
+        now = self._get_current_date_time()
+        if now.hour < notificationSettings['hour']:
+            self._lastNotificationDate = None
+            return
+
+        if self._is_already_notified(now):
+            self._lastNotificationDate = None
+            return
+
+        self._lastNotificationDate = now.date()
+        title = 'DashboardLeaf - Garbage Schedule Notification'
+        description = f'"{self._settings["garbageType"]}" will be collected in {remainingDays} days ({nextEventDate})'
+
+        Helpers.send_notification_via_pushbullet(notificationSettings['pushbulletToken'], title, description)
+
+    def _is_already_notified(self, now: datetime) -> bool:
+        if self._lastNotificationDate is None:
+            return False
+
+        return self._lastNotificationDate == now.date()
 
     def render(self, data: Dict) -> str:
         return Tile.render_template(os.path.dirname(__file__), __class__.__name__, data=data)
