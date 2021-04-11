@@ -85,3 +85,14 @@ class TestSendNotification:
         tile._send_notification(1, '')
 
         requestsMock.post.assert_called_once()
+
+    @mock.patch('logic.Helpers.requests')
+    def test_already_notified_should_skip_sending_even_if_already_skipped_before(self, requestsMock):
+        tile = GarbageContainerScheduleTile('myGarbageScheduleTile', example_settings(True), 10)
+
+        requestsMock.post.return_value.status_code = 200
+        tile._send_notification(1, '')
+        tile._send_notification(1, '')
+        tile._send_notification(1, '')
+
+        requestsMock.post.assert_called_once()

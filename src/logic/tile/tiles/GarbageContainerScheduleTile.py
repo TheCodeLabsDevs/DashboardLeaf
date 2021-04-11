@@ -94,7 +94,6 @@ class GarbageContainerScheduleTile(Tile):
             return
 
         if self._is_already_notified(now):
-            self._lastNotificationDate = None
             return
 
         self._lastNotificationDate = now.date()
