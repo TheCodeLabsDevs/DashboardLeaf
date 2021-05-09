@@ -39,11 +39,14 @@ class CurrentWeatherTile(Tile):
         sunset = Helpers.timestamp_to_timezone(currentWeather['sunset'], timeZone)
         isDayTime = Helpers.is_dayTime(sunrise, sunset, datetime.now(tz=timeZone))
 
+        temperatureRounded = Helpers.round_to_decimals(currentTemperature, 1)
+        feelsLikeRounded = Helpers.round_to_decimals(feelsLike, 0)
+
         return {
-            'temperature': Helpers.round_to_decimals(currentTemperature, 1),
-            'temperatureColor': Helpers.determine_color_for_temperature(currentTemperature),
-            'feelsLike': Helpers.round_to_decimals(feelsLike, 0),
-            'feelsLikeColor': Helpers.determine_color_for_temperature(feelsLike),
+            'temperature': temperatureRounded,
+            'temperatureColor': Helpers.determine_color_for_temperature(float(temperatureRounded)),
+            'feelsLike': feelsLikeRounded,
+            'feelsLikeColor': Helpers.determine_color_for_temperature(float(feelsLikeRounded)),
             'icon': icon,
             'iconColor': Helpers.determine_color_for_weather_icon(icon, isDayTime),
             'windDegrees': currentWeather['wind_deg'],

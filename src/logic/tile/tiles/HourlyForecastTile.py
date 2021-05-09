@@ -50,14 +50,17 @@ class HourlyForecastTile(Tile):
             rainProbability = round(entry['pop'] * 100, -1)  # -1 rounds to the next ten
             windSpeed = entry['wind_speed'] * 3.6
 
+            temperatureRounded = Helpers.round_to_decimals(temperature, 0)
+            windSpeedRounded = Helpers.round_to_decimals(windSpeed, 0)
+
             hourData.append({
                 'hour': timestamp.strftime('%H'),
-                'temperature': Helpers.round_to_decimals(temperature, 0),
-                'temperatureColor': Helpers.determine_color_for_temperature(temperature),
+                'temperature': temperatureRounded,
+                'temperatureColor': Helpers.determine_color_for_temperature(float(temperatureRounded)),
                 'icon': icon,
                 'iconColor': Helpers.determine_color_for_weather_icon(iconId, isDayTime),
-                'windSpeed': f'{Helpers.round_to_decimals(windSpeed, 0)} km/h',
-                'windSpeedColor': Helpers.determine_color_for_wind(windSpeed),
+                'windSpeed': f'{windSpeedRounded} km/h',
+                'windSpeedColor': Helpers.determine_color_for_wind(float(windSpeedRounded)),
                 'rainProbability': f'{Helpers.round_to_decimals(rainProbability, 0)} %',
                 'isDayTime': isDayTime,
                 'description': entry['weather'][0]['description']
