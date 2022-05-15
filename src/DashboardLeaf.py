@@ -19,6 +19,14 @@ class DashboardLeaf(FlaskBaseApp):
     def __init__(self, appName: str):
         super().__init__(appName, os.path.dirname(__file__), LOGGER, serveRobotsTxt=True,
                          settingsPath=os.path.join(CONFIG_DIR, 'settings.json'))
+
+        loggingSettings = self._settings['logging']
+        if loggingSettings['enableRotatingLogFile']:
+            DefaultLogger.add_rotating_file_handler(LOGGER,
+                                                    fileName=loggingSettings['fileName'],
+                                                    maxBytes=loggingSettings['maxBytes'],
+                                                    backupCount=loggingSettings['numberOfBackups'])
+
         self._tileService = None
         self._pageManager = None
         ServiceRegistry.get_instance()

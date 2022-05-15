@@ -6,5 +6,11 @@
         "useSSL": false,
         "keyfile": "",
         "certfile": ""
+    },
+     "logging": {
+        "enableRotatingLogFile": false,
+        "fileName": "DashboardLeaf.log",
+        "maxBytes": 2097152,
+        "numberOfBackups": 3
     }
 }
