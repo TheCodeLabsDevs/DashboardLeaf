@@ -12,16 +12,16 @@ name = "TheCodeLabs"
 python_version = "3"
 
 [packages]
-flask = "==2.0.2"
-gevent = "==21.8.0"
+flask = "==2.1.2"
+gevent = "==21.12.0"
 TheCodeLabs-BaseUtils = "*"
 TheCodeLabs-FlaskUtils = "*"
-flask-socketio= "==5.1.1"
-apscheduler = "==3.8.0"
-Babel = "==2.9.1"
+flask-socketio= "==5.1.2"
+apscheduler = "==3.9.01"
+Babel = "==2.10.1"
 
 # services
-icalendar = "==4.0.8"
+icalendar = "==4.0.9"
 
 # tiles
 timeago = "==1.0.15"
