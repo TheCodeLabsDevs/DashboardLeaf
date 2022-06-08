@@ -16,8 +16,8 @@ flask = "==2.1.2"
 gevent = "==21.12.0"
 TheCodeLabs-BaseUtils = "*"
 TheCodeLabs-FlaskUtils = "*"
-flask-socketio= "==5.1.2"
-apscheduler = "==3.9.01"
+flask-socketio= "==5.2.0"
+apscheduler = "==3.9.1"
 Babel = "==2.10.1"
 
 # services
