@@ -16,14 +16,14 @@ class GarbageContainerScheduleTile(Tile):
 
     ICON_BY_GARBAGE_TYPE = {
         'Papier': 'garbage_paper',
-        'Gelbe Säcke': 'garbage_plastic',
+        'Gelbe Tonne': 'garbage_plastic',
         'Bioabfall': 'garbage_bio',
         'Restabfall': 'garbage_waste'
     }
 
     EXAMPLE_SETTINGS = {
         "path": "path/to/my/calendar.ics",
-        "garbageType": "Papier" or "Gelbe Säcke" or "Bioabfall" or "Restabfall",
+        "garbageType": "Papier" or "Gelbe Tonne" or "Bioabfall" or "Restabfall",
         "notificationViaPushbullet": {
             "enable": False,
             "daysBeforeEvent": 1,
