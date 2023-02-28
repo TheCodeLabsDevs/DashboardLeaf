@@ -80,9 +80,12 @@ class TestSendNotification:
     def test_already_notified_should_skip_sending(self, requestsMock):
         tile = GarbageContainerScheduleTile('myGarbageScheduleTile', example_settings(True), 10)
 
-        requestsMock.post.return_value.status_code = 200
-        tile._send_notification(1, '')
-        tile._send_notification(1, '')
+        with mock.patch.object(tile, '_get_current_date_time',
+                               wraps=tile._get_current_date_time) as currentDateTimeMock:
+            currentDateTimeMock.return_value = datetime(year=2021, month=3, day=21, hour=11, minute=00, second=0)
+            requestsMock.post.return_value.status_code = 200
+            tile._send_notification(1, '')
+            tile._send_notification(1, '')
 
         requestsMock.post.assert_called_once()
 
@@ -90,9 +93,12 @@ class TestSendNotification:
     def test_already_notified_should_skip_sending_even_if_already_skipped_before(self, requestsMock):
         tile = GarbageContainerScheduleTile('myGarbageScheduleTile', example_settings(True), 10)
 
-        requestsMock.post.return_value.status_code = 200
-        tile._send_notification(1, '')
-        tile._send_notification(1, '')
-        tile._send_notification(1, '')
+        with mock.patch.object(tile, '_get_current_date_time',
+                               wraps=tile._get_current_date_time) as currentDateTimeMock:
+            currentDateTimeMock.return_value = datetime(year=2021, month=3, day=21, hour=11, minute=00, second=0)
+            requestsMock.post.return_value.status_code = 200
+            tile._send_notification(1, '')
+            tile._send_notification(1, '')
+            tile._send_notification(1, '')
 
         requestsMock.post.assert_called_once()
