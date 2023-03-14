@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "DashboardLeaf"
+version = "1.20.0"
+description = "Flask server for displaying multiple dashboards with custom tiles that refresh periodically."
+authors = ["TheCodeLabsDevs"]
+
+[[tool.poetry.source]]
+name = "TheCodeLabs"
+url = "https://pypi.thecodelabs.de"
+secondary = true
+
+[tool.poetry.dependencies]
+python = "^3.9"
+thecodelabs-baseutils = "*"
+thecodelabs-flaskutils = "*"
+flask = "2.2.3"
+apscheduler = "3.10.0"
+gevent = "22.10.2"
+flask-socketio= "5.3.2"
+Babel = "2.11.0"
+
+# services
+icalendar = "5.0.4"
+
+# tiles
+timeago = "1.0.16"
+
+[tool.poetry.dev-dependencies]
+pytest= "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
