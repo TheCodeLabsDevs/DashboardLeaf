@@ -131,7 +131,7 @@ from typing import Dict
 
 from flask import Blueprint
 
-from logic.tile.Tile import Tile
+from dashboard_leaf.logic.tile.Tile import Tile
 
 class MyCustomClockTile(Tile):
     EXAMPLE_SETTINGS = {}
@@ -257,7 +257,7 @@ class MyWeatherService(MultiCacheKeyService):
 The services inside the `services` folder will be automatically scanned and recognized upon server start. There is no need to perform a special registration.  
 To use your service inside a tile use the following lines:
 ```python
-from logic.service.ServiceManager import ServiceManager
+from dashboard_leaf.logic.service.ServiceManager import ServiceManager
 
 weatherService = ServiceManager.get_instance().get_service_by_type_name('MyWeatherService')
 cacheKey = f'{pageName}_{self._uniqueName}'
