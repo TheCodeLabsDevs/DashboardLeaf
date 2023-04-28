@@ -3,9 +3,9 @@ from __future__ import annotations
 import logging
 from typing import Type
 
-from logic import Constants
-from logic.Registry import Registry
-from logic.tile.Tile import Tile
+from dashboard_leaf.logic import Constants
+from dashboard_leaf.logic.Registry import Registry
+from dashboard_leaf.logic.tile.Tile import Tile
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 

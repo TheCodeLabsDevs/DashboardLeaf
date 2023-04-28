@@ -5,12 +5,12 @@ from TheCodeLabs_FlaskUtils.FlaskBaseApp import FlaskBaseApp
 from flask import Flask
 from flask_socketio import SocketIO
 
-from blueprints import Routes
-from logic import Constants
-from logic.Constants import CONFIG_DIR
-from logic.page.PageManager import PageManager
-from logic.service.ServiceRegistry import ServiceRegistry
-from logic.tile.TileScheduler import TileScheduler
+from dashboard_leaf.blueprints import Routes
+from dashboard_leaf.logic import Constants
+from dashboard_leaf.logic.Constants import CONFIG_DIR
+from dashboard_leaf.logic.page.PageManager import PageManager
+from dashboard_leaf.logic.service.ServiceRegistry import ServiceRegistry
+from dashboard_leaf.logic.tile.TileScheduler import TileScheduler
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 

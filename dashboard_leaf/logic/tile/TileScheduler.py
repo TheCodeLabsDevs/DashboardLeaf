@@ -7,8 +7,8 @@ from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR
 from apscheduler.job import Job
 from apscheduler.schedulers.gevent import GeventScheduler
 
-from logic import Constants
-from logic.tile.Tile import Tile
+from dashboard_leaf.logic import Constants
+from dashboard_leaf.logic.tile.Tile import Tile
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 

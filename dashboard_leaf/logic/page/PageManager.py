@@ -5,10 +5,10 @@ from typing import List, Dict
 
 from flask import Flask
 
-from logic import Constants
-from logic.page.PageInstance import PageInstance, TileLayoutSettings
-from logic.tile import TileScheduler
-from logic.tile.TileRegistry import TileRegistry
+from dashboard_leaf.logic import Constants
+from dashboard_leaf.logic.page.PageInstance import PageInstance, TileLayoutSettings
+from dashboard_leaf.logic.tile import TileScheduler
+from dashboard_leaf.logic.tile.TileRegistry import TileRegistry
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 

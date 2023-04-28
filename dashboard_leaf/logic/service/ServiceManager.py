@@ -5,8 +5,8 @@ from typing import List, Dict
 
 from TheCodeLabs_BaseUtils.MultiCacheKeyService import MultiCacheKeyService
 
-from logic import Constants
-from logic.service.ServiceRegistry import ServiceRegistry
+from dashboard_leaf.logic import Constants
+from dashboard_leaf.logic.service.ServiceRegistry import ServiceRegistry
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 

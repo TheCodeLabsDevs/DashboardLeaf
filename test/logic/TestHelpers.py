@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pytz
 
-from logic import Helpers
+from dashboard_leaf.logic import Helpers
 
 
 class TestHelpers(unittest.TestCase):

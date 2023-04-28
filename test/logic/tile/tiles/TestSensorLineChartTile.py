@@ -3,8 +3,8 @@ from typing import Dict
 from unittest import mock
 from unittest.mock import MagicMock
 
-from logic import Helpers
-from logic.tile.tiles.SensorLineChartTile import SensorLineChartTile, SensorType
+from dashboard_leaf.logic import Helpers
+from dashboard_leaf.logic.tile.tiles.SensorLineChartTile import SensorLineChartTile, SensorType
 
 
 def example_settings(showAxes: bool):
@@ -196,7 +196,7 @@ class TestGetTimeSinceLastValue:
 
         assert tile._get_time_since_last_value(warningSettings, data) == ''
 
-    @mock.patch('logic.tile.tiles.SensorLineChartTile.datetime')
+    @mock.patch('dashboard_leaf.logic.tile.tiles.SensorLineChartTile.datetime')
     def test_warnings_enabled_outdated_value_returns_human_readable_string(self, datetimeMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
@@ -228,7 +228,7 @@ class TestSendNotification:
             'name': 'myDevice'
         }
 
-    @mock.patch('logic.tile.tiles.SensorLineChartTile.Helpers')
+    @mock.patch('dashboard_leaf.logic.tile.tiles.SensorLineChartTile.Helpers')
     def test_notification_disabled_should_do_nothing(self, helpersMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
@@ -237,7 +237,7 @@ class TestSendNotification:
         tile._send_notification(warningSettings, {}, {}, '1 hour ago')
         helpersMock.send_notification_via_pushbullet.assert_not_called()
 
-    @mock.patch('logic.tile.tiles.SensorLineChartTile.Helpers')
+    @mock.patch('dashboard_leaf.logic.tile.tiles.SensorLineChartTile.Helpers')
     def test_notification_enabled_no_outdated_value_should_do_nothing(self, helpersMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
@@ -246,7 +246,7 @@ class TestSendNotification:
         tile._send_notification(warningSettings, {}, {}, '')
         helpersMock.send_notification_via_pushbullet.assert_not_called()
 
-    @mock.patch('logic.Helpers.requests')
+    @mock.patch('dashboard_leaf.logic.Helpers.requests')
     def test_send_notification_should_call_pushbullet_api(self, requestsMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
@@ -257,7 +257,7 @@ class TestSendNotification:
         tile._send_notification(warningSettings, self.__get_sensor_info(), self.__get_device_info(), '1 hour ago')
         requestsMock.post.assert_called_once_with(Helpers.PUSHBULLET_PUSH_URL, data=mock.ANY, headers=mock.ANY)
 
-    @mock.patch('logic.Helpers.requests')
+    @mock.patch('dashboard_leaf.logic.Helpers.requests')
     def test_already_sent_should_skip_sending(self, requestsMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 
@@ -269,7 +269,7 @@ class TestSendNotification:
         tile._send_notification(warningSettings, self.__get_sensor_info(), self.__get_device_info(), '1 hour ago')
         requestsMock.post.assert_called_once()
 
-    @mock.patch('logic.Helpers.requests')
+    @mock.patch('dashboard_leaf.logic.Helpers.requests')
     def test_already_sent_new_value_arrives_and_gets_outdated_should_call_pushbullet_api(self, requestsMock):
         tile = SensorLineChartTile('mySensorTile', example_settings(False), 10)
 

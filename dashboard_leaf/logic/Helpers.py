@@ -4,7 +4,7 @@ from datetime import datetime
 import pytz
 import requests
 
-from logic import Constants
+from dashboard_leaf.logic import Constants
 
 
 def join_url_parts(*args: str) -> str:

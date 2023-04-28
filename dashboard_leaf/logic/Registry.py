@@ -4,7 +4,7 @@ import pkgutil
 from abc import ABC, abstractmethod
 from typing import List, Type
 
-from logic import Constants
+from dashboard_leaf.logic import Constants
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 

@@ -5,10 +5,10 @@ from typing import Dict, List
 from flask import Blueprint
 from babel.dates import format_date
 
-from logic import Helpers
-from logic.service.ServiceManager import ServiceManager
-from logic.service.services.IcsService import CalendarEvent
-from logic.tile.Tile import Tile
+from dashboard_leaf.logic import Helpers
+from dashboard_leaf.logic.service.ServiceManager import ServiceManager
+from dashboard_leaf.logic.service.services.IcsService import CalendarEvent
+from dashboard_leaf.logic.tile.Tile import Tile
 
 
 class GarbageContainerScheduleTile(Tile):

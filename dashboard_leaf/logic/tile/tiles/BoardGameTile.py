@@ -4,8 +4,8 @@ from typing import Dict
 
 from flask import Blueprint
 
-from logic.service.ServiceManager import ServiceManager
-from logic.tile.Tile import Tile
+from dashboard_leaf.logic.service.ServiceManager import ServiceManager
+from dashboard_leaf.logic.tile.Tile import Tile
 
 
 class BoardGameTile(Tile):

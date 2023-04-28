@@ -9,9 +9,9 @@ from timeago import format
 from TheCodeLabs_BaseUtils.MultiCacheKeyService import MultiCacheKeyService
 from flask import Blueprint
 
-from logic import Constants, Helpers
-from logic.service.ServiceManager import ServiceManager
-from logic.tile.Tile import Tile
+from dashboard_leaf.logic import Constants, Helpers
+from dashboard_leaf.logic.service.ServiceManager import ServiceManager
+from dashboard_leaf.logic.tile.Tile import Tile
 
 LOGGER = logging.getLogger(Constants.APP_NAME)
 
