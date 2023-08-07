@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "DashboardLeaf"
-version = "1.23.0"
+version = "1.23.1"
 description = "Flask server for displaying multiple dashboards with custom tiles that refresh periodically."
 authors = ["TheCodeLabsDevs"]
+packages = [{include = "contabo_snapshotter"}]
 
 [[tool.poetry.source]]
 name = "TheCodeLabs"
