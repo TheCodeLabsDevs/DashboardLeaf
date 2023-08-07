@@ -7,12 +7,12 @@ authors = ["TheCodeLabsDevs"]
 [[tool.poetry.source]]
 name = "TheCodeLabs"
 url = "https://pypi.thecodelabs.de"
-secondary = true
+priority = "explicit"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-thecodelabs-baseutils = "*"
-thecodelabs-flaskutils = "*"
+thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
+thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
 flask = "2.3.2"
 apscheduler = "3.10.1"
 gevent = "23.7.0"
