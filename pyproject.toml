@@ -15,7 +15,7 @@ thecodelabs-baseutils = "*"
 thecodelabs-flaskutils = "*"
 flask = "2.3.2"
 apscheduler = "3.10.1"
-gevent = "22.10.2"
+gevent = "23.7.0"
 flask-socketio= "5.3.5"
 Babel = "2.12.1"
 
