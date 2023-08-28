@@ -14,10 +14,10 @@ priority = "explicit"
 python = "^3.9"
 thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
 thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
-flask = "2.3.2"
-apscheduler = "3.10.1"
+flask = "2.3.3"
+apscheduler = "3.10.4"
 gevent = "23.7.0"
-flask-socketio= "5.3.5"
+flask-socketio = "5.3.5"
 Babel = "2.12.1"
 
 # services
