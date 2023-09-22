@@ -40,10 +40,8 @@ class IcsService(MultiCacheKeyService):
                 event.summary = component.get('SUMMARY')
                 event.uid = component.get('UID')
 
-                if component.get('DESCRIPTION') is None:
-                    continue
-
-                event.description = component.get('DESCRIPTION')
+                if component.get('DESCRIPTION') is not None:
+                    event.description = component.get('DESCRIPTION')
 
                 event.location = component.get('LOCATION')
 
