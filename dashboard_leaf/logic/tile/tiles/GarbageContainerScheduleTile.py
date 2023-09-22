@@ -16,9 +16,12 @@ class GarbageContainerScheduleTile(Tile):
 
     ICON_BY_GARBAGE_TYPE = {
         'Papier': 'garbage_paper',
+        'Papiertonnen': 'garbage_paper',
         'Gelbe Tonne': 'garbage_plastic',
+        'Gelbe Säcke': 'garbage_plastic',
         'Bioabfall': 'garbage_bio',
-        'Restabfall': 'garbage_waste'
+        'Restabfall': 'garbage_waste',
+        'Restmülltonnen': 'garbage_waste'
     }
 
     EXAMPLE_SETTINGS = {
