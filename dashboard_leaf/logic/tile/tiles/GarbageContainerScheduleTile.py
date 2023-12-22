@@ -46,6 +46,7 @@ class GarbageContainerScheduleTile(Tile):
         events = icsService.get_data(cacheKey, self._intervalInSeconds, self._settings)['events']
 
         eventsForGarbageType = [x for x in events if self._settings['garbageType'] in x.summary]
+        eventsForGarbageType.sort(key=lambda event: event.start)
 
         nextEvent = self.__find_next_date(eventsForGarbageType)
 
