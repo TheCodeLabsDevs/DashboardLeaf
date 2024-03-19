@@ -508,13 +508,13 @@ files = [
 
 [[package]]
 name = "icalendar"
-version = "5.0.11"
+version = "5.0.12"
 description = "iCalendar parser/generator"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "icalendar-5.0.11-py3-none-any.whl", hash = "sha256:81864971ac43a1b7d0a555dc1b667836ce59fc719a7f845a96f2f03205fb83b9"},
-    {file = "icalendar-5.0.11.tar.gz", hash = "sha256:7a298bb864526589d0de81f4b736eeb6ff9e539fefb405f7977aa5c1e201ca00"},
+    {file = "icalendar-5.0.12-py3-none-any.whl", hash = "sha256:d873bb859df9c6d0e597b16d247436e0f83f7ac1b90a06429b8393fe8afeba40"},
+    {file = "icalendar-5.0.12.tar.gz", hash = "sha256:73f9be68477722c98320621400943705dcfdbbc6c2b565253f72d3f87e514db8"},
 ]
 
 [package.dependencies]
@@ -1149,4 +1149,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "155c812bff54c42ef166e2f010809261f50fa508c57ceff5d0f853dd99004f80"
+content-hash = "772c795ed37addffac29109aae2a680d5bfebd4cc57d9fa31c63900cf8626fab"
