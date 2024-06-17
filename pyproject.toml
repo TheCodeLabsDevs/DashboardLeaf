@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "DashboardLeaf"
-version = "1.28.0"
+version = "1.29.0"
 description = "Flask server for displaying multiple dashboards with custom tiles that refresh periodically."
 authors = ["TheCodeLabsDevs"]
 packages = [{include = "dashboard_leaf"}]
