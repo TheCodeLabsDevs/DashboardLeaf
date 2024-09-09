@@ -17,11 +17,11 @@ thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
 flask = "3.0.3"
 apscheduler = "3.10.4"
 gevent = "24.2.1"
-flask-socketio = "5.3.6"
-Babel = "2.15.0"
+flask-socketio = "5.3.7"
+Babel = "2.16.0"
 
 # services
-icalendar = "5.0.12"
+icalendar = "5.0.13"
 
 # tiles
 timeago = "1.0.16"
