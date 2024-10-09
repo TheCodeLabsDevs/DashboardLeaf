@@ -177,7 +177,14 @@ class TestGetTimeSinceLastValue:
             'enable': enable,
             'limitInSeconds': 10,
             'enableNotificationViaPushbullet': False,
-            'pushbulletToken': None
+            'pushbulletToken': None,
+            'enableNotificationViaNtfy': False,
+            'ntfySettings': {
+                'username': '',
+                'password': '',
+                'baseUrl': '',
+                'topicName': ''
+            }
         }
 
     def test_warnings_disabled_returns_empty_string(self):
@@ -214,7 +221,14 @@ class TestSendNotification:
             'enable': enable,
             'limitInSeconds': 10,
             'enableNotificationViaPushbullet': enableNotification,
-            'pushbulletToken': 'myToken'
+            'pushbulletToken': 'myToken',
+            'enableNotificationViaNtfy': False,
+            'ntfySettings': {
+                'username': '',
+                'password': '',
+                'baseUrl': '',
+                'topicName': ''
+            }
         }
 
     def __get_sensor_info(self) -> Dict[str, str]:

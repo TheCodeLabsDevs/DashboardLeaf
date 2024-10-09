@@ -9,11 +9,18 @@ def example_settings(enableNotifications):
     return {
         "path": None,
         "garbageType": "Papier" or "Gelbe Säcke" or "Bioabfall" or "Restabfall",
-        "notificationViaPushbullet": {
-            "enable": enableNotifications,
+        "notification": {
+            "enableNotificationViaPushbullet": enableNotifications,
             "daysBeforeEvent": 1,
             "hour": 10,
-            "pushbulletToken": "myToken"
+            "pushbulletToken": "myToken",
+            'enableNotificationViaNtfy': False,
+            'ntfySettings': {
+                'username': '',
+                'password': '',
+                'baseUrl': '',
+                'topicName': ''
+            }
         }
     }
 
@@ -60,7 +67,8 @@ class TestSendNotification:
         tile = GarbageContainerScheduleTile('myGarbageScheduleTile', example_settings(True), 10)
 
         requestsMock.post.return_value.status_code = 200
-        with mock.patch.object(tile, '_get_current_date_time', wraps=tile._get_current_date_time) as currentDateTimeMock:
+        with mock.patch.object(tile, '_get_current_date_time',
+                               wraps=tile._get_current_date_time) as currentDateTimeMock:
             currentDateTimeMock.return_value = datetime(year=2021, month=3, day=21, hour=11, minute=35, second=0)
             tile._send_notification(1, '')
 
@@ -70,7 +78,8 @@ class TestSendNotification:
     def test_send_notification_before_settings_hour_should_do_nothing(self, helpersMock):
         tile = GarbageContainerScheduleTile('myGarbageScheduleTile', example_settings(True), 10)
 
-        with mock.patch.object(tile, '_get_current_date_time', wraps=tile._get_current_date_time) as currentDateTimeMock:
+        with mock.patch.object(tile, '_get_current_date_time',
+                               wraps=tile._get_current_date_time) as currentDateTimeMock:
             currentDateTimeMock.return_value = datetime(year=2021, month=3, day=21, hour=9, minute=35, second=0)
             tile._send_notification(1, '')
 
