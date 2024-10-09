@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Dict, Tuple, List
 
+from TheCodeLabs_BaseUtils.NtfyHelper import NtfyHelper
 from timeago import format
 from TheCodeLabs_BaseUtils.MultiCacheKeyService import MultiCacheKeyService
 from flask import Blueprint
@@ -36,7 +37,14 @@ class SensorLineChartTile(Tile):
             "enable": False,
             "limitInSeconds": 300,
             "enableNotificationViaPushbullet": False,
-            "pushbulletToken": None
+            "pushbulletToken": None,
+            "enableNotificationViaNtfy": False,
+            "ntfySettings": {
+                "username": "",
+                "password": "",
+                "baseUrl": "",
+                "topicName": ""
+            }
         }
     }
 
@@ -222,7 +230,7 @@ class SensorLineChartTile(Tile):
         return timeAgo
 
     def _send_notification(self, warningSettings: Dict, sensorInfo: Dict, deviceInfo: Dict, timeSinceLastValue: str):
-        if not warningSettings['enableNotificationViaPushbullet']:
+        if not warningSettings['enableNotificationViaPushbullet'] and not warningSettings['enableNotificationViaNtfy']:
             return
 
         if not timeSinceLastValue:
@@ -232,7 +240,6 @@ class SensorLineChartTile(Tile):
         if self._notificationSent:
             return
 
-        token = warningSettings['pushbulletToken']
 
         sensorName = sensorInfo['name']
         sensorType = sensorInfo['type']
@@ -242,7 +249,19 @@ class SensorLineChartTile(Tile):
         description = f'Last value for sensor "{sensorName}" received {timeSinceLastValue} ' \
                       f'(type: {sensorType}, device: {deviceName})'
 
-        Helpers.send_notification_via_pushbullet(token, title, description)
+        if warningSettings['enableNotificationViaPushbullet']:
+            token = warningSettings['pushbulletToken']
+            Helpers.send_notification_via_pushbullet(token, title, description)
+
+        if warningSettings['enableNotificationViaNtfy']:
+            NtfyHelper.send_message(userName=warningSettings['ntfySettings']['username'],
+                                    password=warningSettings['ntfySettings']['password'],
+                                    baseUrl=warningSettings['ntfySettings']['baseUrl'],
+                                    topicName=warningSettings['ntfySettings']['topicName'],
+                                    message=f'{title}\n\n{description}',
+                                    tags=['warning'])
+
+
         self._notificationSent = True
 
     def __format_date(self, dateTime: str):

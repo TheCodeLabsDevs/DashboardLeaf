@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from typing import Dict, List
 
+from TheCodeLabs_BaseUtils.NtfyHelper import NtfyHelper
 from flask import Blueprint
 from babel.dates import format_date
 
@@ -27,11 +28,18 @@ class GarbageContainerScheduleTile(Tile):
     EXAMPLE_SETTINGS = {
         "path": "path/to/my/calendar.ics",
         "garbageType": "Papier" or "Gelbe Tonne" or "Bioabfall" or "Restabfall",
-        "notificationViaPushbullet": {
-            "enable": False,
+        "notification": {
             "daysBeforeEvent": 1,
             "hour": 10,
-            "pushbulletToken": None
+            "enableNotificationViaPushbullet": False,
+            "pushbulletToken": None,
+            "enableNotificationViaNtfy": False,
+            "ntfySettings": {
+                "username": "",
+                "password": "",
+                "baseUrl": "",
+                "topicName": ""
+            }
         }
     }
 
@@ -83,8 +91,8 @@ class GarbageContainerScheduleTile(Tile):
         return None
 
     def _send_notification(self, remainingDays: int, nextEventDate: str):
-        notificationSettings = self._settings['notificationViaPushbullet']
-        if not notificationSettings['enable']:
+        notificationSettings = self._settings['notification']
+        if not notificationSettings['enableNotificationViaPushbullet'] and not notificationSettings['enableNotificationViaNtfy']:
             self._lastNotificationDate = None
             return
 
@@ -104,7 +112,16 @@ class GarbageContainerScheduleTile(Tile):
         title = 'DashboardLeaf - Garbage Schedule Notification'
         description = f'"{self._settings["garbageType"]}" will be collected in {remainingDays} days ({nextEventDate})'
 
-        Helpers.send_notification_via_pushbullet(notificationSettings['pushbulletToken'], title, description)
+        if notificationSettings['enableNotificationViaPushbullet']:
+            Helpers.send_notification_via_pushbullet(notificationSettings['pushbulletToken'], title, description)
+
+        if notificationSettings['enableNotificationViaNtfy']:
+            NtfyHelper.send_message(userName=notificationSettings['ntfySettings']['username'],
+                                    password=notificationSettings['ntfySettings']['password'],
+                                    baseUrl=notificationSettings['ntfySettings']['baseUrl'],
+                                    topicName=notificationSettings['ntfySettings']['topicName'],
+                                    message=f'{title}\n\n{description}',
+                                    tags=['wastebasket'])
 
     def _is_already_notified(self, now: datetime) -> bool:
         if self._lastNotificationDate is None:
