@@ -963,12 +963,12 @@ tornado = ">=2.0"
 
 [[package]]
 name = "thecodelabs-baseutils"
-version = "1.8.1"
+version = "1.8.2"
 description = "Useful python classes"
 optional = false
 python-versions = "*"
 files = [
-    {file = "TheCodeLabs-BaseUtils-1.8.1.tar.gz", hash = "sha256:43b4ae175422793d586dd3ff476e672a50501bb0306f24bbecb68992d2555e37"},
+    {file = "TheCodeLabs-BaseUtils-1.8.2.tar.gz", hash = "sha256:7c3cacb02dcd93409f436c3c19b68a52e897781861855c3d2b48556e17306562"},
 ]
 
 [package.dependencies]
