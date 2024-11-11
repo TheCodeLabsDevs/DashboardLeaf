@@ -16,7 +16,7 @@ thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
 thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
 flask = "3.0.3"
 apscheduler = "3.10.4"
-gevent = "24.2.1"
+gevent = "24.11.1"
 flask-socketio = "5.3.7"
 Babel = "2.16.0"
 
