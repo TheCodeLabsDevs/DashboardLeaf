@@ -553,18 +553,21 @@ files = [
 
 [[package]]
 name = "icalendar"
-version = "5.0.13"
+version = "6.1.0"
 description = "iCalendar parser/generator"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "icalendar-5.0.13-py3-none-any.whl", hash = "sha256:5ded5415e2e1edef5ab230024a75878a7a81d518a3b1ae4f34bf20b173c84dc2"},
-    {file = "icalendar-5.0.13.tar.gz", hash = "sha256:92799fde8cce0b61daa8383593836d1e19136e504fa1671f471f98be9b029706"},
+    {file = "icalendar-6.1.0-py3-none-any.whl", hash = "sha256:46c09b774a6e6948495dafcb166dc15135c8259d0ae25491f154cbc822714b69"},
+    {file = "icalendar-6.1.0.tar.gz", hash = "sha256:43c2db8632959d634f4e48f6e6131e706bf2cdddad488cf0b72fda079b796bad"},
 ]
 
 [package.dependencies]
 python-dateutil = "*"
-pytz = "*"
+tzdata = "*"
+
+[package.extras]
+test = ["coverage", "hypothesis", "pytest", "pytz"]
 
 [[package]]
 name = "idna"
@@ -1210,4 +1213,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "a53c48f742a1322485f009ed4c560f5d9e67a7f6d45ef37ca4beaadfa1966b87"
+content-hash = "f0f5598b8e311a9b24ee68d530059a8b8cd75a7d713caf73135ad29b8ff90f5d"

@@ -21,7 +21,7 @@ flask-socketio = "5.3.7"
 Babel = "2.16.0"
 
 # services
-icalendar = "5.0.13"
+icalendar = "6.1.0"
 
 # tiles
 timeago = "1.0.16"
