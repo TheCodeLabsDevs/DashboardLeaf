@@ -19,6 +19,7 @@ apscheduler = "3.11.0"
 gevent = "24.11.1"
 flask-socketio = "5.4.1"
 Babel = "2.16.0"
+pytz = "2024.2"
 
 # services
 icalendar = "6.1.0"
