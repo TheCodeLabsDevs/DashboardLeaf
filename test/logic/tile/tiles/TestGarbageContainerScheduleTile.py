@@ -46,6 +46,14 @@ class TestIsAlreadyNotified:
 
         assert tile._is_already_notified(currentDateTime) is True
 
+    def test_already_notified_should_return_true_with_multiple_hours_gap(self):
+        tile = GarbageContainerScheduleTile('myGarbageScheduleTile', example_settings(False), 10)
+
+        tile._lastNotificationDate = datetime(year=2021, month=4, day=2).date()
+        currentDateTime = datetime(year=2021, month=4, day=2, hour=15, minute=54, second=0)
+
+        assert tile._is_already_notified(currentDateTime) is True
+
 
 class TestSendNotification:
     @mock.patch('dashboard_leaf.logic.tile.tiles.GarbageContainerScheduleTile.Helpers')
