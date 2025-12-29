@@ -381,21 +381,22 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-socketio"
-version = "5.5.1"
+version = "5.6.0"
 description = "Socket.IO integration for Flask applications"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "Flask_SocketIO-5.5.1-py3-none-any.whl", hash = "sha256:35a50166db44d055f68021d6ec32cb96f1f925cd82de4504314be79139ea846f"},
-    {file = "flask_socketio-5.5.1.tar.gz", hash = "sha256:d946c944a1074ccad8e99485a6f5c79bc5789e3ea4df0bb9c864939586c51ec4"},
+    {file = "flask_socketio-5.6.0-py3-none-any.whl", hash = "sha256:894ad031d9440ca3fad388dd301ca33d13b301a2563933ca608d30979ef0a7c1"},
+    {file = "flask_socketio-5.6.0.tar.gz", hash = "sha256:42a7bc552013633875ad320e39462323b4f7334594f1658d72b6ffed99940d4c"},
 ]
 
 [package.dependencies]
-Flask = ">=0.9"
+Flask = ">=2.1.0"
 python-socketio = ">=5.12.0"
 
 [package.extras]
+dev = ["pytest", "pytest-cov", "redis", "tox"]
 docs = ["sphinx"]
 
 [[package]]
@@ -1200,4 +1201,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "aae8d7c258182aa25020ac4080ddf674dde18506576b6f897f554e91a1839e00"
+content-hash = "06bbeed920d0baded91a568e84712342f23c8d9a4eed335298aabe41adf3ab06"
