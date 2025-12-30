@@ -1,4 +1,4 @@
-FROM python:3.13-alpine AS poetry
+FROM python:3.14-alpine AS poetry
 
 RUN apk update && apk upgrade && \
     apk add curl gcc python3-dev libc-dev build-base linux-headers && \
@@ -13,7 +13,7 @@ WORKDIR /opt/DashboardLeaf
 RUN /root/.local/bin/poetry install
 RUN ln -s $($HOME/.local/share/pypoetry/venv/bin/poetry env info -p) /opt/DashboardLeaf/venv
 
-FROM python:3.13-alpine
+FROM python:3.14-alpine
 
 RUN apk update && apk upgrade && \
     rm -rf /var/cache/apk
