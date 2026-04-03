@@ -552,22 +552,19 @@ files = [
 
 [[package]]
 name = "icalendar"
-version = "6.3.2"
-description = "iCalendar parser/generator"
+version = "7.0.3"
+description = "RFC 5545 compatible parser and generator of iCalendar files"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "icalendar-6.3.2-py3-none-any.whl", hash = "sha256:d400e9c9bb8c025e5a3c77c236941bb690494be52528a0b43cc7e8b7c9505064"},
-    {file = "icalendar-6.3.2.tar.gz", hash = "sha256:e0c10ecbfcebe958d33af7d491f6e6b7580d11d475f2eeb29532d0424f9110a1"},
+    {file = "icalendar-7.0.3-py3-none-any.whl", hash = "sha256:8c9fea6d3a89671bba8b6938d8565b4d0ec465c6a2796ef0f92790dcb9e627cd"},
+    {file = "icalendar-7.0.3.tar.gz", hash = "sha256:95027ece087ab87184d765f03761f25875821f74cdd18d3b57e9c868216d8fde"},
 ]
 
 [package.dependencies]
 python-dateutil = "*"
-tzdata = "*"
-
-[package.extras]
-test = ["coverage", "hypothesis", "pytest", "pytz"]
+tzdata = ">=2025.3"
 
 [[package]]
 name = "idna"
@@ -1049,14 +1046,14 @@ files = [
 
 [[package]]
 name = "tzdata"
-version = "2025.2"
+version = "2026.1"
 description = "Provider of IANA time zone data"
 optional = false
 python-versions = ">=2"
 groups = ["main"]
 files = [
-    {file = "tzdata-2025.2-py2.py3-none-any.whl", hash = "sha256:1a403fada01ff9221ca8044d701868fa132215d84beb92242d9acd2147f667a8"},
-    {file = "tzdata-2025.2.tar.gz", hash = "sha256:b60a638fcc0daffadf82fe0f57e53d06bdec2f36c4df66280ae79bce6bd6f2b9"},
+    {file = "tzdata-2026.1-py2.py3-none-any.whl", hash = "sha256:4b1d2be7ac37ceafd7327b961aa3a54e467efbdb563a23655fbfe0d39cfc42a9"},
+    {file = "tzdata-2026.1.tar.gz", hash = "sha256:67658a1903c75917309e753fdc349ac0efd8c27db7a0cb406a25be4840f87f98"},
 ]
 
 [[package]]
@@ -1205,4 +1202,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.14"
-content-hash = "074afe922f504922fd411ab838d6593cd87238bd39a5794065deefd3770d3336"
+content-hash = "c2a1727b49725216cb919cb0ea19d90cc279ae8aaf8481a98309698f766da421"
