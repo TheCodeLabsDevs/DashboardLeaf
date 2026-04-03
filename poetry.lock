@@ -381,23 +381,27 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 name = "flask-socketio"
-version = "5.6.0"
+version = "5.6.1"
 description = "Socket.IO integration for Flask applications"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "flask_socketio-5.6.0-py3-none-any.whl", hash = "sha256:894ad031d9440ca3fad388dd301ca33d13b301a2563933ca608d30979ef0a7c1"},
-    {file = "flask_socketio-5.6.0.tar.gz", hash = "sha256:42a7bc552013633875ad320e39462323b4f7334594f1658d72b6ffed99940d4c"},
+    {file = "flask_socketio-5.6.1-py3-none-any.whl", hash = "sha256:51a3f71b28b4476c650829607e3a993e076034db6c3cc31f718f0a4b45939d42"},
+    {file = "flask_socketio-5.6.1.tar.gz", hash = "sha256:fe5bd995c3ed4da9a98f335d0d830fa1a19d84a64789f6265642a671fdacaeac"},
 ]
 
 [package.dependencies]
-Flask = ">=2.1.0"
+blinker = "*"
+click = "*"
+flask = ">=2.1.0"
+jinja2 = "*"
 python-socketio = ">=5.12.0"
+werkzeug = "*"
 
 [package.extras]
-dev = ["pytest", "pytest-cov", "redis", "tox"]
-docs = ["sphinx"]
+dev = ["flask-login", "flask-session", "pytest", "pytest-cov", "redis", "tox"]
+docs = ["furo", "sphinx"]
 
 [[package]]
 name = "gevent"
@@ -1201,4 +1205,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.14"
-content-hash = "5863c18e413e8c4f1d6bd862731f08b48cbafb5048f297c7bd1700c01ac0bedd"
+content-hash = "074afe922f504922fd411ab838d6593cd87238bd39a5794065deefd3770d3336"
