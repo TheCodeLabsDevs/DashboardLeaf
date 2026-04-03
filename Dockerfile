@@ -16,6 +16,7 @@ RUN ln -s $($HOME/.local/share/pypoetry/venv/bin/poetry env info -p) /opt/Dashbo
 FROM python:3.14-alpine
 
 RUN apk update && apk upgrade && \
+    apk add libstdc++ && \
     rm -rf /var/cache/apk
 
 COPY dashboard_leaf/ /opt/DashboardLeaf/dashboard_leaf
