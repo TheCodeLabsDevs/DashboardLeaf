@@ -28,7 +28,7 @@ icalendar = "6.3.2"
 timeago = "1.0.16"
 
 [tool.poetry.group.dev.dependencies]
-pytest= "9.0.2"
+pytest= "9.0.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
