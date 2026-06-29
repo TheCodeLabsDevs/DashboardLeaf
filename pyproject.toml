@@ -22,7 +22,7 @@ Babel = "2.18.0"
 pytz = "2026.2"
 
 # services
-icalendar = "6.3.2"
+icalendar = "7.2.0"
 
 # tiles
 timeago = "1.0.16"
