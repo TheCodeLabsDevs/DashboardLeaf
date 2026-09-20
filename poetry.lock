@@ -779,21 +779,6 @@ files = [
 windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
-name = "pyocclient"
-version = "0.6"
-description = "Python client library for ownCloud"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "pyocclient-0.6.tar.gz", hash = "sha256:a33ddcbbd2ec22d9bc7d76b71dd77896c557221153d1428759780b5fb8fe8fa3"},
-]
-
-[package.dependencies]
-requests = ">=2.0.1"
-six = "*"
-
-[[package]]
 name = "pytest"
 version = "9.1.1"
 description = "pytest: simple powerful testing with Python"
@@ -974,18 +959,17 @@ tornado = ">=2.0"
 
 [[package]]
 name = "thecodelabs-baseutils"
-version = "1.8.3"
+version = "1.9.0"
 description = "Useful python classes"
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "TheCodeLabs-BaseUtils-1.8.3.tar.gz", hash = "sha256:b9aac750ff4bc0ca62d679c3b1de76a8b7406d15e8ca3c4050a0d0008362d7c6"},
+    {file = "thecodelabs_baseutils-1.9.0.tar.gz", hash = "sha256:98d0a301d98e197ebc5133dd92c26a847257dff12bcf405206745fcc33b6f3df"},
 ]
 
 [package.dependencies]
 psutil = "*"
-pyocclient = "*"
 requests = "*"
 snakeviz = "*"
 
